@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תחרות הדיאטה המשפחתית</title>
+<style>
+:root{--bg:#f6f3ec;--card:#fffdf8;--ink:#23302a;--muted:#6b766f;--line:#e6e0d3;--accent:#2f9e6e;--accent2:#f2a33a;--neg:#c4574a;--hero1:#2f9e6e;--hero2:#1f6f68;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14201b;--card:#1c2b25;--ink:#eef3ee;--muted:#9fb0a7;--line:#2c3f37;--accent:#4cc795;--accent2:#f5b457;--neg:#e5877b;--hero1:#1f6f68;--hero2:#134540}}
+:root[data-theme="dark"]{--bg:#14201b;--card:#1c2b25;--ink:#eef3ee;--muted:#9fb0a7;--line:#2c3f37;--accent:#4cc795;--accent2:#f5b457;--neg:#e5877b;--hero1:#1f6f68;--hero2:#134540}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Heebo","Assistant",Arial,sans-serif;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px 40px}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;border-radius:0 0 28px 28px;padding:34px 20px 70px;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,6vw,42px)}
+.hero p{margin:0;opacity:.9}
+.week-badge{display:inline-block;margin-top:14px;background:rgba(255,255,255,.18);padding:6px 16px;border-radius:99px;font-size:14px}
+.hbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hbtns button{background:#fff;color:#1f6f68;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:-44px 0 22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.stat b{display:block;font-size:24px;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+h2{font-size:21px;margin:30px 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.lb{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.row.first{border-color:var(--accent2);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent2) 30%,transparent)}
+.av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;flex:none}
+.av img{width:100%;height:100%;object-fit:cover}
+.name{font-weight:700;font-size:18px}
+.sub{font-size:13px;color:var(--muted)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;border-radius:99px;transition:width 1s}
+.pct{font-size:26px;font-weight:800;direction:ltr}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;text-align:center}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);font-size:15px}
+th{color:var(--muted);font-weight:600}
+td:first-child,th:first-child{text-align:right;font-weight:600}
+.win{background:color-mix(in srgb,var(--accent2) 28%,transparent);border-radius:8px;font-weight:800}
+.neg{color:var(--neg)}
+tfoot td{font-weight:800;border-bottom:0}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px;font-size:14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-inline-end:6px}
+.tips{display:grid;gap:10px}
+.tip{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.tip em{font-style:normal;font-size:24px}
+.tip q{display:block;font-weight:600;quotes:"״" "״"}
+.tip small{color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:10px}
+button{font:inherit;cursor:pointer;border:0;background:var(--accent);color:#fff;padding:8px 18px;border-radius:99px}
+button.sec{background:var(--line);color:var(--ink)}
+button:disabled{opacity:.6}
+dialog{border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--ink);width:94%;max-width:440px;padding:18px;max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+dialog h3{margin:0 0 10px}
+dialog label{display:block;font-size:14px;margin:8px 0;color:var(--muted)}
+dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.msg{font-size:13px;color:var(--neg);min-height:18px;margin-top:6px}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+.emo{display:flex;flex-wrap:wrap;gap:6px}
+.emo button{background:var(--bg);color:inherit;font-size:22px;padding:4px 9px;border:2px solid transparent}
+.emo button.on{border-color:var(--accent)}
+.me{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.box{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px}
+.close{float:left;background:none;color:var(--muted);padding:0 6px;font-size:20px}
+.pl{width:100%;text-align:right;margin:6px 0;background:var(--bg);color:var(--ink);display:flex;gap:10px;align-items:center}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>⚖️ תחרות הדיאטה המשפחתית</h1>
+  <p>כל שבוע שוקלים · מי ירד הכי הרבה אחוזים?</p>
+  <div class="week-badge" id="badge" hidden></div>
+  <div class="hbtns"><button id="bAdd">➕ הוספת משתמש</button><button id="bMe">👤 האזור האישי</button></div>
+</header>
+<main class="wrap">
+  <div id="notice"></div>
+  <section class="stats" id="stats"></section>
+  <div id="pending"></div>
+  <h2>🏆 טבלת המובילים</h2>
+  <div class="lb" id="lb"></div>
+  <h2>👑 המנצח השבועי</h2>
+  <div class="card" id="weekly"></div>
+  <h2>📈 המסע של כולנו</h2>
+  <div class="card chart"><div id="chart"></div><div class="legend" id="legend"></div></div>
+  <h2>🗓️ כל השבועות</h2>
+  <div class="card tw"><table id="tbl"></table></div>
+  <h2>💬 מילות המנצחים</h2>
+  <div class="tips" id="tips"></div>
+  <h2>😄 הבדיחות של השבוע</h2>
+  <div class="tips" id="jokes"></div>
+</main>
+<dialog id="dlg"><div id="dbody"></div></dialog>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const COLORS=["#e07a5f","#3d85c6","#2f9e6e","#a26bd4","#e0a030","#d6559a","#3aa7b5","#7a8f3a"];
+const EMOS=["🦁","🐯","🐻","🦊","🐼","🦉","🐬","🦄","🌟","🚀","🍀","🏆"];
+const PHOTO_RE=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/;
+let MEM=[],WK=[],ENT=[],D=null;
+const round2=x=>Math.round(x*100)/100,fmt=x=>(x<0?"−":"")+Math.abs(x).toFixed(2)+"%";
+const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function friday(d){let x=5-d.getDay();if(x>3)x-=7;if(x<-3)x+=7;const r=new Date(d);r.setDate(r.getDate()+x);return r}
+const heb=d=>new Intl.DateTimeFormat("he-u-ca-hebrew",{day:"numeric",month:"long"}).format(d);
+function av(m,s){const z=s?`width:${s}px;height:${s}px;`:"";
+ if(m.photo&&PHOTO_RE.test(m.photo))return `<div class="av" style="${z}"><img src="${m.photo}" alt=""></div>`;
+ return `<div class="av" style="${z}background:${esc(m.c||"#999")}33">${esc(EMOS.includes(m.av)?m.av:(m.name||"?")[0])}</div>`}
+
+/* ===== חישוב נתונים ===== */
+function derive(){
+ const ms=MEM.map(d=>({id:d.id,...d.data()}));
+ const ws=WK.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.id<b.id?-1:1);
+ const em={};ENT.forEach(d=>{const x=d.data();em[x.wk+"__"+x.m]=x});
+ ms.forEach(m=>m.tot=ws.reduce((s,w)=>s+((em[w.id+"__"+m.id]||{}).pct||0),0));
+ ms.sort((a,b)=>b.tot-a.tot);
+ ws.forEach(w=>{
+  w.v=ms.map(m=>{const e=em[w.id+"__"+m.id];return e&&e.pct!=null?e.pct:null});
+  w.has=ms.map(m=>!!em[w.id+"__"+m.id]);
+  const a=w.v.map((x,i)=>[x,i]).filter(z=>z[0]!==null);w.win=[];w.low=[];
+  if(a.length>=2){const mx=Math.max(...a.map(z=>z[0])),mn=Math.min(...a.map(z=>z[0]));
+   w.win=a.filter(z=>z[0]===mx).map(z=>z[1]);w.low=mx===mn?[]:a.filter(z=>z[0]===mn).map(z=>z[1])}
+  const cl=ms.map((m,i)=>m.claimed?i:-1).filter(i=>i>=0);
+  w.done=cl.length>0&&cl.every(i=>w.has[i]);
+  w.wait=cl.filter(i=>!w.has[i]);
+ });
+ return{ms,ws};
+}
+
+/* ===== תצוגה ראשית ===== */
+function render(){
+ D=derive();const P=D.ms,W=D.ws,n=W.length;
+ $("badge").hidden=!n;if(n)$("badge").textContent="עודכן עד שבוע: "+(W[n-1].label||W[n-1].id);
+ const lastW=[...W.keys()].reverse().find(i=>W[i].win.length);
+ let best={v:-99};W.forEach(w=>w.v.forEach((x,i)=>{if(x!==null&&x>best.v)best={v:x,i}}));
+ const wins=P.map((_,i)=>W.filter(w=>w.win.includes(i)).length),top=Math.max(0,...wins);
+ $("stats").innerHTML=P.length?[[fmt(P.reduce((s,m)=>s+m.tot,0)),"סה״כ ירידה משפחתית"],[n,"שבועות שחלפו"],[best.v>-99?best.v.toFixed(2)+"%":"–","שבוע שיא"+(best.v>-99?" · "+esc(P[best.i].name):"")],[top?P.filter((_,i)=>wins[i]===top).map(m=>esc(m.name)).join(", "):"–","הכי הרבה ניצחונות"]].map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join(""):"";
+ const medals=["🥇","🥈","🥉"];
+ $("lb").innerHTML=P.length?P.map((m,r)=>{
+  const g=m.goalPct,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0;
+  return `<div class="row ${r===0?"first":""}">${av(m)}<div><div class="name">${medals[r]||"🎖️"} ${esc(m.name)}</div>
+  <div class="sub">${g?`יעד ${g.toFixed(2)}% · נותרו ${Math.max(0,g-m.tot).toFixed(2)}%`:"טרם הוגדר יעד"}${m.claimed?"":" · ממתין/ה להצטרפות"}</div>
+  <div class="bar"><i style="width:0;background:${esc(m.c)}" data-w="${prog}"></i></div></div>
+  <div class="pct" style="color:${esc(m.c)}">${m.tot.toFixed(2)}%</div></div>`}).join(""):`<div class="card empty">עדיין אין משתתפים. לחצו על ״הוספת משתמש״</div>`;
+ setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),150);
+ if(lastW!==undefined){const w=W[lastW];
+  $("weekly").innerHTML=`<div style="text-align:center"><div style="font-size:44px">👏</div><div style="font-size:24px;font-weight:800">${w.win.map(i=>esc(P[i].name)).join(" ו")}</div>
+  <div class="sub">ניצח/ה בשבוע ${esc(w.label||w.id)} עם ירידה של ${fmt(Math.max(...w.v.filter(x=>x!==null)))}</div>
+  ${w.quote?`<p style="margin:12px 0 0;font-weight:600">״${esc(w.quote.text)}״</p>`:""}</div>`}
+ else $("weekly").innerHTML=`<div class="empty">המנצח יוכרז כששניים לפחות יעדכנו שקילה</div>`;
+ const last=W[n-1];
+ $("pending").innerHTML=last&&!last.done&&last.wait.length&&last.has.some(Boolean)?`<div class="card" style="margin-bottom:12px">⏳ ממתינים לעדכון שבוע ${esc(last.label||last.id)}: <b>${last.wait.map(i=>esc(P[i].name)).join(", ")}</b></div>`:"";
+ /* גרף */
+ const w=640,h=280,pl=40,pr=14,pt=14,pb=34;
+ if(n&&P.length){
+  const cum=P.map((m,k)=>{let s=0;return W.map(x=>s+=(x.v[k]||0))});
+  const mx=Math.ceil(Math.max(...cum.flat(),1)),mn=Math.min(0,Math.floor(Math.min(...cum.flat())));
+  const X=i=>w-pr-(n===1?0:i/(n-1))*(w-pl-pr),Y=v=>pt+(1-(v-mn)/(mx-mn))*(h-pt-pb);
+  let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="גרף ירידה מצטברת">`;
+  for(let v=mn;v<=mx;v++)s+=`<line x1="${pl}" x2="${w-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl-6}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}%</text>`;
+  W.forEach((x,i)=>s+=`<text x="${X(i)}" y="${h-10}" text-anchor="middle" font-size="10" fill="var(--muted)">${esc(x.label||x.id)}</text>`);
+  P.forEach((m,k)=>{const pts=cum[k].map((v,i)=>[X(i),Y(v)]);
+   s+=`<polyline fill="none" stroke="${esc(m.c)}" stroke-width="3" stroke-linejoin="round" points="${pts.map(z=>z.join(",")).join(" ")}"/>`;
+   pts.forEach((z,i)=>{if(W[i].has[k])s+=`<circle cx="${z[0]}" cy="${z[1]}" r="4" fill="${esc(m.c)}"/>`})});
+  $("chart").innerHTML=s+"</svg>";
+  $("legend").innerHTML=P.map(m=>`<span><i style="background:${esc(m.c)}"></i>${esc(m.name)}</span>`).join("");
+ }else{$("chart").innerHTML=`<div class="empty">הגרף יופיע אחרי העדכון הראשון</div>`;$("legend").innerHTML=""}
+ $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${P.map(m=>`<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`+
+  W.map(x=>`<tr><td>${esc(x.label||x.id)}</td>${x.v.map((v,i)=>`<td>${v===null?"–":`<span class="${x.win.includes(i)?"win":""} ${v<0?"neg":""}" style="padding:3px 8px;display:inline-block">${fmt(v)}${x.win.includes(i)?" 👑":""}</span>`}</td>`).join("")}</tr>`).join("")+
+  `</tbody><tfoot><tr><td>סה״כ</td>${P.map(m=>`<td>${fmt(m.tot)}</td>`).join("")}</tr></tfoot>`;
+ const nm=id=>(P.find(m=>m.id===id)||{}).name||"";
+ const L=(k,ic)=>W.filter(x=>x[k]&&x[k].text).reverse().map(x=>`<div class="tip"><em>${ic}</em><div><q>${esc(x[k].text)}</q><small>${esc(nm(x[k].by))} · ${esc(x.label||x.id)}</small></div></div>`).join("")||`<div class="empty">עדיין אין</div>`;
+ $("tips").innerHTML=L("quote","💡");$("jokes").innerHTML=L("joke","😄");
+}
+
+/* ===== חיבור לשרת ===== */
+const A={};let TOK={},cur=null,emo=EMOS[0],photo=null;
+try{TOK=JSON.parse(localStorage.getItem("tok")||"{}")}catch(e){}
+const saveTok=()=>{try{localStorage.setItem("tok",JSON.stringify(TOK))}catch(e){}};
+async function api(a,b){try{const r=await fetch("/api/"+a,{method:b?"POST":"GET",headers:{"content-type":"application/json"},body:b?JSON.stringify(b):undefined});const j=await r.json();return r.ok?j:{err:j.err||"שגיאה"}}catch(e){return{err:"אין חיבור לשרת"}}}
+async function refresh(){const s=await api("state");
+ if(s.err){$("notice").innerHTML=`<div class="card" style="margin-top:14px">${esc(s.err)}</div>`;return}
+ $("notice").innerHTML="";
+ MEM=Object.entries(s.members).map(([id,d])=>({id,data:()=>d}));
+ WK=Object.entries(s.weeks).map(([id,d])=>({id,data:()=>d}));
+ ENT=Object.entries(s.entries).map(([k,pct])=>{const[wk,m]=k.split("__");return{data:()=>({wk,m,pct})}});
+ render()}
+const open=h=>{$("dbody").innerHTML=`<button class="close" onclick="A.close()">✕</button>`+h;if(!$("dlg").open)$("dlg").showModal()};
+A.close=()=>$("dlg").close();
+const err=t=>{const e=$("msg");if(e)e.textContent=t};
+const memOf=id=>D.ms.find(m=>m.id===id)||{};
+const emoRow=()=>`<div class="emo">${EMOS.map(e=>`<button type="button" class="${e===emo?"on":""}" onclick="A.emo('${e}',this)">${e}</button>`).join("")}</div>`;
+A.emo=(e,b)=>{emo=e;b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b))};
+A.photo=inp=>{const f=inp.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const s=Math.min(im.width,im.height);c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,96,96);photo=c.toDataURL("image/jpeg",.7);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)};
+
+/* ===== הוספת משתמש ===== */
+$("bAdd").onclick=()=>{
+ emo=EMOS[0];photo=null;const un=D.ms.filter(m=>!m.claimed);
+ open(`<h3>➕ הוספת משתמש</h3>
+ ${un.length?`<label>אני כבר משתתף/ת בתחרות<select id="a_c" onchange="A.claim()"><option value="">לא, משתמש חדש</option>${un.map(m=>`<option value="${esc(m.id)}">${esc(m.name)}</option>`).join("")}</select></label>`:""}
+ <label>שם<input id="a_n" maxlength="20"></label>
+ <label>סמל</label>${emoRow()}
+ <label>תמונת פרופיל (לא חובה)<input type="file" accept="image/*" onchange="A.photo(this)"></label>
+ <div class="g2"><label>משקל התחלתי (ק״ג)<input id="a_s" type="number" step="0.1" inputmode="decimal"></label><label>משקל יעד (ק״ג)<input id="a_g" type="number" step="0.1" inputmode="decimal"></label></div>
+ <label>סיסמה לאזור האישי (לפחות 4 תווים)<input id="a_p" type="password"></label>
+ <div class="note">המשקלים נשמרים רק באזור האישי שלך ולא מוצגים לאף אחד. בעמוד הראשי יופיעו רק אחוזים.</div>
+ <div class="msg" id="msg"></div><div class="actions"><button onclick="A.doAdd()" id="a_ok">הוספה</button><button class="sec" onclick="A.close()">ביטול</button></div>`)};
+A.claim=()=>{const m=memOf($("a_c").value);$("a_n").value=m.name||"";$("a_n").readOnly=!!m.name};
+A.doAdd=async()=>{
+ const claim=($("a_c")||{}).value||"",name=$("a_n").value.trim(),s=parseFloat($("a_s").value),g=parseFloat($("a_g").value),p=$("a_p").value;
+ if(!name)return err("נא למלא שם");if(!(s>0)||!(g>0))return err("נא למלא משקל התחלתי ויעד");if(g>=s)return err("משקל היעד צריך להיות נמוך מההתחלתי");if(p.length<4)return err("הסיסמה קצרה מדי");
+ $("a_ok").disabled=true;
+ const r=await api("register",{claim,name,av:emo,photo,start:s,goal:g,password:p});
+ if(r.err){$("a_ok").disabled=false;return err(r.err)}
+ TOK[r.id]=r.token;saveTok();cur=r.id;await refresh();A.area()};
+
+/* ===== אזור אישי ===== */
+$("bMe").onclick=()=>{
+ const ids=Object.keys(TOK).filter(i=>memOf(i).name);if(ids.length===1)return A.go(ids[0]);
+ const l=D.ms.filter(m=>m.claimed);
+ if(!l.length)return open(`<h3>👤 האזור האישי</h3><p>עוד לא נרשם אף משתמש. לחצו על ״הוספת משתמש״.</p>`);
+ open(`<h3>👤 מי אתם?</h3>`+l.map(m=>`<button class="pl" onclick="A.go('${esc(m.id)}')">${av(m,36)}<b>${esc(m.name)}</b></button>`).join(""))};
+A.go=id=>{cur=id;TOK[id]?A.area():A.ask(id)};
+A.ask=id=>{cur=id;open(`<h3>🔒 ${esc(memOf(id).name)}</h3><label>סיסמה<input id="l_p" type="password"></label><div class="msg" id="msg"></div>
+ <div class="actions"><button onclick="A.login()">כניסה</button><button class="sec" onclick="A.forgot()">שכחתי סיסמה</button></div>`);
+ $("l_p").onkeydown=e=>{if(e.key==="Enter")A.login()}};
+A.login=async()=>{const r=await api("login",{id:cur,password:$("l_p").value});if(r.err)return err(r.err);TOK[cur]=r.token;saveTok();A.area()};
+A.forgot=()=>open(`<h3>איפוס סיסמה</h3><label>לאימות: מה היה המשקל ההתחלתי שהגדרת (ק״ג)?<input id="r_s" type="number" step="0.1"></label><label>סיסמה חדשה<input id="r_p" type="password"></label><div class="msg" id="msg"></div>
+ <div class="actions"><button onclick="A.reset()">איפוס</button><button class="sec" onclick="A.ask(cur)">חזרה</button></div>`);
+A.reset=async()=>{const r=await api("reset",{id:cur,start:parseFloat($("r_s").value),newPassword:$("r_p").value});if(r.err)return err(r.err);TOK[cur]=r.token;saveTok();A.area()};
+A.area=async()=>{
+ const p=await api("me",{token:TOK[cur]});if(p.err){delete TOK[cur];saveTok();return A.ask(cur)}
+ const m=memOf(cur),kg=p.kg,lost=p.start-kg,w=D.ws[D.ws.length-1],fr=ymd(friday(new Date())),iw=w&&w.done?w:null,mi=D.ms.findIndex(x=>x.id===cur);
+ let unlock="";
+ if(iw&&mi>=0){
+  if(iw.win.includes(mi)&&!iw.quote)unlock+=`<div class="box">🏆 ניצחת השבוע! אפשר לכתוב משפט מוטיבציה:<textarea id="q_t" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('quote')">פרסום</button></div></div>`;
+  if(iw.low.includes(mi)&&!iw.joke)unlock+=`<div class="box">😄 הפעם התור שלך לכתוב בדיחה לכולם:<textarea id="j_t" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('joke')">פרסום</button></div></div>`}
+ emo=m.av||EMOS[0];photo=null;
+ open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
+ <div class="g2"><div class="stat"><b>${lost.toFixed(1)}</b><span>ק״ג שירדת</span></div><div class="stat"><b>${Math.max(0,kg-p.goal).toFixed(1)}</b><span>ק״ג עד היעד</span></div>
+ <div class="stat"><b>${kg.toFixed(1)}</b><span>משקל נוכחי</span></div><div class="stat"><b>${(lost/p.start*100).toFixed(2)}%</b><span>ירידה מההתחלה</span></div></div>
+ ${unlock}
+ <div class="box"><b>עדכון שבועי</b>
+ <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>כמה ק״ג ירדת? (עלייה = מינוס)<input id="w_k" type="number" step="0.05" inputmode="decimal"></label></div>
+ <div class="msg" id="msg"></div><div class="actions"><button onclick="A.week(0)">עדכון</button><button class="sec" onclick="A.week(1)">דילגתי השבוע</button></div>
+ <div class="note">האתר מחשב את האחוזים ומעדכן את העמוד הראשי. הקילוגרמים נשארים כאן.</div></div>
+ <details class="box"><summary><b>הגדרות</b></summary>
+ <label>שם<input id="s_n" value="${esc(m.name)}" maxlength="20"></label><label>סמל</label>${emoRow()}
+ <label>תמונת פרופיל<input type="file" accept="image/*" onchange="A.photo(this)"></label>
+ <div class="g2"><label>משקל התחלתי<input id="s_s" type="number" step="0.1" value="${p.start}"></label><label>משקל יעד<input id="s_g" type="number" step="0.1" value="${p.goal}"></label></div>
+ <label>סיסמה חדשה (ריק = ללא שינוי)<input id="s_p" type="password"></label>
+ <div class="msg" id="msg2"></div><div class="actions"><button onclick="A.save()">שמירת הגדרות</button><button class="sec" onclick="A.out()">יציאה</button></div></details>`)};
+A.out=()=>{delete TOK[cur];saveTok();A.close()};
+A.week=async skip=>{
+ const dt=friday(new Date($("w_d").value+"T12:00:00"));
+ const r=await api("week",{token:TOK[cur],wk:ymd(dt),label:heb(dt),skip:!!skip,kg:$("w_k").value});
+ if(r.err)return err(r.err);await refresh();A.area()};
+A.save=async()=>{
+ const r=await api("settings",{token:TOK[cur],name:$("s_n").value,av:emo,photo,start:parseFloat($("s_s").value),goal:parseFloat($("s_g").value),password:$("s_p").value});
+ if(r.err)return alert(r.err);await refresh();A.area()};
+A.post=async k=>{const r=await api("post",{token:TOK[cur],kind:k,text:$(k==="quote"?"q_t":"j_t").value});if(r.err)return alert(r.err);await refresh();A.area()};
+
+render();refresh();
+setInterval(()=>{if(!$("dlg").open)refresh()},20000);
+</script>
+</body>
+</html>
