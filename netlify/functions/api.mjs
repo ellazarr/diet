@@ -1,5 +1,7 @@
 import {getStore} from "@netlify/blobs";
 import crypto from "node:crypto";
+import {sendMail,reminderHtml} from "../../lib/mail.mjs";
+import {hebLabel} from "../../lib/heb.mjs";
 export const deps={store:()=>getStore({name:"diet",consistency:"strong"})};
 export const config={path:"/api/*"};
 const R2=x=>Math.round(x*100)/100,rnd=()=>crypto.randomBytes(5).toString("hex");
@@ -46,7 +48,7 @@ export default async req=>{
   if(act==="reset"){p.salt=rnd();p.hash=H(String(b.newPassword),p.salt)}
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
- if(act==="me")return J({start:p.start,goal:p.goal,kg:R2(p.start-p.base-sum(p))});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:R2(p.start-p.base-sum(p)),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
   let pct=null;
@@ -59,9 +61,16 @@ export default async req=>{
   const{start,goal}=b,m=pub.members[id],name=String(b.name||"").trim().slice(0,20);
   if(!name||!(start>0)||!(goal>0)||goal>=start)return bad("נתונים לא תקינים");
   if(pw){if(pw.length<4)return bad("הסיסמה קצרה מדי");p.salt=rnd();p.hash=H(pw,p.salt)}
+  const em=String(b.email||"").trim().slice(0,100);
+  if(em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return bad("כתובת מייל לא תקינה");
+  p.email=em;p.remind=!!b.remind&&!!em;
   p.start=start;p.goal=goal;m.name=name;m.av=String(b.av||m.av||"").slice(0,4);m.goalPct=R2((start-goal)/start*100);
   if(PHOTO.test(b.photo||""))m.photo=b.photo;
   await save();return J({ok:1})}
+ if(act==="testmail"){
+  if(!p.email)return bad("לא הוגדר מייל");
+  try{await sendMail(p.email,"⚖️ מייל לדוגמה מתחרות הדיאטה",reminderHtml(hebLabel(new Date(),"Asia/Jerusalem"),process.env.URL||""))}catch(e){return bad("השליחה נכשלה. בדקו שהוגדרו משתני הסביבה של המייל ב-Netlify",500)}
+  return J({ok:1})}
  if(act==="post"){
   const wk=Object.keys(pub.weeks).sort().pop(),w=info(pub,wk),kind=b.kind==="joke"?"joke":"quote",text=String(b.text||"").trim().slice(0,140);
   if(!text||!w.done||!(kind==="quote"?w.win:w.low).includes(id)||pub.weeks[wk][kind])return bad("אין הרשאה",403);
