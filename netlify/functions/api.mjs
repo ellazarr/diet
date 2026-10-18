@@ -19,11 +19,13 @@ const migrate=p=>{if(p.v===2)return;let w=R2(p.start-p.base);Object.keys(p.hist)
 const recompute=(pub,id,p)=>{let prev=R2(p.start-p.base);const out={};
  Object.keys(p.hist).sort().forEach(k=>{const w=p.hist[k];if(w===null){pub.entries[k+"__"+id]=null;return}
   pub.entries[k+"__"+id]=R2((prev-w)/prev*100);out[k]={prev,w};prev=w});return out};
+const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Jerusalem"}).format(new Date());
+const closed=wk=>{const t=new Date(wk+"T00:00:00Z");t.setUTCDate(t.getUTCDate()+2);return today()>=t.toISOString().slice(0,10)};
 const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i].claimed),v={};
- cl.forEach(i=>{const k=wk+"__"+i;if(k in pub.entries)v[i]=pub.entries[k]});
+ Object.keys(pub.entries).forEach(k=>{if(k.startsWith(wk+"__"))v[k.slice(wk.length+2)]=pub.entries[k]});
  const a=Object.entries(v).filter(e=>e[1]!==null);let win=[],low=[];
- if(a.length>=2){const mx=Math.max(...a.map(e=>e[1])),mn=Math.min(...a.map(e=>e[1]));win=a.filter(e=>e[1]===mx).map(e=>e[0]);low=mx===mn?[]:a.filter(e=>e[1]===mn).map(e=>e[0])}
- return{done:cl.length>0&&cl.every(i=>i in v),win,low}};
+ if(a.length>=1){const mx=Math.max(...a.map(e=>e[1])),mn=Math.min(...a.map(e=>e[1]));win=a.filter(e=>e[1]===mx).map(e=>e[0]);low=a.length<2||mx===mn?[]:a.filter(e=>e[1]===mn).map(e=>e[0])}
+ return{done:closed(wk)||(cl.length>0&&cl.every(i=>i in v)),win,low}};
 export default async req=>{
  const st=deps.store(),act=new URL(req.url).pathname.replace(/^\/api\//,"");
  const pub=(await st.get("public",{type:"json"}))||SEED();
@@ -55,7 +57,7 @@ export default async req=>{
   if(act==="reset"){p.salt=rnd();p.hash=H(String(b.newPassword),p.salt)}
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
- if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),email:p.email||"",remind:!!p.remind});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
   if(b.skip)p.hist[wk]=null;
@@ -63,6 +65,7 @@ export default async req=>{
   pub.weeks[wk]=pub.weeks[wk]||{label:String(b.label||wk).slice(0,20)};
   const x=recompute(pub,id,p)[wk];
   await save();return J({ok:1,lost:x?R2(x.prev-x.w):null,pct:x?pub.entries[wk+"__"+id]:null})}
+ if(act==="del"){const wk=String(b.wk);delete p.hist[wk];delete pub.entries[wk+"__"+id];recompute(pub,id,p);await save();return J({ok:1})}
  if(act==="settings"){
   const{start,goal}=b,m=pub.members[id],name=String(b.name||"").trim().slice(0,20);
   if(!name||!(start>0)||!(goal>0)||goal>=start)return bad("נתונים לא תקינים");
@@ -78,7 +81,7 @@ export default async req=>{
   try{await sendMail(p.email,"⚖️ מייל לדוגמה מתחרות הדיאטה",reminderHtml(hebLabel(new Date(),"Asia/Jerusalem"),process.env.URL||""))}catch(e){return bad("השליחה נכשלה. בדקו שהוגדרו משתני הסביבה של המייל ב-Netlify",500)}
   return J({ok:1})}
  if(act==="post"){
-  const wk=Object.keys(pub.weeks).sort().pop(),w=info(pub,wk),kind=b.kind==="joke"?"joke":"quote",text=String(b.text||"").trim().slice(0,140);
-  if(!text||!w.done||!(kind==="quote"?w.win:w.low).includes(id)||pub.weeks[wk][kind])return bad("אין הרשאה",403);
+  const rw=Object.keys(pub.weeks).sort().slice(-2),wk=String(b.wk||rw[rw.length-1]),w=info(pub,wk),kind=b.kind==="joke"?"joke":"quote",text=String(b.text||"").trim().slice(0,140);
+  if(!text||!rw.includes(wk)||!w.done||!(kind==="quote"?w.win:w.low).includes(id)||pub.weeks[wk][kind])return bad("אין הרשאה",403);
   pub.weeks[wk][kind]={by:id,text};await save();return J({ok:1})}
  return bad("לא קיים",404)};
