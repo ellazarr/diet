@@ -14,7 +14,11 @@ const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
 const tot=(pub,id)=>Object.entries(pub.entries).reduce((s,[k,v])=>k.endsWith("__"+id)?s+(v||0):s,0);
-const sum=(p,before)=>Object.entries(p.hist).reduce((s,[k,v])=>(!before||k<before)?s+v:s,0);
+const cw=p=>{const k=Object.keys(p.hist).filter(k=>p.hist[k]!==null).sort();return k.length?p.hist[k[k.length-1]]:R2(p.start-p.base)};
+const migrate=p=>{if(p.v===2)return;let w=R2(p.start-p.base);Object.keys(p.hist).sort().forEach(k=>{if(p.hist[k]!==null){w=R2(w-p.hist[k]);p.hist[k]=w}});p.v=2};
+const recompute=(pub,id,p)=>{let prev=R2(p.start-p.base);const out={};
+ Object.keys(p.hist).sort().forEach(k=>{const w=p.hist[k];if(w===null){pub.entries[k+"__"+id]=null;return}
+  pub.entries[k+"__"+id]=R2((prev-w)/prev*100);out[k]={prev,w};prev=w});return out};
 const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i].claimed),v={};
  cl.forEach(i=>{const k=wk+"__"+i;if(k in pub.entries)v[i]=pub.entries[k]});
  const a=Object.entries(v).filter(e=>e[1]!==null);let win=[],low=[];
@@ -26,6 +30,7 @@ export default async req=>{
  if(act==="state")return J(pub);
  if(req.method!=="POST")return J({err:"bad"},405);
  const b=await req.json().catch(()=>({})),priv=(await st.get("priv",{type:"json"}))||{};
+ Object.values(priv).forEach(migrate);
  let sec=await st.get("secret");if(!sec){sec=rnd()+rnd();await st.set("secret",sec)}
  const sig=s=>crypto.createHmac("sha256",sec).update(s).digest("hex");
  const tok=id=>{const e=Date.now()+30*864e5;return id+"."+e+"."+sig(id+"."+e)};
@@ -37,7 +42,9 @@ export default async req=>{
   if(!name||!(start>0)||!(goal>0)||goal>=start||pw.length<4)return bad("נתונים לא תקינים");
   if(claim&&(!pub.members[claim]||pub.members[claim].claimed))return bad("המשתמש כבר נתפס");
   const id=claim||"m"+rnd(),old=pub.members[id],salt=rnd();
-  priv[id]={salt,hash:H(pw,salt),start,goal,base:claim?R2(start*tot(pub,id)/100):0,hist:{}};
+  let base=claim?R2(start*tot(pub,id)/100):0;
+  if(claim&&Number(b.current)>20&&Number(b.current)<400)base=R2(start-Number(b.current));
+  priv[id]={salt,hash:H(pw,salt),start,goal,base,hist:{},v:2};
   pub.members[id]={c:old?old.c:COL[Object.keys(pub.members).length%COL.length],name:old?old.name:name,av:String(b.av||"").slice(0,4),photo:PHOTO.test(b.photo||"")?b.photo:null,goalPct:R2((start-goal)/start*100),claimed:true};
   await save();return J({id,token:tok(id)})}
  if(act==="login"||act==="reset"){
@@ -48,15 +55,14 @@ export default async req=>{
   if(act==="reset"){p.salt=rnd();p.hash=H(String(b.newPassword),p.salt)}
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
- if(act==="me")return J({start:p.start,goal:p.goal,kg:R2(p.start-p.base-sum(p)),email:p.email||"",remind:!!p.remind});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
-  let pct=null;
-  if(b.skip)delete p.hist[wk];
-  else{const k=Number(b.kg);if(b.kg===""||b.kg==null||!isFinite(k)||Math.abs(k)>60)return bad("נא להזין כמה ק״ג");
-   const before=p.start-p.base-sum(p,wk);if(before<=0)return bad("משקל לא תקין");pct=R2(k/before*100);p.hist[wk]=k}
-  pub.weeks[wk]=pub.weeks[wk]||{label:String(b.label||wk).slice(0,20)};pub.entries[wk+"__"+id]=pct;
-  await save();return J({ok:1})}
+  if(b.skip)p.hist[wk]=null;
+  else{const w=Number(b.weight);if(b.weight===""||b.weight==null||!isFinite(w)||w<20||w>400)return bad("נא להזין משקל תקין");p.hist[wk]=R2(w)}
+  pub.weeks[wk]=pub.weeks[wk]||{label:String(b.label||wk).slice(0,20)};
+  const x=recompute(pub,id,p)[wk];
+  await save();return J({ok:1,lost:x?R2(x.prev-x.w):null,pct:x?pub.entries[wk+"__"+id]:null})}
  if(act==="settings"){
   const{start,goal}=b,m=pub.members[id],name=String(b.name||"").trim().slice(0,20);
   if(!name||!(start>0)||!(goal>0)||goal>=start)return bad("נתונים לא תקינים");
@@ -64,7 +70,7 @@ export default async req=>{
   const em=String(b.email||"").trim().slice(0,100);
   if(em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return bad("כתובת מייל לא תקינה");
   p.email=em;p.remind=!!b.remind&&!!em;
-  p.start=start;p.goal=goal;m.name=name;m.av=String(b.av||m.av||"").slice(0,4);m.goalPct=R2((start-goal)/start*100);
+  p.start=start;p.goal=goal;recompute(pub,id,p);m.name=name;m.av=String(b.av||m.av||"").slice(0,4);m.goalPct=R2((start-goal)/start*100);
   if(PHOTO.test(b.photo||""))m.photo=b.photo;
   await save();return J({ok:1})}
  if(act==="testmail"){

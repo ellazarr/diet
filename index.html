@@ -51,6 +51,11 @@ tfoot td{font-weight:800;border-bottom:0}
 .tip em{font-style:normal;font-size:24px}
 .tip q{display:block;font-weight:600;quotes:"״" "״"}
 .tip small{color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.fact{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.fact em{font-style:normal;font-size:26px}
+.fact small{display:block;color:var(--muted);font-size:13px}
+.fact b{display:block}
 .empty{color:var(--muted);text-align:center;padding:10px}
 button{font:inherit;cursor:pointer;border:0;background:var(--accent);color:#fff;padding:8px 18px;border-radius:99px}
 button.sec{background:var(--line);color:var(--ink)}
@@ -88,6 +93,8 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:8px 1
   <div class="lb" id="lb"></div>
   <h2>👑 המנצח השבועי</h2>
   <div class="card" id="weekly"></div>
+  <h2>🔥 סטטיסטיקות מעניינות</h2>
+  <div class="facts" id="facts"></div>
   <h2>📈 המסע של כולנו</h2>
   <div class="card chart"><div id="chart"></div><div class="legend" id="legend"></div></div>
   <h2>🗓️ כל השבועות</h2>
@@ -138,6 +145,41 @@ function derive(){
  return{ms,ws};
 }
 
+/* ===== סטטיסטיקות (מחושבות מהנתונים, מוצגות רק אם נכונות) ===== */
+function facts(P,W){
+ const R=W.filter(w=>!w.virtual&&w.has.some(Boolean)),out=[];
+ if(!R.length||!P.length)return out;
+ const N=i=>esc(P[i].name),idx=P.map((_,i)=>i),names=a=>a.map(N).join(", ");
+ const wins=idx.map(i=>R.filter(w=>w.win.includes(i)).length),mw=Math.max(...wins);
+ if(mw>0)out.push(["👑","הכי הרבה ניצחונות שבועיים",names(idx.filter(i=>wins[i]===mw))+" ("+mw+")"]);
+ const wl=idx.filter(i=>wins[i]>0).sort((a,b)=>wins[b]-wins[a]);
+ if(wl.length>1)out.push(["🏆","טבלת הניצחונות",wl.map(i=>N(i)+" "+wins[i]).join(" · ")]);
+ const run=f=>idx.map(i=>{let b=0,c=0;R.forEach(w=>{if(f(w,i)){c++;b=Math.max(b,c)}else c=0});return[b,c]});
+ const ws=run((w,i)=>w.win.includes(i));
+ const live=idx.filter(i=>ws[i][1]>=2);
+ if(live.length)out.push(["🔥","רצף ניצחונות פעיל",live.map(i=>N(i)+" · "+ws[i][1]+" שבועות ברצף").join(" | ")]);
+ const bw=Math.max(...ws.map(z=>z[0])),bl=idx.filter(i=>ws[i][0]===bw);
+ if(bw>=2&&!bl.some(i=>ws[i][1]===bw))out.push(["🏅","שיא רצף ניצחונות",names(bl)+" · "+bw+" שבועות"]);
+ const ls=run((w,i)=>w.v[i]!==null&&w.v[i]>0),bm=Math.max(...ls.map(z=>z[0]));
+ if(bm>=3)out.push(["💚","הרצף הארוך ביותר של ירידות",names(idx.filter(i=>ls[i][0]===bm))+" · "+bm+" שבועות"]);
+ let best=null,worst=null;
+ R.forEach(w=>w.v.forEach((v,i)=>{if(v===null)return;if(!best||v>best.v)best={v,i,w};if(!worst||v<worst.v)worst={v,i,w}}));
+ if(best)out.push(["🚀","שבוע השיא",N(best.i)+" · "+fmt(best.v)+" ("+esc(hl(best.w.id))+")"]);
+ if(worst&&worst.v<0)out.push(["📉","השבוע הקשה ביותר",N(worst.i)+" · "+fmt(worst.v)+" ("+esc(hl(worst.w.id))+")"]);
+ const sec=idx.map(()=>0);
+ R.forEach(w=>{const a=w.v.map((v,i)=>[v,i]).filter(z=>z[0]!==null).sort((x,y)=>y[0]-x[0]);
+  if(a.length>=2&&a[1][0]<a[0][0]&&(a.length<3||a[1][0]>a[2][0]))sec[a[1][1]]++});
+ const ms=Math.max(...sec);
+ if(ms>=2)out.push(["🥈","המקום השני",names(idx.filter(i=>sec[i]===ms))+" · "+ms+" פעמים"]);
+ const cnt=idx.map(i=>R.filter(w=>w.v[i]!==null).length),mc=Math.max(...cnt);
+ if(mc>=3)out.push(["⚖️","הכי הרבה שקילות",names(idx.filter(i=>cnt[i]===mc))+" · "+mc]);
+ const av=idx.filter(i=>cnt[i]>=3).map(i=>[i,P[i].tot/cnt[i]]).sort((a,b)=>b[1]-a[1]);
+ if(av.length)out.push(["📊","הממוצע השבועי הגבוה ביותר",N(av[0][0])+" · "+fmt(av[0][1])]);
+ const pr=idx.filter(i=>P[i].goalPct>0&&P[i].tot>0).map(i=>[i,P[i].tot/P[i].goalPct*100]).sort((a,b)=>b[1]-a[1]);
+ if(pr.length)out.push(["🎯","הכי קרוב ליעד",N(pr[0][0])+" · "+pr[0][1].toFixed(1)+"% מהדרך"]);
+ if(P.length>=2)out.push(["📏","הפער בין המקום הראשון לשני",N(0)+" מול "+N(1)+" · "+(P[0].tot-P[1].tot).toFixed(2)+"%"]);
+ return out}
+
 /* ===== תצוגה ראשית ===== */
 function render(){
  D=derive();const P=D.ms,W=D.ws,n=W.length,RW=W.filter(w=>!w.virtual);
@@ -182,6 +224,7 @@ function render(){
   `</tbody><tfoot><tr><td>סה״כ</td>${P.map(m=>`<td>${fmt(m.tot)}</td>`).join("")}</tr></tfoot>`;
  const nm=id=>(P.find(m=>m.id===id)||{}).name||"";
  const L=(k,ic)=>W.filter(x=>x[k]&&x[k].text).reverse().map(x=>`<div class="tip"><em>${ic}</em><div><q>${esc(x[k].text)}</q><small>${esc(nm(x[k].by))} · ${esc(hl(x.id))}</small></div></div>`).join("")||`<div class="empty">עדיין אין</div>`;
+ $("facts").innerHTML=facts(P,W).map(f=>`<div class="fact"><em>${f[0]}</em><div><b>${f[1]}</b>${f[2]}</div></div>`).join("")||`<div class="empty">הסטטיסטיקות יופיעו אחרי השקילות הראשונות</div>`;
  $("tips").innerHTML=L("quote","💡");$("jokes").innerHTML=L("joke","😄");
 }
 
@@ -214,15 +257,17 @@ $("bAdd").onclick=()=>{
  <label>סמל</label>${emoRow()}
  <label>תמונת פרופיל (לא חובה)<input type="file" accept="image/*" onchange="A.photo(this)"></label>
  <div class="g2"><label>משקל התחלתי (ק״ג)<input id="a_s" type="number" step="0.1" inputmode="decimal"></label><label>משקל יעד (ק״ג)<input id="a_g" type="number" step="0.1" inputmode="decimal"></label></div>
+ <label id="a_cl" style="display:none">משקל נוכחי (ק״ג)<input id="a_cw" type="number" step="0.1" inputmode="decimal"></label>
  <label>סיסמה לאזור האישי (לפחות 4 תווים)<input id="a_p" type="password"></label>
  <div class="note">המשקלים נשמרים רק באזור האישי שלך ולא מוצגים לאף אחד. בעמוד הראשי יופיעו רק אחוזים.</div>
  <div class="msg" id="msg"></div><div class="actions"><button onclick="A.doAdd()" id="a_ok">הוספה</button><button class="sec" onclick="A.close()">ביטול</button></div>`)};
-A.claim=()=>{const m=memOf($("a_c").value);$("a_n").value=m.name||"";$("a_n").readOnly=!!m.name};
+A.claim=()=>{const m=memOf($("a_c").value);$("a_n").value=m.name||"";$("a_n").readOnly=!!m.name;$("a_cl").style.display=$("a_c").value?"block":"none"};
 A.doAdd=async()=>{
  const claim=($("a_c")||{}).value||"",name=$("a_n").value.trim(),s=parseFloat($("a_s").value),g=parseFloat($("a_g").value),p=$("a_p").value;
  if(!name)return err("נא למלא שם");if(!(s>0)||!(g>0))return err("נא למלא משקל התחלתי ויעד");if(g>=s)return err("משקל היעד צריך להיות נמוך מההתחלתי");if(p.length<4)return err("הסיסמה קצרה מדי");
+ if(claim&&!(parseFloat($("a_cw").value)>0))return err("נא למלא את המשקל הנוכחי");
  $("a_ok").disabled=true;
- const r=await api("register",{claim,name,av:emo,photo,start:s,goal:g,password:p});
+ const r=await api("register",{claim,name,av:emo,photo,start:s,goal:g,password:p,current:parseFloat(($("a_cw")||{}).value)});
  if(r.err){$("a_ok").disabled=false;return err(r.err)}
  TOK[r.id]=r.token;saveTok();cur=r.id;await refresh();A.area()};
 
@@ -242,7 +287,7 @@ A.forgot=()=>open(`<h3>איפוס סיסמה</h3><label>לאימות: מה הי�
 A.reset=async()=>{const r=await api("reset",{id:cur,start:parseFloat($("r_s").value),newPassword:$("r_p").value});if(r.err)return err(r.err);TOK[cur]=r.token;saveTok();A.area()};
 A.area=async()=>{
  const p=await api("me",{token:TOK[cur]});if(p.err){delete TOK[cur];saveTok();return A.ask(cur)}
- const m=memOf(cur),kg=p.kg,lost=p.start-kg,w=D.ws.filter(x=>!x.virtual).pop(),fr=ymd(friday(new Date())),iw=w&&w.done?w:null,mi=D.ms.findIndex(x=>x.id===cur);
+ const fl=A.flash||"";A.flash="";const m=memOf(cur),kg=p.kg,lost=p.start-kg,w=D.ws.filter(x=>!x.virtual).pop(),fr=ymd(friday(new Date())),iw=w&&w.done?w:null,mi=D.ms.findIndex(x=>x.id===cur);
  let unlock="";
  if(iw&&mi>=0){
   if(iw.win.includes(mi)&&!iw.quote)unlock+=`<div class="box">🏆 ניצחת השבוע! אפשר לכתוב משפט מוטיבציה:<textarea id="q_t" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('quote')">פרסום</button></div></div>`;
@@ -251,11 +296,12 @@ A.area=async()=>{
  open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
  <div class="g2"><div class="stat"><b>${lost.toFixed(1)}</b><span>ק״ג שירדת</span></div><div class="stat"><b>${Math.max(0,kg-p.goal).toFixed(1)}</b><span>ק״ג עד היעד</span></div>
  <div class="stat"><b>${kg.toFixed(1)}</b><span>משקל נוכחי</span></div><div class="stat"><b>${(lost/p.start*100).toFixed(2)}%</b><span>ירידה מההתחלה</span></div></div>
+ ${fl?`<div class="box" style="border-color:var(--accent)">✅ ${esc(fl)}</div>`:""}
  ${unlock}
  <div class="box"><b>עדכון שבועי</b>
- <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>כמה ק״ג ירדת? (עלייה = מינוס)<input id="w_k" type="number" step="0.05" inputmode="decimal"></label></div>
+ <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>המשקל שלך השבוע (ק״ג)<input id="w_k" type="number" step="0.1" inputmode="decimal"></label></div>
  <div class="msg" id="msg"></div><div class="actions"><button onclick="A.week(0)">עדכון</button><button class="sec" onclick="A.week(1)">דילגתי השבוע</button></div>
- <div class="note">האתר מחשב את האחוזים ומעדכן את העמוד הראשי. הקילוגרמים נשארים כאן.</div></div>
+ <div class="note">מספיק לכתוב את המשקל. האתר מחשב כמה ירדת ומעדכן את העמוד הראשי באחוזים. הקילוגרמים נשארים כאן.</div></div>
  <details class="box"><summary><b>הגדרות</b></summary>
  <label>שם<input id="s_n" value="${esc(m.name)}" maxlength="20"></label><label>סמל</label>${emoRow()}
  <label>תמונת פרופיל<input type="file" accept="image/*" onchange="A.photo(this)"></label>
@@ -267,8 +313,10 @@ A.area=async()=>{
 A.out=()=>{delete TOK[cur];saveTok();A.close()};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
- const r=await api("week",{token:TOK[cur],wk:ymd(dt),label:hl(ymd(dt)),skip:!!skip,kg:$("w_k").value});
- if(r.err)return err(r.err);await refresh();A.area()};
+ const r=await api("week",{token:TOK[cur],wk:ymd(dt),label:hl(ymd(dt)),skip:!!skip,weight:$("w_k").value});
+ if(r.err)return err(r.err);
+ A.flash=r.lost==null?"":(r.lost>0?`ירדת ${r.lost} ק״ג (${r.pct}%) 🎉`:r.lost<0?`עלית ${Math.abs(r.lost)} ק״ג (${Math.abs(r.pct)}%)`:"ללא שינוי לעומת הפעם הקודמת");
+ await refresh();A.area()};
 A.save=async t=>{
  const r=await api("settings",{token:TOK[cur],name:$("s_n").value,av:emo,photo,start:parseFloat($("s_s").value),goal:parseFloat($("s_g").value),password:$("s_p").value,email:$("s_e").value,remind:$("s_r").checked});
  if(r.err)return alert(r.err);
