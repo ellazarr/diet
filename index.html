@@ -19,7 +19,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Heebo","Assista
 .week-badge{display:inline-block;margin-top:14px;background:rgba(255,255,255,.18);padding:6px 16px;border-radius:99px;font-size:14px}
 .hbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .hbtns button{background:#fff;color:#1f6f68;font-weight:700}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:-44px 0 22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 22px}
+#weekly{margin:-44px 0 14px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.wk{text-align:center}.wk-t{font-size:clamp(20px,5vw,28px);font-weight:800}.wk-s{color:var(--muted);margin-top:4px}.wk-q{margin:10px 0 0;font-weight:600}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.06)}
 .stat b{display:block;font-size:24px;color:var(--accent)}
 .stat span{font-size:13px;color:var(--muted)}
@@ -89,12 +91,11 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:8px 1
 </header>
 <main class="wrap">
   <div id="notice"></div>
+  <div class="card" id="weekly"></div>
   <section class="stats" id="stats"></section>
   <div id="pending"></div>
   <h2>🏆 טבלת המובילים</h2>
   <div class="lb" id="lb"></div>
-  <h2>👑 המנצח השבועי</h2>
-  <div class="card" id="weekly"></div>
   <h2>🔥 סטטיסטיקות מעניינות</h2>
   <div class="facts" id="facts"></div>
   <h2>📈 המסע של כולנו</h2>
@@ -201,11 +202,18 @@ function render(){
   <div class="bar"><i style="width:0;background:${esc(m.c)}" data-w="${prog}"></i></div></div>
   <div class="pct" style="color:${esc(m.c)}">${m.tot.toFixed(2)}%</div></div>`}).join(""):`<div class="card empty">עדיין אין משתתפים. לחצו על ״הוספת משתמש״</div>`;
  setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),150);
- if(lastW!==undefined){const w=W[lastW];
-  $("weekly").innerHTML=`<div style="text-align:center"><div style="font-size:44px">👏</div><div style="font-size:24px;font-weight:800">${w.win.map(i=>esc(P[i].name)).join(" ו")}</div>
-  <div class="sub">${w.done?"ניצח/ה":"מוביל/ה עד כה"} בשבוע ${esc(hl(w.id))} עם ירידה של ${fmt(Math.max(...w.v.filter(x=>x!==null)))}</div>
-  ${w.quote?`<p style="margin:12px 0 0;font-weight:600">״${esc(w.quote.text)}״</p>`:""}</div>`}
- else $("weekly").innerHTML=`<div class="empty">המנצח יוכרז אחרי השקילה הראשונה</div>`;
+ {const cw=W[n-1],pw=lastW!==undefined?W[lastW]:null;
+  const chg=v=>v>0?"ירד "+v.toFixed(2)+"%":v<0?"עלה "+Math.abs(v).toFixed(2)+"%":"ללא שינוי";
+  const top=w=>Math.max(...w.v.filter(x=>x!==null)),nm=w=>w.win.map(i=>esc(P[i].name)).join(" ו");
+  const qt=w=>w&&w.quote?`<p class="wk-q">״${esc(w.quote.text)}״</p>`:"";
+  let t,s2="",q="";
+  if(cw&&cw.win.length){const lab=esc(hl(cw.id));
+   if(cw.done){t="👑 המנצח השבועי: "+nm(cw);s2=chg(top(cw))+" בשבוע "+lab}
+   else{t="👑 לעת עתה מוביל: "+nm(cw);s2=chg(top(cw))+" בשבוע "+lab+(cw.wait.length?" · עדיין לא עדכנו: "+cw.wait.map(i=>esc(P[i].name)).join(", "):"")}
+   q=qt(cw)}
+  else if(cw){t="🗓️ שבוע "+esc(hl(cw.id))+": עדיין אין עדכונים";if(pw){s2="המנצח בשבוע "+esc(hl(pw.id))+": "+nm(pw)+" · "+chg(top(pw));q=qt(pw)}}
+  else t="המנצח יוכרז אחרי השקילה הראשונה";
+  $("weekly").innerHTML=`<div class="wk"><div class="wk-t">${t}</div><div class="wk-s">${s2}</div>${q}</div>`}
  const last=W[n-1];
  $("pending").innerHTML=last&&!last.done&&last.wait.length&&(last.virtual||last.has.some(Boolean))?`<div class="card" style="margin-bottom:12px">⏳ ממתינים לעדכון שבוע ${esc(hl(last.id))}: <b>${last.wait.map(i=>esc(P[i].name)).join(", ")}</b></div>`:"";
  /* גרף */
