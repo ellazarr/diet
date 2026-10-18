@@ -65,6 +65,12 @@ export default async req=>{
   pub.weeks[wk]=pub.weeks[wk]||{label:String(b.label||wk).slice(0,20)};
   const x=recompute(pub,id,p)[wk];
   await save();return J({ok:1,lost:x?R2(x.prev-x.w):null,pct:x?pub.entries[wk+"__"+id]:null})}
+ if(act==="pct"){
+  const wk=String(b.wk),k=wk+"__"+id;
+  if(!(k in pub.entries)||wk in p.hist)return bad("אי אפשר לערוך שבוע זה כאן");
+  if(b.del)delete pub.entries[k];
+  else{const x=Number(b.pct);if(b.pct===""||b.pct==null||!isFinite(x)||Math.abs(x)>30)return bad("אחוז לא תקין");pub.entries[k]=R2(x)}
+  await save();return J({ok:1})}
  if(act==="del"){const wk=String(b.wk);delete p.hist[wk];delete pub.entries[wk+"__"+id];recompute(pub,id,p);await save();return J({ok:1})}
  if(act==="settings"){
   const{start,goal}=b,m=pub.members[id],name=String(b.name||"").trim().slice(0,20);

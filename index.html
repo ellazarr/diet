@@ -298,7 +298,8 @@ A.area=async()=>{
   if(iw.win.includes(mi)&&!iw.quote)unlock+=`<div class="box">🏆 ניצחת בשבוע ${L}! אפשר לכתוב משפט מוטיבציה:<textarea id="q_${iw.id}" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('quote','${iw.id}')">פרסום</button></div></div>`;
   if(iw.low.includes(mi)&&!iw.joke)unlock+=`<div class="box">😄 בשבוע ${L} התור שלך לכתוב בדיחה לכולם:<textarea id="j_${iw.id}" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('joke','${iw.id}')">פרסום</button></div></div>`});
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
- const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):"לפני ההצטרפות"}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div>${r.h?`<button class="sec" onclick="A.edit('${r.id}')">✏️</button> <button class="sec" onclick="A.del('${r.id}')">🗑️</button>`:""}</div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
+ A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
+ const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):"לפני ההצטרפות"}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
  emo=m.av||EMOS[0];photo=null;
  open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
  <div class="g2"><div class="stat"><b>${lost.toFixed(1)}</b><span>ק״ג שירדת</span></div><div class="stat"><b>${Math.max(0,kg-p.goal).toFixed(1)}</b><span>ק״ג עד היעד</span></div>
@@ -332,6 +333,8 @@ A.save=async t=>{
  await refresh();A.area()};
 A.post=async(k,wk)=>{const r=await api("post",{token:TOK[cur],kind:k,wk,text:$((k==="quote"?"q_":"j_")+wk).value});if(r.err)return alert(r.err);await refresh();A.area()};
 A.edit=async wk=>{const v=prompt("המשקל (ק״ג) לשבוע "+hl(wk)+" ("+dm(wk)+")",A.hist[wk]==null?"":A.hist[wk]);if(v===null)return;const r=await api("week",{token:TOK[cur],wk,label:hl(wk),skip:false,weight:v});if(r.err)return alert(r.err);await refresh();A.area()};
+A.editp=async wk=>{const v=prompt("האחוז של שבוע "+hl(wk)+" ("+dm(wk)+"). ירידה במספר חיובי, עלייה במינוס",A.pcts[wk]==null?"":A.pcts[wk]);if(v===null)return;const r=await api("pct",{token:TOK[cur],wk,pct:v});if(r.err)return alert(r.err);await refresh();A.area()};
+A.delp=async wk=>{if(!confirm("למחוק את השבוע "+hl(wk)+" מההיסטוריה?"))return;const r=await api("pct",{token:TOK[cur],wk,del:true});if(r.err)return alert(r.err);await refresh();A.area()};
 A.del=async wk=>{if(!confirm("למחוק את השקילה של שבוע "+hl(wk)+"?"))return;const r=await api("del",{token:TOK[cur],wk});if(r.err)return alert(r.err);await refresh();A.area()};
 
 render();refresh();
