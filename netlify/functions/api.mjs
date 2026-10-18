@@ -15,10 +15,19 @@ const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,nam
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
 const tot=(pub,id)=>Object.entries(pub.entries).reduce((s,[k,v])=>k.endsWith("__"+id)?s+(v||0):s,0);
 const cw=p=>{const k=Object.keys(p.hist).filter(k=>p.hist[k]!==null).sort();return k.length?p.hist[k[k.length-1]]:R2(p.start-p.base)};
-const migrate=p=>{if(p.v===2)return;let w=R2(p.start-p.base);Object.keys(p.hist).sort().forEach(k=>{if(p.hist[k]!==null){w=R2(w-p.hist[k]);p.hist[k]=w}});p.v=2};
-const recompute=(pub,id,p)=>{let prev=R2(p.start-p.base);const out={};
- Object.keys(p.hist).sort().forEach(k=>{const w=p.hist[k];if(w===null){pub.entries[k+"__"+id]=null;return}
+const migrate=p=>{if(p.v>=2)return false;let w=R2(p.start-p.base);Object.keys(p.hist).sort().forEach(k=>{if(p.hist[k]!==null){w=R2(w-p.hist[k]);p.hist[k]=w}});p.v=2;return true};
+const recompute=(pub,id,p)=>{const aw=p.anchor?p.anchor.wk:"";let prev=p.anchor?p.anchor.w:R2(p.start-p.base);const out={};
+ Object.keys(p.hist).sort().forEach(k=>{const w=p.hist[k];
+  if(k<=aw){if(k===aw&&w!==null){prev=w;p.anchor.w=w}return}
+  if(w===null){pub.entries[k+"__"+id]=null;return}
   pub.entries[k+"__"+id]=R2((prev-w)/prev*100);out[k]={prev,w};prev=w});return out};
+const mig3=(pub,id,p)=>{if(p.v>=3)return false;p.v=3;
+ const seed=SEED(),ks=Object.keys(seed.entries).filter(k=>k.endsWith("__"+id));
+ if(!ks.length||!pub.members[id]||!pub.members[id].claimed)return true;
+ const last=ks.map(k=>k.split("__")[0]).sort().pop(),hw=p.hist[last];
+ p.anchor={wk:last,w:hw!=null?hw:R2(p.start-p.base)};
+ ks.forEach(k=>{const wk=k.split("__")[0];if(wk<=last&&wk in p.hist)pub.entries[k]=seed.entries[k]});
+ recompute(pub,id,p);return true};
 const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Jerusalem"}).format(new Date());
 const closed=wk=>{const t=new Date(wk+"T00:00:00Z");t.setUTCDate(t.getUTCDate()+2);return today()>=t.toISOString().slice(0,10)};
 const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i].claimed),v={};
@@ -29,15 +38,16 @@ const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i]
 export default async req=>{
  const st=deps.store(),act=new URL(req.url).pathname.replace(/^\/api\//,"");
  const pub=(await st.get("public",{type:"json"}))||SEED();
- if(act==="state")return J(pub);
+ const priv=(await st.get("priv",{type:"json"}))||{};let dirty=false;
+ Object.entries(priv).forEach(([id,p])=>{if(migrate(p))dirty=true;if(mig3(pub,id,p))dirty=true});
+ const save=()=>Promise.all([st.setJSON("public",pub),st.setJSON("priv",priv)]);
+ if(act==="state"){if(dirty)await save();return J(pub)}
  if(req.method!=="POST")return J({err:"bad"},405);
- const b=await req.json().catch(()=>({})),priv=(await st.get("priv",{type:"json"}))||{};
- Object.values(priv).forEach(migrate);
+ const b=await req.json().catch(()=>({}));
  let sec=await st.get("secret");if(!sec){sec=rnd()+rnd();await st.set("secret",sec)}
  const sig=s=>crypto.createHmac("sha256",sec).update(s).digest("hex");
  const tok=id=>{const e=Date.now()+30*864e5;return id+"."+e+"."+sig(id+"."+e)};
  const who=t=>{const[i,e,s]=String(t||"").split(".");return s&&+e>Date.now()&&eq(sig(i+"."+e),s)&&priv[i]?i:null};
- const save=()=>Promise.all([st.setJSON("public",pub),st.setJSON("priv",priv)]);
  const bad=(m,s=400)=>J({err:m},s),pw=String(b.password||"");
  if(act==="register"){
   const{claim,start,goal}=b;let name=String(b.name||"").trim().slice(0,20);
@@ -46,7 +56,9 @@ export default async req=>{
   const id=claim||"m"+rnd(),old=pub.members[id],salt=rnd();
   let base=claim?R2(start*tot(pub,id)/100):0;
   if(claim&&Number(b.current)>20&&Number(b.current)<400)base=R2(start-Number(b.current));
-  priv[id]={salt,hash:H(pw,salt),start,goal,base,hist:{},v:2};
+  priv[id]={salt,hash:H(pw,salt),start,goal,base,hist:{},v:3};
+  const lw=claim?Object.keys(pub.entries).filter(k=>k.endsWith("__"+id)&&pub.entries[k]!==null).map(k=>k.split("__")[0]).sort().pop():null;
+  if(lw)priv[id].anchor={wk:lw,w:R2(start-base)};
   pub.members[id]={c:old?old.c:COL[Object.keys(pub.members).length%COL.length],name:old?old.name:name,av:String(b.av||"").slice(0,4),photo:PHOTO.test(b.photo||"")?b.photo:null,goalPct:R2((start-goal)/start*100),claimed:true};
   await save();return J({id,token:tok(id)})}
  if(act==="login"||act==="reset"){
@@ -71,7 +83,7 @@ export default async req=>{
   if(b.del)delete pub.entries[k];
   else{const x=Number(b.pct);if(b.pct===""||b.pct==null||!isFinite(x)||Math.abs(x)>30)return bad("אחוז לא תקין");pub.entries[k]=R2(x)}
   await save();return J({ok:1})}
- if(act==="del"){const wk=String(b.wk);delete p.hist[wk];delete pub.entries[wk+"__"+id];recompute(pub,id,p);await save();return J({ok:1})}
+ if(act==="del"){const wk=String(b.wk);delete p.hist[wk];if(!p.anchor||wk>p.anchor.wk)delete pub.entries[wk+"__"+id];recompute(pub,id,p);await save();return J({ok:1})}
  if(act==="settings"){
   const{start,goal}=b,m=pub.members[id],name=String(b.name||"").trim().slice(0,20);
   if(!name||!(start>0)||!(goal>0)||goal>=start)return bad("נתונים לא תקינים");
