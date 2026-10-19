@@ -71,6 +71,11 @@ export default async req=>{
   if(act==="reset"){p.salt=rnd();p.hash=H(String(b.newPassword),p.salt)}
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
+ if(act==="chat")return J({msgs:((await st.get("chat",{type:"json"}))||[]).slice(-150)});
+ if(act==="say"){
+  const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
+  const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t});
+  await st.setJSON("chat",m.slice(-300));return J({ok:1})}
  if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
