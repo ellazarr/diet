@@ -41,7 +41,9 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--go
 .stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center;transition:transform .3s,box-shadow .3s}
 .stat:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(20,40,30,.12)}
 .stat b{display:block;font-family:"Assistant",Arial,sans-serif;font-size:clamp(32px,7vw,42px);color:var(--accent);font-weight:800;line-height:1.15}
-.stat span{font-size:15px;color:var(--muted)}
+.stat>span{font-size:15px;color:var(--muted)}
+.stat b.t{font-size:clamp(22px,4.6vw,32px)}
+.cnt{font:inherit;color:inherit}
 .lb{display:grid;gap:12px}
 .row{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 16px;transition:transform .3s,box-shadow .3s}
 .row:hover{transform:translateX(-4px) translateY(-2px);box-shadow:0 12px 26px rgba(20,40,30,.12)}
@@ -157,7 +159,7 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:9px 1
 .ringArc{transition:stroke-dashoffset 2s cubic-bezier(.2,.8,.2,1)}
 .ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ring-c b{font-family:"Frank Ruhl Libre",serif;font-size:40px;font-weight:900;color:var(--gold)}
-.ring-c span{font-size:13px;color:var(--muted)}
+.ring-c>span{font-size:14px;color:var(--muted)}
 .fam-t{text-align:center}
 .fam-h{font-family:"Frank Ruhl Libre",serif;font-size:clamp(24px,5vw,36px);font-weight:900}
 .race-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
@@ -256,7 +258,7 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
   <h2 class="reveal">🏆 טבלת המובילים</h2>
   <div class="lb" id="lb"></div>
   <h2 class="reveal">🏅 ליגת הנקודות</h2>
-  <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1</div></div>
+  <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1<br>הליגה מתחילה מהשבוע של י״ב חשוון (23.10). שבוע שרק משתתף אחד עדכן בו לא נותן נקודות.</div></div>
   <h2 class="reveal">🏁 מרוץ השבועות</h2>
   <div class="card reveal" id="raceCard"><div class="race-head"><button id="raceBtn" aria-label="נגן">▶</button><input id="raceRange" type="range" min="0" max="0" value="0"><b id="raceLbl"></b></div><div id="raceBars"></div></div>
   <h2 class="reveal">🔥 סטטיסטיקות מעניינות</h2>
@@ -276,8 +278,8 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
    <li><b>שקילה שבועית:</b> בכל שבוע (ביום שישי) כל משתתף נכנס לאזור האישי וכותב רק את המשקל שלו. האתר מחשב לבד כמה ירד, באילו אחוזים, ומעדכן את העמוד הראשי. מי שלא שוקל השבוע לוחץ ״דילגתי השבוע״.</li>
    <li><b>פרטיות:</b> המשקלים נשמרים באזור האישי בלבד ומוגנים בסיסמה. לכולם מוצגים רק אחוזים.</li>
    <li><b>המנצח השבועי:</b> מי שירד הכי הרבה אחוזים מבין מי שעדכנו באותו שבוע. כל עוד לא כולם עדכנו מופיע ״לעת עתה מוביל״.</li>
-   <li><b>ליגת הנקודות:</b> בכל שבוע הנקודות לפי הדירוג: מקום ראשון <b>4</b> נקודות, מקום שני <b>3</b>, מקום שלישי <b>2</b>, והאחרון <b>0</b> (האחרון מקבל 0 כשיש לפחות 4 משתתפים באותו שבוע). מקום רביעי ומעלה שאינו אחרון מקבל נקודה אחת. שוויון נותן לשניהם אותו מספר נקודות.</li>
-   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה. ההימורים גלויים לכולם באתר.</li>
+   <li><b>ליגת הנקודות:</b> בכל שבוע הנקודות לפי הדירוג: מקום ראשון <b>4</b> נקודות, מקום שני <b>3</b>, מקום שלישי <b>2</b>, והאחרון <b>0</b> (האחרון מקבל 0 כשיש לפחות 4 משתתפים באותו שבוע). מקום רביעי ומעלה שאינו אחרון מקבל נקודה אחת. שוויון נותן לשניהם אותו מספר נקודות. <b>הליגה מתחילה מהשבוע של י״ב חשוון (23.10)</b>, ושבוע שרק משתתף אחד עדכן בו לא נותן נקודות לאף אחד.</li>
+   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה (בשבוע שבו עדכנו לפחות שניים). ההימורים גלויים לכולם באתר.</li>
    <li><b>משפט מוטיבציה ובדיחה:</b> מי שניצח בשבוע מקבל אפשרות לכתוב משפט מוטיבציה, ומי שירד הכי מעט מקבל אפשרות לכתוב בדיחה. האפשרות נפתחת אחרי שהשבוע נסגר.</li>
    <li><b>סגירת שבוע:</b> שבוע נסגר כשכל המשתתפים עדכנו, או מיום ראשון שאחריו, גם אם לא כולם עדכנו.</li>
    <li><b>היסטוריה ועריכה:</b> באזור האישי רואים את כל השקילות ואפשר לערוך או למחוק אותן בכל עת. האחוזים והנקודות מתעדכנים לבד.</li>
@@ -388,7 +390,7 @@ function render(){
   [cnt(RW.length,0,""),"שבועות שחלפו"],
   [best.v>-99?cnt(best.v,2,"%"):"–","שבוע שיא"+(best.v>-99?" · "+esc(P[best.i].name):"")],
   [top?P.filter((_,i)=>wins[i]===top).map(m=>esc(m.name)).join(", "):"–","הכי הרבה ניצחונות"]
- ].map((s,i)=>`<div class="stat" style="--i:${i}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join(""):"";
+ ].map((s,i)=>`<div class="stat" style="--i:${i}"><b${String(s[0]).includes("class=\"cnt\"")?"":" class=\"t\""}>${s[0]}</b><span>${s[1]}</span></div>`).join(""):"";
  const medals=["🥇","🥈","🥉"],BG=badges(P,W);BADGES=BG;
  $("lb").innerHTML=P.length?P.map((m,r)=>{
   const g=m.goalPct,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0;
@@ -607,15 +609,16 @@ function spot(r,k){const P=D.ms,b=(BADGES[r]||[])[k];if(!b)return;const m=P[r],e
  el.innerHTML=`<div class="spot"><button class="close" onclick="$('spot').innerHTML=''">✕</button><div class="spot-e">${b[0]}</div><div><div class="spot-t">${esc(b[1])}</div><div class="spot-m">${av(m,32)} ${esc(m.name)}</div><div class="spot-d">${b[3]}</div></div></div>`;
  el.scrollIntoView({behavior:"smooth",block:"center"})}
 /* ליגת הנקודות */
+const POINTS_FROM="2026-10-23";
 function points(P,W){
  const out=P.map(()=>({pts:0,r1:0,r2:0,r3:0,r0:0,bet:0}));
- W.filter(w=>!w.virtual&&w.done).forEach(w=>{
-  const a=w.v.map((v,i)=>[v,i]).filter(z=>z[0]!==null);if(!a.length)return;
+ W.filter(w=>!w.virtual&&w.done&&w.id>=POINTS_FROM).forEach(w=>{
+  const a=w.v.map((v,i)=>[v,i]).filter(z=>z[0]!==null);if(a.length<2)return;
   const mx=Math.max(...a.map(z=>z[0])),mn=Math.min(...a.map(z=>z[0]));
   a.forEach(([v,i])=>{const rank=1+a.filter(z=>z[0]>v).length;let p;
    if(a.length>=4&&mx>mn&&v===mn)p=0;else p=rank===1?4:rank===2?3:rank===3?2:1;
    out[i].pts+=p;if(p===0)out[i].r0++;else if(rank===1)out[i].r1++;else if(rank===2)out[i].r2++;else if(rank===3)out[i].r3++})});
- Object.entries(PRD).forEach(([wk,g])=>{const w=W.find(x=>x.id===wk);if(!w||!w.done||!w.win.length)return;
+ Object.entries(PRD).forEach(([wk,g])=>{const w=W.find(x=>x.id===wk);if(!w||!w.done||wk<POINTS_FROM||w.v.filter(x=>x!==null).length<2)return;
   const win=w.win.map(i=>P[i].id);Object.entries(g).forEach(([uid,guess])=>{const q=P.findIndex(m=>m.id===uid);if(q>=0&&win.includes(guess)){out[q].bet++;out[q].pts++}})});
  return out}
 function leagueRender(P,W,cnt){const el=$("league");
@@ -631,7 +634,7 @@ function summaryText(){
   if(w.win.length){const v=Math.max(...w.v.filter(x=>x!==null));t+=(w.done?"👑 המנצח: ":"👑 לעת עתה מוביל: ")+w.win.map(i=>P[i].name).join(" ו")+" · "+(v>0?"ירד "+v.toFixed(2)+"%":v<0?"עלה "+Math.abs(v).toFixed(2)+"%":"ללא שינוי")+"\n"}
   if(w.quote)t+="💡 ״"+w.quote.text+"״\n"}
  t+="\n🏆 הדירוג:\n"+P.map((m,r)=>(["🥇","🥈","🥉"][r]||(r+1)+".")+" "+m.name+" — "+m.tot.toFixed(2)+"%").join("\n");
- {const pt=points(P,D.ws);t+="\n\n🏅 ליגת הנקודות:\n"+P.map((m,q)=>({m,p:pt[q].pts})).sort((a,b)=>b.p-a.p).map(z=>z.m.name+" — "+z.p+" נק׳").join("\n")}
+ {const pt=points(P,D.ws);if(pt.some(z=>z.pts>0))t+="\n\n🏅 ליגת הנקודות:\n"+P.map((m,q)=>({m,p:pt[q].pts})).sort((a,b)=>b.p-a.p).map(z=>z.m.name+" — "+z.p+" נק׳").join("\n")}
  const f=facts(P,D.ws).slice(0,2).map(x=>x[0]+" "+x[1]+": "+un(x[2]));
  if(f.length)t+="\n\n"+f.join("\n");
  return t+"\n\n"+location.origin}
@@ -696,7 +699,7 @@ function tvSlides(){
  const P=D.ms,W=D.ws,S=[],wk=$("weekly").querySelector(".wk");
  if(wk)S.push(`<div class="tvbig">${wk.querySelector(".wk-t").innerHTML}</div><div class="tvsub">${wk.querySelector(".wk-s").innerHTML}</div>${wk.querySelector(".wk-q")?wk.querySelector(".wk-q").outerHTML:""}`);
  if(P.length)S.push(`<h3 class="tvh">🏆 הדירוג</h3>`+P.map((m,r)=>`<div class="tvr">${av(m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(m.name)}</b><span class="tvbar"><i style="width:${m.goalPct?Math.max(2,Math.min(100,m.tot/m.goalPct*100)):Math.max(2,Math.min(100,m.tot*5))}%;background:${esc(m.c)}"></i></span><em>${m.tot.toFixed(2)}%</em></div>`).join(""));
- {const pt=points(P,W);if(P.length)S.push(`<h3 class="tvh">🏅 ליגת הנקודות</h3>`+P.map((m,q)=>({m,p:pt[q].pts})).sort((a,b)=>b.p-a.p).map((z,r)=>`<div class="tvr">${av(z.m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(z.m.name)}</b><span class="tvbar"><i style="width:${Math.max(2,z.p/Math.max(1,...pt.map(x=>x.pts))*100)}%;background:${esc(z.m.c)}"></i></span><em>${z.p}</em></div>`).join(""))}
+ {const pt=points(P,W);if(pt.some(z=>z.pts>0))S.push(`<h3 class="tvh">🏅 ליגת הנקודות</h3>`+P.map((m,q)=>({m,p:pt[q].pts})).sort((a,b)=>b.p-a.p).map((z,r)=>`<div class="tvr">${av(z.m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(z.m.name)}</b><span class="tvbar"><i style="width:${Math.max(2,z.p/Math.max(1,...pt.map(x=>x.pts))*100)}%;background:${esc(z.m.c)}"></i></span><em>${z.p}</em></div>`).join(""))}
  if(CHD)S.push(`<h3 class="tvh">📈 המסע של כולנו</h3><div class="tvchart" id="tvChart"></div>`);
  if(P.length)S.push(`<h3 class="tvh">🎯 היעד המשפחתי</h3><div class="tvfam">${famMarkup(P,(v,d,s)=>(v<0?"−":"")+Math.abs(v).toFixed(d)+(s||""),true).html}</div>`);
  const fx=facts(P,W);if(fx.length)S.push(`<h3 class="tvh">🔥 סטטיסטיקות</h3><div class="tvfacts">${fx.slice(0,6).map(f=>`<div><em>${f[0]}</em><b>${f[1]}</b><span>${f[2]}</span></div>`).join("")}</div>`);
