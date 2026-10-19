@@ -142,6 +142,74 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:9px 1
 @keyframes nudge{0%,90%,100%{transform:translateY(-50%)}94%{transform:translateY(-50%) translateX(6px)}97%{transform:translateY(-50%) translateX(0)}}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.ticker{overflow-x:auto}}
+
+.hbtns button#bTv{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1d00}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12.5px;background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid var(--gold);border-radius:99px;padding:1px 10px;white-space:nowrap}
+.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-weight:700}
+.wk-act{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.wk-act button{font-size:14px;padding:6px 16px}
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(20px);background:#12372c;color:#fff;padding:10px 22px;border-radius:99px;opacity:0;pointer-events:none;transition:.3s;z-index:120;border:1px solid var(--gold)}
+#toast.on{opacity:1;transform:translateX(-50%)}
+.famwrap{display:flex;gap:26px;align-items:center;flex-wrap:wrap;justify-content:center}
+.fam{position:relative;width:190px;height:190px;flex:none}
+.fam svg{width:100%;height:100%}
+.ringArc{transition:stroke-dashoffset 2s cubic-bezier(.2,.8,.2,1)}
+.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-c b{font-family:"Frank Ruhl Libre",serif;font-size:40px;font-weight:900;color:var(--gold)}
+.ring-c span{font-size:13px;color:var(--muted)}
+.fam-t{text-align:center}
+.fam-h{font-family:"Frank Ruhl Libre",serif;font-size:clamp(24px,5vw,36px);font-weight:900}
+.race-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.race-head input{flex:1;accent-color:var(--gold)}
+.race-head b{min-width:110px;text-align:left;font-family:"Frank Ruhl Libre",serif;font-size:19px}
+#raceBtn{width:42px;height:42px;padding:0;border-radius:50%;font-size:16px}
+#raceBars{position:relative}
+.rb{position:absolute;left:0;right:0;top:0;height:46px;display:grid;grid-template-columns:44px 84px 1fr 78px;gap:10px;align-items:center;transition:transform .9s cubic-bezier(.3,.8,.2,1)}
+.rb .av{width:38px;height:38px;font-size:20px}
+.rb-n{font-weight:700;font-family:"Frank Ruhl Libre",serif;font-size:18px}
+.rb-t{height:18px;background:var(--line);border-radius:99px;overflow:hidden}
+.rb-t i{display:block;height:100%;width:2%;border-radius:99px;transition:width 1s cubic-bezier(.3,.8,.2,1)}
+.rb-v{font-weight:800;direction:ltr;text-align:right}
+.plist{display:grid;gap:8px}
+.prow{display:grid;grid-template-columns:40px 1fr auto auto;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.prow em{font-style:normal;font-weight:800;color:var(--gold);font-family:"Frank Ruhl Libre",serif;font-size:20px}
+.prow .av{width:36px;height:36px;font-size:19px}
+.cimg{max-width:100%;max-height:220px;border-radius:12px;display:block;margin:4px 0;cursor:zoom-in}
+.cfile{display:block;color:var(--accent);word-break:break-all;text-decoration:none;font-weight:600}
+.rx{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;align-items:center}
+.rxc{background:var(--card);color:var(--ink);border:1px solid var(--line);padding:0 8px;font-size:13px;box-shadow:none}
+.rxc.on{border-color:var(--gold)}
+.rxb{background:none;color:var(--muted);padding:0 6px;box-shadow:none;opacity:.7}
+.rxw{position:relative}
+.rxp{display:none;position:absolute;bottom:100%;inset-inline-start:0;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 8px;gap:2px;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:5}
+.rxp.open{display:flex}
+.rxp button{background:none;padding:2px 4px;font-size:21px;box-shadow:none}
+.attach{padding:0 12px}
+#tv{position:fixed;inset:0;z-index:90;display:none;flex-direction:column;background:radial-gradient(circle at 70% 15%,#16694c,#0b2a21 70%);color:#fff;padding:3vh 4vw;cursor:pointer}
+#tv.open{display:flex}
+#tvBody{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tv-slide{width:100%;max-width:1400px;text-align:center;animation:pop .8s both}
+.tvbig{font-family:"Frank Ruhl Libre",serif;font-size:clamp(40px,8vw,120px);font-weight:900;line-height:1.1}
+.tvsub{font-size:clamp(22px,3.5vw,48px);opacity:.85;margin-top:2vh}
+.tv-slide .wk-q{font-size:clamp(26px,4vw,56px);margin-top:3vh}
+.tvh{font-family:"Frank Ruhl Libre",serif;font-size:clamp(30px,5vw,64px);color:var(--gold2);margin:0 0 3vh}
+.tvr{display:grid;grid-template-columns:70px 1fr 2fr 150px;gap:16px;align-items:center;font-size:clamp(22px,3.4vw,46px);margin:1.6vh 0;text-align:right}
+.tvr em{font-style:normal;font-weight:900;direction:ltr;text-align:left}
+.tvbar{height:22px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden}.tvbar i{display:block;height:100%;border-radius:99px}
+.tvchart svg{width:100%;max-height:62vh}
+#tv svg text{fill:#d4e8dd}#tv svg line{stroke:rgba(255,255,255,.2)}
+.tvfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2.4vh 2vw}
+.tvfacts div{background:rgba(255,255,255,.08);border-radius:22px;padding:2vh 1.6vw;font-size:clamp(18px,2.2vw,30px)}
+.tvfacts em{display:block;font-style:normal;font-size:clamp(34px,4vw,56px)}.tvfacts b{display:block;color:var(--gold2)}
+.tvq{font-family:"Frank Ruhl Libre",serif;font-size:clamp(28px,4.5vw,64px);margin:3vh 0}
+.tvfam .ring-c b{font-size:56px}.tvfam .fam{width:min(34vh,300px);height:min(34vh,300px)}.tvfam{font-size:clamp(20px,3vw,40px)}
+.tvfam .sub{color:#cfe3d8;font-size:clamp(16px,2vw,26px)}
+#tvDots{display:flex;gap:10px;justify-content:center;margin:1.4vh 0}
+#tvDots i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3)}#tvDots i.on{background:var(--gold2)}
+#tvProgW{height:4px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+#tvProg{height:100%;background:var(--gold2);width:0}
+.tvx{position:absolute;top:2vh;left:2vw;background:rgba(255,255,255,.15);font-size:22px}
 </style>
 </head>
 <body>
@@ -152,7 +220,7 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:9px 1
     <h1>תחרות הדיאטה המשפחתית</h1>
     <p>כל שבוע שוקלים · מי ירד הכי הרבה אחוזים?</p>
     <div class="badges"><span class="week-badge" id="badge" hidden></span><span class="week-badge" id="next"></span></div>
-    <div class="hbtns"><button id="bAdd">➕ הוספת משתמש</button><button id="bMe">👤 האזור האישי</button></div>
+    <div class="hbtns"><button id="bAdd">➕ הוספת משתמש</button><button id="bMe">👤 האזור האישי</button><button id="bTv">📺 מצב תצוגה</button></div>
   </div>
 </header>
 <main class="wrap">
@@ -160,14 +228,20 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:9px 1
   <div class="card reveal" id="weekly"></div>
   <section class="stats" id="stats"></section>
   <div id="pending"></div>
+  <h2 class="reveal">🎯 היעד המשפחתי</h2>
+  <div class="card reveal" id="family"></div>
   <h2 class="reveal">🏆 טבלת המובילים</h2>
   <div class="lb" id="lb"></div>
+  <h2 class="reveal">🏁 מרוץ השבועות</h2>
+  <div class="card reveal" id="raceCard"><div class="race-head"><button id="raceBtn" aria-label="נגן">▶</button><input id="raceRange" type="range" min="0" max="0" value="0"><b id="raceLbl"></b></div><div id="raceBars"></div></div>
   <h2 class="reveal">🔥 סטטיסטיקות מעניינות</h2>
   <div class="ticker reveal" id="tkFacts"></div>
-  <h2 class="reveal">📈 המסע של כולנו <button class="sec replay" onclick="chartPlay()">▶ נגן שוב</button></h2>
+  <h2 class="reveal">📈 המסע של כולנו</h2>
   <div class="card chart reveal" id="chartCard"><div id="chart"></div><div class="legend" id="legend"></div></div>
   <h2 class="reveal">🗓️ כל השבועות</h2>
   <div class="card tw reveal"><table id="tbl"></table></div>
+  <h2 class="reveal">🔮 ליגת התחזיות</h2>
+  <div class="card reveal" id="predCard"></div>
   <h2 class="reveal">💬 מילות המנצחים והבדיחות</h2>
   <div class="ticker reveal" id="tkQuotes"></div>
   <div class="ticker rev reveal" id="tkJokes" style="margin-top:12px"></div>
@@ -176,8 +250,10 @@ dialog input,dialog textarea,dialog select{width:100%;font:inherit;padding:9px 1
 <aside id="chat" aria-label="צ'אט המשפחה">
   <div class="ch-h"><b>💬 צ'אט המשפחה</b><button class="close" onclick="chatToggle(false)">✕</button></div>
   <div class="ch-b" id="chatList"></div>
-  <div class="ch-f"><input id="chatIn" maxlength="300" placeholder="כתבו הודעה..."><button id="chatSend">שליחה</button></div>
+  <div class="ch-f"><button class="sec attach" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><input id="chatIn" maxlength="300" placeholder="כתבו הודעה..."><button id="chatSend">שליחה</button></div>
 </aside>
+<div id="toast"></div>
+<div id="tv"><button class="tvx" onclick="event.stopPropagation();tvClose()">✕</button><div id="tvBody"></div><div id="tvDots"></div><div id="tvProgW"><div id="tvProg"></div></div></div>
 <dialog id="dlg"><div id="dbody"></div></dialog>
 
 <script>
@@ -186,7 +262,7 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const COLORS=["#e07a5f","#3d85c6","#2f9e6e","#a26bd4","#e0a030","#d6559a","#3aa7b5","#7a8f3a"];
 const EMOS=["🦁","🐯","🐻","🦊","🐼","🦉","🐬","🦄","🌟","🚀","🍀","🏆"];
 const PHOTO_RE=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/;
-let MEM=[],WK=[],ENT=[],D=null;
+let MEM=[],WK=[],ENT=[],D=null,PRD={};
 const round2=x=>Math.round(x*100)/100,fmt=x=>(x<0?"−":"")+Math.abs(x).toFixed(2)+"%";
 const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 function friday(d){let x=5-d.getDay();if(x>3)x-=7;if(x<-3)x+=7;const r=new Date(d);r.setDate(r.getDate()+x);return r}
@@ -271,11 +347,12 @@ function render(){
   [best.v>-99?cnt(best.v,2,"%"):"–","שבוע שיא"+(best.v>-99?" · "+esc(P[best.i].name):"")],
   [top?P.filter((_,i)=>wins[i]===top).map(m=>esc(m.name)).join(", "):"–","הכי הרבה ניצחונות"]
  ].map((s,i)=>`<div class="stat" style="--i:${i}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join(""):"";
- const medals=["🥇","🥈","🥉"];
+ const medals=["🥇","🥈","🥉"],BG=badges(P,W);
  $("lb").innerHTML=P.length?P.map((m,r)=>{
   const g=m.goalPct,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0;
   return `<div class="row ${r===0?"first":""}" style="--i:${r}">${av(m)}<div><div class="name">${medals[r]||"🎖️"} ${esc(m.name)}</div>
   <div class="sub">${g?`יעד ${g.toFixed(2)}% · נותרו ${Math.max(0,g-m.tot).toFixed(2)}%`:"טרם הוגדר יעד"}${m.claimed?"":" · ממתין/ה להצטרפות"}</div>
+  <div class="chips">${(BG[r]||[]).map(b=>`<span class="chip">${b[0]} ${esc(b[1])}</span>`).join("")}</div>
   <div class="bar"><i style="width:0;background-color:${esc(m.c)}" data-w="${prog}"></i></div></div>
   <div class="pct" style="color:${esc(m.c)}">${cnt(m.tot,2,"%")}</div></div>`}).join(""):`<div class="card empty">עדיין אין משתתפים. לחצו על ״הוספת משתמש״</div>`;
  setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),200);
@@ -290,7 +367,7 @@ function render(){
    q=qt(cw)}
   else if(cw){t="🗓️ שבוע "+esc(hl(cw.id))+": עדיין אין עדכונים";if(pw){s2="המנצח בשבוע "+esc(hl(pw.id))+": "+nm(pw)+" · "+chg(top2(pw));q=qt(pw)}}
   else t="המנצח יוכרז אחרי השקילה הראשונה";
-  $("weekly").innerHTML=`<div class="wk"><div class="wk-t">${t}</div><div class="wk-s">${s2}</div>${q}</div>`;
+  $("weekly").innerHTML=`<div class="wk"><div class="wk-t">${t}</div><div class="wk-s">${s2}</div>${q}<div class="wk-act"><button class="sec" onclick="copySummary()">📋 העתק סיכום</button><button onclick="shareWA()">📲 שליחה בוואטסאפ</button></div></div>`;
   if(won)try{if(!sessionStorage.getItem("conf"+won)){sessionStorage.setItem("conf"+won,"1");confetti()}}catch(e){}}
  const last=W[n-1];
  $("pending").innerHTML=last&&!last.done&&last.wait.length&&(last.virtual||last.has.some(Boolean))?`<div class="card" style="margin-bottom:12px">⏳ ממתינים לעדכון שבוע ${esc(hl(last.id))}: <b>${last.wait.map(i=>esc(P[i].name)).join(", ")}</b></div>`:"";
@@ -300,7 +377,7 @@ function render(){
   const cum=P.map((m,k)=>{let s=0;return W.map(x=>s+=(x.v[k]||0))});
   const mx=Math.ceil(Math.max(...cum.flat(),1)),mn=Math.min(0,Math.floor(Math.min(...cum.flat())));
   CHD={P,W,n,cum,w,h,pl,pr,pt,pb,mx,mn,X:i=>w-pr-(n===1?0:i/(n-1))*(w-pl-pr),Y:v=>pt+(1-(v-mn)/(mx-mn))*(h-pt-pb)};
-  chartDraw(chartSeen?1:0);
+  chartStart();
   $("legend").innerHTML=P.map(m=>`<span><i style="background:${esc(m.c)}"></i>${esc(m.name)}</span>`).join("");
  }else{CHD=null;$("chart").innerHTML=`<div class="empty">הגרף יופיע אחרי העדכון הראשון</div>`;$("legend").innerHTML=""}
  $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${P.map(m=>`<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`+
@@ -315,6 +392,7 @@ function render(){
  const say=(k,ic)=>W.filter(x=>x[k]&&x[k].text).reverse().map(x=>`<span class="ti"><em>${ic}</em>״${esc(x[k].text)}״ <small>— ${esc(nm2(x[k].by))} · ${esc(hl(x.id))}</small></span><span class="sep">✦</span>`);
  tick("tkQuotes",say("quote","💡"),"עדיין אין משפטי מנצחים");
  tick("tkJokes",say("joke","😄"),"עדיין אין בדיחות");
+ renderExtras(P,W,RW,cnt);
  countUp();
 }
 
@@ -326,7 +404,7 @@ async function api(a,b){try{const r=await fetch("/api/"+a,{method:b?"POST":"GET"
 async function refresh(){const s=await api("state");
  if(s.err){$("notice").innerHTML=`<div class="card" style="margin-top:14px">${esc(s.err)}</div>`;return}
  $("notice").innerHTML="";
- const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;
+ const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;PRD=s.preds||{};
  MEM=Object.entries(s.members).map(([id,d])=>({id,data:()=>d}));
  WK=Object.entries(s.weeks).map(([id,d])=>({id,data:()=>d}));
  ENT=Object.entries(s.entries).map(([k,pct])=>{const[wk,m]=k.split("__");return{data:()=>({wk,m,pct})}});
@@ -386,6 +464,8 @@ A.area=async()=>{
   if(iw.low.includes(mi)&&!iw.joke)unlock+=`<div class="box">😄 בשבוע ${L} התור שלך לכתוב בדיחה לכולם:<textarea id="j_${iw.id}" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('joke','${iw.id}')">פרסום</button></div></div>`});
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
+ const cwk=D.ws[D.ws.length-1];
+ const predBox=cwk&&cwk.virtual?`<div class="box"><b>🔮 תחזית: מי ינצח בשבוע ${esc(hl(cwk.id))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[cwk.id]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${cwk.id}')">שמירת תחזית</button></div><div class="note">אפשר לשנות עד השקילה הראשונה של השבוע. כל ניחוש נכון שווה נקודה.</div></div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):"לפני ההצטרפות"}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
  emo=m.av||EMOS[0];photo=null;
  open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
@@ -393,6 +473,7 @@ A.area=async()=>{
  <div class="stat"><b>${kg.toFixed(1)}</b><span>משקל נוכחי</span></div><div class="stat"><b>${(lost/p.start*100).toFixed(2)}%</b><span>ירידה מההתחלה</span></div></div>
  ${fl?`<div class="box" style="border-color:var(--accent)">✅ ${esc(fl)}</div>`:""}
  ${unlock}
+ ${predBox}
  <div class="box"><b>עדכון שבועי</b>
  <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>המשקל שלך השבוע (ק״ג)<input id="w_k" type="number" step="0.1" inputmode="decimal"></label></div>
  <div class="msg" id="msg"></div><div class="actions"><button onclick="A.week(0)">עדכון</button><button class="sec" onclick="A.week(1)">דילגתי השבוע</button></div>
@@ -406,6 +487,7 @@ A.area=async()=>{
  <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="s_r" ${p.remind?"checked":""} style="width:auto"> שלחו לי תזכורת בכל יום שישי בבוקר</label>
  <label>סיסמה חדשה (ריק = ללא שינוי)<input id="s_p" type="password"></label>
  <div class="msg" id="msg2"></div><div class="actions"><button onclick="A.save()">שמירת הגדרות</button><button class="sec" onclick="A.save(1)">שמירה ושליחת מייל לדוגמה</button><button class="sec" onclick="A.out()">יציאה</button></div></details>`)};
+A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);alert("התחזית נשמרה ✓");A.area()};
 A.out=()=>{delete TOK[cur];saveTok();A.close()};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
@@ -432,37 +514,160 @@ function countUp(){if(reduced)return;document.querySelectorAll(".cnt").forEach(e
 function confetti(){if(reduced)return;const box=document.createElement("div");box.className="confetti";const E=["🎉","✨","🏆","⭐","🎊"];
  for(let i=0;i<28;i++){const s=document.createElement("span");s.textContent=E[i%5];s.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*1.3}s;font-size:${16+Math.random()*18}px`;box.appendChild(s)}
  document.body.appendChild(box);setTimeout(()=>box.remove(),5200)}
-let CHD=null,chartRaf=0,chartSeen=false;
+let CHD=null,chartRaf=0,chartVis=true,chartT0=0;
 const eb=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const mark=m=>EMOS.includes(m.av)?m.av:(m.name||"?")[0];
 function chartDraw(k){if(!CHD)return;const{P,W,n,cum,w,h,pl,pr,mx,mn,X,Y}=CHD;
  let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="גרף ירידה מצטברת">`;
  for(let v=mn;v<=mx;v++)s+=`<line x1="${pl}" x2="${w-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl-6}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}%</text>`;
  W.forEach((x,i)=>s+=`<text x="${X(i)}" y="${h-12}" text-anchor="middle" font-size="10" fill="var(--muted)">${esc(hl(x.id))}</text>`);
- P.forEach((m,q)=>{const loc=i=>Math.max(0,Math.min(1,k*1.7-(i/Math.max(1,n-1))*.7));
-  const pts=cum[q].map((v,i)=>[X(i),Y(v*(k>=1?1:eb(loc(i))))]);
+ const hp=k*(n-1),f=Math.min(n-1,Math.floor(hp)),fr=hp-f;
+ P.forEach((m,q)=>{
+  const pts=[];
+  for(let i=0;i<=f;i++){const loc=k>=1?1:Math.max(0,Math.min(1,(hp-i)*1.1));pts.push([X(i),Y(cum[q][i]*(k>=1?1:eb(loc)))])}
+  if(k<1&&f<n-1){const a=pts[f],bx=X(f+1),by=Y(cum[q][f+1]);pts.push([a[0]+(bx-a[0])*fr,a[1]+(by-a[1])*fr])}
   s+=`<polyline fill="none" stroke="${esc(m.c)}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="${pts.map(z=>z.join(",")).join(" ")}"/>`;
-  pts.forEach((z,i)=>{if(W[i].has[q]){const r=4.2*Math.min(1,loc(i)*2.2);s+=`<circle cx="${z[0]}" cy="${z[1]}" r="${r.toFixed(2)}" fill="${esc(m.c)}"/>`}});
-  if(k>=1){const z=pts[n-1];s+=`<circle class="pulse" cx="${z[0]}" cy="${z[1]}" r="6" fill="${esc(m.c)}"/>`}});
- $("chart").innerHTML=s+"</svg>"}
-function chartPlay(){if(!CHD)return;chartSeen=true;cancelAnimationFrame(chartRaf);if(reduced){chartDraw(1);return}
- const t0=performance.now(),step=now=>{const k=Math.min(1,(now-t0)/2600);chartDraw(k);if(k<1)chartRaf=requestAnimationFrame(step)};chartRaf=requestAnimationFrame(step)}
-{const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);if(e.target.id==="chartCard")chartPlay()}}),{threshold:.12}):null;
+  for(let i=0;i<=f;i++)if(W[i].has[q])s+=`<circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="4" fill="${esc(m.c)}"/>`;
+  const hd=pts[pts.length-1];
+  if(k>=1)s+=`<circle class="pulse" cx="${hd[0]}" cy="${hd[1]}" r="9" fill="${esc(m.c)}"/>`;
+  s+=`<circle cx="${hd[0]}" cy="${hd[1]}" r="12" fill="${esc(m.c)}" stroke="#fff" stroke-width="2"/><text x="${hd[0]}" y="${hd[1]+5}" text-anchor="middle" font-size="13">${esc(mark(m))}</text>`});
+ const out=s+"</svg>";$("chart").innerHTML=out;const tc=$("tvChart");if(tc)tc.innerHTML=out}
+function chartLoop(now){chartRaf=0;if(!CHD)return;
+ if(reduced){chartDraw(1);return}
+ const ph=((now-chartT0)%4000)/4000;
+ const k=ph<.6?ease(ph/.6):ph<.85?1:1-Math.pow((ph-.85)/.15,2);
+ chartDraw(Math.max(0,Math.min(1,k)));
+ if(chartVis||TV.open)chartRaf=requestAnimationFrame(chartLoop)}
+function chartStart(){if(chartRaf||!CHD)return;chartT0=performance.now();chartRaf=requestAnimationFrame(chartLoop)}
+{const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12}):null;
  document.querySelectorAll(".reveal").forEach(el=>io?io.observe(el):el.classList.add("in"));
- if(!io)setTimeout(chartPlay,400)}
+ if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{chartVis=e.isIntersecting;if(chartVis)chartStart()}),{threshold:.05}).observe($("chartCard"))}
+
+
+/* ===== תכונות: מדליות, יעד משפחתי, מרוץ, תחזיות, סיכום, מצב תצוגה ===== */
+function badges(P,W){
+ const R=W.filter(w=>!w.virtual&&w.has.some(Boolean)),WR=R.filter(w=>w.done),idx=P.map((_,i)=>i),out=idx.map(()=>[]);
+ const add=(i,e,t)=>out[i].push([e,t]);
+ idx.forEach(i=>{let c=0;WR.forEach(w=>{c=w.win.includes(i)?c+1:0});if(c>=3)add(i,"🔥",c+" ניצחונות ברצף")});
+ const wn=idx.map(i=>WR.filter(w=>w.win.includes(i)).length),mw=Math.max(0,...wn);
+ if(mw>=3)idx.forEach(i=>{if(wn[i]===mw)add(i,"👑","מלך הניצחונות ("+mw+")")});
+ const cn=idx.map(i=>R.filter(w=>w.v[i]!==null).length),mc=Math.max(0,...cn);
+ if(mc>=4)idx.forEach(i=>{if(cn[i]===mc)add(i,"🎯","הכי עקבי")});
+ let best=null;R.forEach(w=>w.v.forEach((v,i)=>{if(v!==null&&(!best||v>best.v))best={v,i}}));
+ if(best&&best.v>0)add(best.i,"🚀","שיא שבועי");
+ for(const w of R){const hit=idx.filter(i=>w.v[i]!==null&&w.v[i]>0);if(hit.length){hit.forEach(i=>add(i,"🌱","הראשון לרדת"));break}}
+ idx.forEach(i=>{let prev=null,ok=false;R.forEach(w=>{const v=w.v[i];if(v===null)return;if(prev!==null&&prev<0&&v>=1)ok=true;prev=v});if(ok)add(i,"💪","קאמבק")});
+ idx.forEach(i=>{let c=0,b=0;R.forEach(w=>{const v=w.v[i];if(v===null)return;c=v>0?c+1:0;b=Math.max(b,c)});if(b>=4)add(i,"💚","רצף ירידות "+b)});
+ idx.forEach(i=>{const g=P[i].goalPct;if(g>0&&P[i].tot/g>=.5)add(i,"🏁","חצי דרך ליעד")});
+ return out}
+const un=h=>{const e=document.createElement("textarea");e.innerHTML=String(h).replace(/<[^>]*>/g,"");return e.value};
+function summaryText(){
+ if(!D||!D.ms.length)return "";
+ const P=D.ms,W=D.ws.filter(w=>!w.virtual&&w.has.some(Boolean)),w=W[W.length-1];
+ let t="⚖️ תחרות הדיאטה המשפחתית\n";
+ if(w){t+="סיכום שבוע "+hl(w.id)+" ("+dm(w.id)+")\n";
+  if(w.win.length){const v=Math.max(...w.v.filter(x=>x!==null));t+=(w.done?"👑 המנצח: ":"👑 לעת עתה מוביל: ")+w.win.map(i=>P[i].name).join(" ו")+" · "+(v>0?"ירד "+v.toFixed(2)+"%":v<0?"עלה "+Math.abs(v).toFixed(2)+"%":"ללא שינוי")+"\n"}
+  if(w.quote)t+="💡 ״"+w.quote.text+"״\n"}
+ t+="\n🏆 הדירוג:\n"+P.map((m,r)=>(["🥇","🥈","🥉"][r]||(r+1)+".")+" "+m.name+" — "+m.tot.toFixed(2)+"%").join("\n");
+ const f=facts(P,D.ws).slice(0,2).map(x=>x[0]+" "+x[1]+": "+un(x[2]));
+ if(f.length)t+="\n\n"+f.join("\n");
+ return t+"\n\n"+location.origin}
+const toast=t=>{const e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),2200)};
+async function copySummary(){const t=summaryText();
+ try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}
+ toast("הסיכום הועתק ✓")}
+function shareWA(){window.open("https://wa.me/?text="+encodeURIComponent(summaryText()),"_blank")}
+/* יעד משפחתי */
+function famMarkup(P,cnt,final){
+ const gm=P.filter(m=>m.goalPct>0),avgT=P.reduce((s,m)=>s+m.tot,0)/P.length,avgG=gm.length?gm.reduce((s,m)=>s+m.goalPct,0)/gm.length:0;
+ const pr=avgG?Math.max(0,Math.min(1,avgT/avgG)):0,C=2*Math.PI*70,off=final?C*(1-pr):C;
+ const ms=[25,50,75,100].map(x=>`<span class="chip ${pr*100>=x?"on":""}">${pr*100>=x?"✓ ":""}${x}%</span>`).join("");
+ return {pr,C,html:`<div class="famwrap"><div class="fam"><svg viewBox="0 0 180 180"><defs><linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--gold2)"/><stop offset="1" style="stop-color:var(--gold)"/></linearGradient></defs><circle cx="90" cy="90" r="70" fill="none" stroke="var(--line)" stroke-width="14"/><circle class="ringArc" cx="90" cy="90" r="70" fill="none" stroke="url(#goldg)" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 90 90)"/></svg><div class="ring-c"><b>${cnt(pr*100,0,"%")}</b><span>מהיעד</span></div></div>
+ <div class="fam-t"><div class="fam-h">ביחד ירדנו ${cnt(avgT,2,"%")}</div><div class="sub">ממוצע משפחתי · היעד המשפחתי ${avgG?avgG.toFixed(2)+"%":"טרם הוגדר"}</div><div class="chips" style="margin-top:10px;justify-content:center">${ms}</div></div></div>`}}
+function familyRender(P,cnt){const el=$("family");
+ if(!P.length){el.innerHTML=`<div class="empty">היעד המשפחתי יופיע אחרי שיצטרפו משתתפים</div>`;return}
+ const m=famMarkup(P,cnt,false);el.innerHTML=m.html;
+ setTimeout(()=>{const a=el.querySelector(".ringArc");if(a)a.style.strokeDashoffset=m.C*(1-m.pr)},250)}
+/* מרוץ שבועות */
+const RACE={i:0,playing:false,t:0,key:"",auto:false};
+function raceStop(){clearInterval(RACE.t);RACE.playing=false;$("raceBtn").textContent="▶"}
+function raceSetup(P,RW){
+ const key=P.map(m=>m.id).join(",");
+ if(key!==RACE.key){RACE.key=key;$("raceBars").style.height=(P.length*52)+"px";
+  $("raceBars").innerHTML=P.map(m=>`<div class="rb" id="rb_${esc(m.id)}"><div>${av(m,38)}</div><div class="rb-n">${esc(m.name)}</div><div class="rb-t"><i style="background:${esc(m.c)}"></i></div><div class="rb-v">0%</div></div>`).join("")}
+ const r=$("raceRange");r.max=Math.max(0,RW.length-1);if(RACE.i>RW.length-1)RACE.i=Math.max(0,RW.length-1);
+ raceDraw()}
+function raceDraw(){
+ if(!D)return;const P=D.ms,RW=D.ws.filter(w=>!w.virtual);if(!RW.length)return;const i=Math.min(RACE.i,RW.length-1);
+ const vals=P.map((_,q)=>RW.slice(0,i+1).reduce((s,w)=>s+(w.v[q]||0),0));
+ const order=P.map((_,q)=>q).sort((a,b)=>vals[b]-vals[a]),mx=Math.max(1,...vals);
+ order.forEach((q,rank)=>{const el=$("rb_"+P[q].id);if(!el)return;el.style.transform=`translateY(${rank*52}px)`;
+  el.querySelector(".rb-t i").style.width=Math.max(2,Math.max(0,vals[q])/mx*100)+"%";
+  const v=el.querySelector(".rb-v");v.textContent=fmt(vals[q]);v.classList.toggle("neg",vals[q]<0)});
+ $("raceLbl").textContent=hl(RW[i].id)+" · "+dm(RW[i].id);$("raceRange").value=i}
+function raceToggle(){const RW=D.ws.filter(w=>!w.virtual);if(RW.length<2)return;
+ if(RACE.playing){raceStop();return}
+ if(RACE.i>=RW.length-1){RACE.i=0;raceDraw()}
+ RACE.playing=true;$("raceBtn").textContent="⏸";
+ RACE.t=setInterval(()=>{if(RACE.i>=RW.length-1){raceStop();return}RACE.i++;raceDraw()},1200)}
+$("raceRange").oninput=e=>{raceStop();RACE.i=+e.target.value;raceDraw()};
+$("raceBtn").onclick=raceToggle;
+if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!RACE.auto&&D&&D.ws.filter(w=>!w.virtual).length>1){RACE.auto=true;setTimeout(()=>{RACE.i=0;raceDraw();raceToggle()},700)}}),{threshold:.35}).observe($("raceCard"));
+/* תחזיות */
+function predRender(P,W){
+ const el=$("predCard"),pts=P.map(()=>({ok:0,n:0}));
+ Object.entries(PRD).forEach(([wk,g])=>{const w=W.find(x=>x.id===wk);Object.entries(g).forEach(([uid,guess])=>{const q=P.findIndex(m=>m.id===uid);if(q<0)return;pts[q].n++;if(w&&w.done&&w.win.some(i=>P[i].id===guess))pts[q].ok++})});
+ const rows=P.map((m,q)=>[m,pts[q]]).filter(z=>z[1].n>0).sort((a,b)=>b[1].ok-a[1].ok||a[1].n-b[1].n);
+ const cw=W[W.length-1],open=cw&&cw.virtual,wk=Object.keys(PRD).sort().pop(),lw=wk?W.find(x=>x.id===wk):null;
+ let h=open?`<div class="note" style="margin:0 0 10px">🔮 התחזיות לשבוע ${esc(hl(cw.id))} פתוחות עד השקילה הראשונה. מגישים באזור האישי.</div>`:"";
+ h+=rows.length?`<div class="plist">${rows.map(z=>`<div class="prow">${av(z[0],36)}<b>${esc(z[0].name)}</b><span class="sub">${z[1].ok} נכונות מתוך ${z[1].n}</span><em>${z[1].ok} נק׳</em></div>`).join("")}</div>`:`<div class="empty">עוד אין תחזיות. בכל שבוע אפשר לנחש מי ינצח, ומי שצדק מקבל נקודה.</div>`;
+ if(wk&&lw){const txt=Object.entries(PRD[wk]).map(([uid,guess])=>{const a=P.find(m=>m.id===uid),b=P.find(m=>m.id===guess);if(!a||!b)return"";const ok=lw.done&&lw.win.some(i=>P[i].id===guess);return `${esc(a.name)} ניחש/ה ${esc(b.name)}${lw.done?(ok?" ✅":" ❌"):""}`}).filter(Boolean).join(" · ");
+  if(txt)h+=`<div class="note" style="margin-top:12px">שבוע ${esc(hl(wk))}: ${txt}</div>`}
+ el.innerHTML=h}
+function renderExtras(P,W,RW,cnt){familyRender(P,cnt);raceSetup(P,RW);predRender(P,W)}
+/* מצב תצוגה */
+const TV={open:false,i:0,t:0};
+function tvSlides(){
+ const P=D.ms,W=D.ws,S=[],wk=$("weekly").querySelector(".wk");
+ if(wk)S.push(`<div class="tvbig">${wk.querySelector(".wk-t").innerHTML}</div><div class="tvsub">${wk.querySelector(".wk-s").innerHTML}</div>${wk.querySelector(".wk-q")?wk.querySelector(".wk-q").outerHTML:""}`);
+ if(P.length)S.push(`<h3 class="tvh">🏆 הדירוג</h3>`+P.map((m,r)=>`<div class="tvr">${av(m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(m.name)}</b><span class="tvbar"><i style="width:${m.goalPct?Math.max(2,Math.min(100,m.tot/m.goalPct*100)):Math.max(2,Math.min(100,m.tot*5))}%;background:${esc(m.c)}"></i></span><em>${m.tot.toFixed(2)}%</em></div>`).join(""));
+ if(CHD)S.push(`<h3 class="tvh">📈 המסע של כולנו</h3><div class="tvchart" id="tvChart"></div>`);
+ if(P.length)S.push(`<h3 class="tvh">🎯 היעד המשפחתי</h3><div class="tvfam">${famMarkup(P,(v,d,s)=>(v<0?"−":"")+Math.abs(v).toFixed(d)+(s||""),true).html}</div>`);
+ const fx=facts(P,W);if(fx.length)S.push(`<h3 class="tvh">🔥 סטטיסטיקות</h3><div class="tvfacts">${fx.slice(0,6).map(f=>`<div><em>${f[0]}</em><b>${f[1]}</b><span>${f[2]}</span></div>`).join("")}</div>`);
+ const lq=W.filter(x=>x.quote&&x.quote.text).pop(),lj=W.filter(x=>x.joke&&x.joke.text).pop();
+ if(lq||lj)S.push(`<h3 class="tvh">💬 מילים מהמנצחים</h3>${lq?`<div class="tvq">💡 ״${esc(lq.quote.text)}״</div>`:""}${lj?`<div class="tvq">😄 ״${esc(lj.joke.text)}״</div>`:""}`);
+ return S}
+function tvShow(i){const S=tvSlides();if(!S.length)return;TV.i=((i%S.length)+S.length)%S.length;
+ $("tvBody").innerHTML=`<div class="tv-slide">${S[TV.i]}</div>`;
+ $("tvDots").innerHTML=S.map((_,k)=>`<i class="${k===TV.i?"on":""}"></i>`).join("");
+ const p=$("tvProg");p.style.transition="none";p.style.width="0";requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transition="width 12s linear";p.style.width="100%"}))}
+function tvOpen(){if(!D)return;TV.open=true;$("tv").classList.add("open");tvShow(0);clearInterval(TV.t);TV.t=setInterval(()=>tvShow(TV.i+1),12000);chartStart();
+ try{if($("tv").requestFullscreen)$("tv").requestFullscreen().catch(()=>{})}catch(e){}}
+function tvClose(){TV.open=false;clearInterval(TV.t);$("tv").classList.remove("open");try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}}
+$("tv").onclick=()=>tvShow(TV.i+1);$("bTv").onclick=tvOpen;
+document.addEventListener("keydown",e=>{if(!TV.open)return;if(e.key==="Escape")tvClose();else if(e.key==="ArrowLeft")tvShow(TV.i+1);else if(e.key==="ArrowRight")tvShow(TV.i-1)});
+document.addEventListener("fullscreenchange",()=>{if(TV.open&&!document.fullscreenElement&&TV.fs)tvClose();TV.fs=!!document.fullscreenElement});
 
 /* ===== צ'אט ===== */
-const CH={open:false,msgs:[],err:null,stick:false};let chTick=0;
+const CH={open:false,msgs:[],err:null,stick:false,sig:""};let chTick=0;
+const RXS=["👏","👍","❤️","😂","🔥","💪"];
 const seen=()=>{try{return +localStorage.getItem("chatseen")||0}catch(e){return 0}};
 const setSeen=t=>{try{localStorage.setItem("chatseen",String(t))}catch(e){}};
+const fsize=n=>n>1048576?(n/1048576).toFixed(1)+"MB":Math.max(1,Math.round(n/1024))+"KB";
 function chatTok(){const ids=Object.keys(TOK),id=(cur&&TOK[cur])?cur:ids[0];return id?{id,t:TOK[id]}:null}
 function chatRender(){
  const c=chatTok(),L=$("chatList");
- if(!c){L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;$("chatIn").disabled=$("chatSend").disabled=true;return}
- $("chatIn").disabled=$("chatSend").disabled=false;
+ if(!c){CH.sig="";L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;$("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=true;return}
+ $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=false;
+ const sig=JSON.stringify(CH.msgs)+c.id;if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
  let last="";
  const h=CH.msgs.map(m=>{const d=new Date(m.ts),day=d.toLocaleDateString("he-IL"),mem=memOf(m.by),mine=m.by===c.id;
   const sep=day!==last?`<div class="ch-day">${esc(day)}</div>`:"";last=day;
-  return sep+`<div class="cm ${mine?"mine":""}">${av(mem,30)}<div class="cb"><b>${esc(mem.name||"")}</b><p>${esc(m.text)}</p><small>${esc(d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}))}</small></div></div>`}).join("");
+  const body=(m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"")+(m.text?`<p>${esc(m.text)}</p>`:"");
+  const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
+  const pick=`<span class="rxw"><button class="rxb" onclick="this.nextElementSibling.classList.toggle('open')">☺</button><span class="rxp">${RXS.map(e=>`<button onclick="chatReact('${m.id}','${e}')">${e}</button>`).join("")}</span></span>`;
+  return sep+`<div class="cm ${mine?"mine":""}">${av(mem,30)}<div class="cb"><b>${esc(mem.name||"")}</b>${body}<small>${esc(d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}))}</small><div class="rx">${rx}${pick}</div></div></div>`}).join("");
  const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-60;
  L.innerHTML=h||`<div class="empty">עוד אין הודעות. תהיו הראשונים!</div>`;
  if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;CH.stick=false}
@@ -471,10 +676,25 @@ async function chatLoad(){const c=chatTok();if(!c){chatRender();return}
  const r=await api("chat",{token:c.t});
  if(r.err){CH.err=r.err;if(/להיכנס/.test(r.err)){delete TOK[c.id];saveTok()}chatRender();return}
  CH.err=null;CH.msgs=r.msgs;chatRender();if(CH.open&&CH.msgs.length)setSeen(CH.msgs[CH.msgs.length-1].ts);chatBadge()}
-function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);if(CH.open){CH.stick=true;chatRender();chatLoad()}else chatBadge()}
+function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);if(CH.open){CH.stick=true;CH.sig="";chatRender();chatLoad()}else chatBadge()}
 async function chatSend(){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;i.value="";
  const r=await api("say",{token:c.t,text:t});if(r.err)return alert(r.err);CH.stick=true;chatLoad()}
+async function chatReact(mid,e){const c=chatTok();if(!c)return;const r=await api("react",{token:c.t,mid,emoji:e});if(r.err)return alert(r.err);CH.sig="";chatLoad()}
+const EXT={pdf:"application/pdf",txt:"text/plain",zip:"application/zip",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xls:"application/vnd.ms-excel",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",gif:"image/gif"};
+const extType=f=>EXT[(f.name.split(".").pop()||"").toLowerCase()]||f.type||"";
+const b64=buf=>{let s="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)};
+function resizeImg(f){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);ok(c.toDataURL("image/jpeg",.82).split(",")[1])};im.onerror=no;im.src=URL.createObjectURL(f)})}
+async function chatUpload(f){const c=chatTok();if(!c)return alert("יש להיכנס כדי לשלוח קבצים");
+ let type=extType(f),name=f.name,data;
+ try{if(/^image\/(jpeg|png|webp|gif)$/.test(type)){data=await resizeImg(f);type="image/jpeg";name=name.replace(/\.\w+$/,"")+".jpg"}
+  else{if(f.size>4*1048576)return alert("הקובץ גדול מדי (עד 4MB)");data=b64(await f.arrayBuffer())}}catch(e){return alert("לא הצלחתי לקרוא את הקובץ")}
+ $("chatAtt").textContent="⏳";
+ const r=await api("upload",{token:c.t,name,type,data,text:$("chatIn").value.trim()});
+ $("chatAtt").textContent="📎";if(r.err)return alert(r.err);
+ $("chatIn").value="";CH.stick=true;CH.sig="";chatLoad()}
 $("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;$("chatIn").onkeydown=e=>{if(e.key==="Enter")chatSend()};
+$("chatAtt").onclick=()=>$("chatFile").click();
+$("chatFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(f)await chatUpload(f)};
 setInterval(()=>{chTick++;if(CH.open||chTick%6===0)chatLoad()},5000);
 
 render();refresh();

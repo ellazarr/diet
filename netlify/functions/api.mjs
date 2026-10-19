@@ -11,6 +11,8 @@ const eq=(a,b)=>a.length===b.length&&crypto.timingSafeEqual(Buffer.from(a),Buffe
 const PHOTO=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]{1,40000}$/,COL=["#e07a5f","#3d85c6","#2f9e6e","#a26bd4","#e0a030","#d6559a","#3aa7b5","#7a8f3a"];
 const PEOPLE=[["ima","אמא","#e07a5f",17],["elazar","אלעזר","#3d85c6",26.54],["yosi","יוסי","#2f9e6e",16],["rachel","רחלי","#a26bd4",15.4]];
 const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","ט״ו אלול",[1.11,.34,0,null]],["2026-09-04","כ״ב אלול",[.44,1.42,2.92,1.52],2,"החלטה יחידה בשביל לחסוך מלחמה"],["2026-09-11","כ״ט אלול",[2.33,.88,.58,1],0,"גם בשבת להיות עם 'יד על הדופק'..."],["2026-09-18","ז׳ תשרי",[0,.1,.7,0],2,"תשובה ותפילה וצדקה מעבירין את רוע הגזירה!!!"],["2026-09-25","י״ד תשרי",[null,.1,-.35,null],1,"הכנה טובה לפני, כדי לשחרר יותר בחגים"],["2026-10-02","כ״א תשרי",[null,-1.86,null,null]],["2026-10-16","ה׳ חשוון",[-1.33,.44,-1.29,null]]];
+const RX=["👏","👍","❤️","😂","🔥","💪"];
+const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
 const PATCH=[["2026-10-16","ima",-1.33],["2026-10-16","yosi",-1.29]];
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
@@ -38,12 +40,18 @@ const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i]
  return{done:closed(wk)||(cl.length>0&&cl.every(i=>i in v)),win,low}};
 export default async req=>{
  const st=deps.store(),act=new URL(req.url).pathname.replace(/^\/api\//,"");
+ if(req.method==="GET"&&act.startsWith("file/")){
+  const fid=act.slice(5);if(!/^[a-f0-9]{32}$/.test(fid))return J({err:"לא נמצא"},404);
+  const r=await st.getWithMetadata("file:"+fid,{type:"arrayBuffer"});if(!r)return J({err:"לא נמצא"},404);
+  const md=r.metadata||{},img=!!md.img;
+  return new Response(r.data,{headers:{"content-type":md.type||"application/octet-stream","content-disposition":img?"inline":"attachment; filename*=UTF-8''"+encodeURIComponent(md.name||"file"),"x-content-type-options":"nosniff","cache-control":"private, max-age=86400"}})}
  const pub=(await st.get("public",{type:"json"}))||SEED();
  const priv=(await st.get("priv",{type:"json"}))||{};let dirty=false;
  Object.entries(priv).forEach(([id,p])=>{if(migrate(p))dirty=true;if(mig3(pub,id,p))dirty=true});
  PATCH.forEach(([wk,id,v])=>{const k=wk+"__"+id;if(pub.members[id]&&!pub.members[id].claimed&&!(k in pub.entries)){pub.entries[k]=v;dirty=true}});
  const save=()=>Promise.all([st.setJSON("public",pub),st.setJSON("priv",priv)]);
- if(act==="state"){if(dirty)await save();return J(pub)}
+ const hasEnt=wk=>Object.keys(pub.entries).some(k=>k.startsWith(wk+"__"));
+ if(act==="state"){if(dirty)await save();const pr={};Object.entries(pub.preds||{}).forEach(([wk,v])=>{if(closed(wk)||hasEnt(wk))pr[wk]=v});return J({...pub,preds:pr})}
  if(req.method!=="POST")return J({err:"bad"},405);
  const b=await req.json().catch(()=>({}));
  let sec=await st.get("secret");if(!sec){sec=rnd()+rnd();await st.set("secret",sec)}
@@ -72,11 +80,33 @@ export default async req=>{
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
  if(act==="chat")return J({msgs:((await st.get("chat",{type:"json"}))||[]).slice(-150)});
+ if(act==="react"){
+  const e=String(b.emoji);if(!RX.includes(e))return bad("אימוג'י לא נתמך");
+  const m=(await st.get("chat",{type:"json"}))||[],msg=m.find(x=>x.id===b.mid);if(!msg)return bad("הודעה לא נמצאה",404);
+  msg.r=msg.r||{};const arr=msg.r[e]||[],k=arr.indexOf(id);if(k>=0)arr.splice(k,1);else arr.push(id);
+  if(arr.length)msg.r[e]=arr;else delete msg.r[e];
+  await st.setJSON("chat",m);return J({ok:1})}
+ if(act==="upload"){
+  const type=String(b.type||""),name=String(b.name||"file").slice(0,80);
+  if(!(type in FT))return bad("סוג קובץ לא נתמך");
+  const buf=Buffer.from(String(b.data||""),"base64");
+  if(!buf.length||buf.length>4*1024*1024)return bad("הקובץ גדול מדי (עד 4MB)");
+  const fid=crypto.randomBytes(16).toString("hex");
+  await st.set("file:"+fid,buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),{metadata:{type,name,img:FT[type]}});
+  const m=(await st.get("chat",{type:"json"}))||[];
+  m.push({id:rnd(),by:id,ts:Date.now(),text:String(b.text||"").trim().slice(0,300),f:{id:fid,name,type,size:buf.length,img:!!FT[type]}});
+  await st.setJSON("chat",m.slice(-300));return J({ok:1})}
+ if(act==="predict"){
+  const wk=String(b.wk),g=String(b.guess);
+  if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
+  if(closed(wk)||hasEnt(wk))return bad("התחזיות לשבוע הזה כבר נסגרו");
+  pub.preds=pub.preds||{};(pub.preds[wk]=pub.preds[wk]||{})[id]=g;
+  await save();return J({ok:1})}
  if(act==="say"){
   const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
   const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t});
   await st.setJSON("chat",m.slice(-300));return J({ok:1})}
- if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,email:p.email||"",remind:!!p.remind});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
   if(b.skip)p.hist[wk]=null;
