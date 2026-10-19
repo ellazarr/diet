@@ -51,7 +51,7 @@ export default async req=>{
  PATCH.forEach(([wk,id,v])=>{const k=wk+"__"+id;if(pub.members[id]&&!pub.members[id].claimed&&!(k in pub.entries)){pub.entries[k]=v;dirty=true}});
  const save=()=>Promise.all([st.setJSON("public",pub),st.setJSON("priv",priv)]);
  const hasEnt=wk=>Object.keys(pub.entries).some(k=>k.startsWith(wk+"__"));
- if(act==="state"){if(dirty)await save();const pr={};Object.entries(pub.preds||{}).forEach(([wk,v])=>{if(closed(wk)||hasEnt(wk))pr[wk]=v});return J({...pub,preds:pr})}
+ if(act==="state"){if(dirty)await save();return J({...pub,preds:pub.preds||{}})}
  if(req.method!=="POST")return J({err:"bad"},405);
  const b=await req.json().catch(()=>({}));
  let sec=await st.get("secret");if(!sec){sec=rnd()+rnd();await st.set("secret",sec)}
@@ -99,7 +99,8 @@ export default async req=>{
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
-  if(closed(wk)||hasEnt(wk))return bad("התחזיות לשבוע הזה כבר נסגרו");
+  const td=today(),addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
+  if(new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-6)<=td&&td<wk))return bad("ההימורים לשבוע הזה סגורים. אפשר להמר עד יום חמישי בחצות (00:00 ליל שישי)");
   pub.preds=pub.preds||{};(pub.preds[wk]=pub.preds[wk]||{})[id]=g;
   await save();return J({ok:1})}
  if(act==="say"){
