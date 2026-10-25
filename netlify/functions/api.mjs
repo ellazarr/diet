@@ -11,7 +11,7 @@ const eq=(a,b)=>a.length===b.length&&crypto.timingSafeEqual(Buffer.from(a),Buffe
 const PHOTO=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]{1,40000}$/,COL=["#e07a5f","#3d85c6","#2f9e6e","#a26bd4","#e0a030","#d6559a","#3aa7b5","#7a8f3a"];
 const PEOPLE=[["ima","אמא","#e07a5f",17],["elazar","אלעזר","#3d85c6",26.54],["yosi","יוסי","#2f9e6e",16],["rachel","רחלי","#a26bd4",15.4]];
 const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","ט״ו אלול",[1.11,.34,0,null]],["2026-09-04","כ״ב אלול",[.44,1.42,2.92,1.52],2,"החלטה יחידה בשביל לחסוך מלחמה"],["2026-09-11","כ״ט אלול",[2.33,.88,.58,1],0,"גם בשבת להיות עם 'יד על הדופק'..."],["2026-09-18","ז׳ תשרי",[0,.1,.7,0],2,"תשובה ותפילה וצדקה מעבירין את רוע הגזירה!!!"],["2026-09-25","י״ד תשרי",[null,.1,-.35,null],1,"הכנה טובה לפני, כדי לשחרר יותר בחגים"],["2026-10-02","כ״א תשרי",[null,-1.86,null,null]],["2026-10-16","ה׳ חשוון",[-1.33,.44,-1.29,null]]];
-const RX=["👏","👍","❤️","😂","🔥","💪"];
+const RX=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
 const PATCH=[["2026-10-16","ima",-1.33],["2026-10-16","yosi",-1.29]];
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
@@ -24,6 +24,14 @@ const recompute=(pub,id,p)=>{const aw=p.anchor?p.anchor.wk:"";let prev=p.anchor?
   if(k<=aw){if(k===aw&&w!==null){prev=w;p.anchor.w=w}return}
   if(w===null){pub.entries[k+"__"+id]=null;return}
   pub.entries[k+"__"+id]=R2((prev-w)/prev*100);out[k]={prev,w};prev=w});return out};
+const legacyW=(pub,id,p)=>{
+ if(!p.anchor)return{w:{},start:null};
+ const ks=Object.keys(pub.entries).filter(k=>k.endsWith("__"+id)).map(k=>k.split("__")[0]).filter(wk=>wk<=p.anchor.wk&&pub.entries[wk+"__"+id]!==null).sort();
+ const out={};let w=p.anchor.w;
+ for(let i=ks.length-1;i>=0;i--){const wk=ks[i],pc=pub.entries[wk+"__"+id];
+  if(wk in p.hist&&p.hist[wk]!==null)w=p.hist[wk];
+  out[wk]=R2(w);const d=1-pc/100;if(d>0.05)w=w/d}
+ return{w:out,start:ks.length?R2(w):null}};
 const mig3=(pub,id,p)=>{if(p.v>=3)return false;p.v=3;
  const seed=SEED(),ks=Object.keys(seed.entries).filter(k=>k.endsWith("__"+id));
  if(!ks.length||!pub.members[id]||!pub.members[id].claimed)return true;
@@ -107,7 +115,7 @@ export default async req=>{
   const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
   const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t});
   await st.setJSON("chat",m.slice(-300));return J({ok:1})}
- if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,legacy:legacyW(pub,id,p),mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
   if(b.skip)p.hist[wk]=null;

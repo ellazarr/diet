@@ -235,6 +235,23 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
 .rxpop{position:absolute;display:none;background:var(--card);border:1px solid var(--gold);border-radius:99px;padding:4px 10px;gap:2px;box-shadow:0 8px 22px rgba(0,0,0,.3);z-index:10}
 .rxpop.open{display:flex}
 .rxpop button{background:none;padding:2px 5px;font-size:22px;box-shadow:none}
+
+.ch-f{align-items:flex-end}
+.ch-f textarea{flex:1;font:inherit;padding:10px 14px;border:1px solid var(--line);border-radius:18px;background:var(--bg);color:var(--ink);resize:none;max-height:120px;line-height:1.4}
+.cm.cont{margin-top:-7px}
+.avsp{width:30px;flex:none}
+.emopick{display:none;position:absolute;left:8px;right:8px;bottom:calc(78px + env(safe-area-inset-bottom,0px));max-height:230px;overflow:auto;background:var(--card);border:1px solid var(--gold);border-radius:18px;padding:8px;flex-wrap:wrap;gap:2px;z-index:11;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.emopick.open{display:flex}
+.emopick button{background:none;padding:2px 5px;font-size:25px;box-shadow:none}
+.rxpop{flex-wrap:wrap;max-width:260px;border-radius:18px}
+.spot.big{display:block}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
+.mstat{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.mstat em{font-style:normal;font-size:22px;margin-inline-end:6px}
+.mstat b{color:var(--gold);font-family:"Frank Ruhl Libre",serif;font-size:17px}
+.mstat span{display:block;margin-top:2px}
+button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);border-color:var(--accent)}
+.name{cursor:pointer}
 </style>
 </head>
 <body>
@@ -253,26 +270,26 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
   <div class="card reveal" id="weekly"></div>
   <section class="stats" id="stats"></section>
   <div id="pending"></div>
-  <h2 class="reveal">🎯 היעד המשפחתי</h2>
-  <div class="card reveal" id="family"></div>
-  <h2 class="reveal">🏆 טבלת המובילים</h2>
-  <div class="lb" id="lb"></div>
-  <h2 class="reveal">🏅 ליגת הנקודות</h2>
-  <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1<br>הליגה מתחילה מהשבוע של י״ב חשוון (23.10). שבוע שרק משתתף אחד עדכן בו לא נותן נקודות.</div></div>
-  <h2 class="reveal">🏁 מרוץ השבועות</h2>
-  <div class="card reveal" id="raceCard"><div class="race-head"><button id="raceBtn" aria-label="נגן">▶</button><input id="raceRange" type="range" min="0" max="0" value="0"><b id="raceLbl"></b></div><div id="raceBars"></div></div>
-  <h2 class="reveal">🔥 סטטיסטיקות מעניינות</h2>
-  <div id="spot"></div>
-  <div class="ticker reveal" id="tkFacts"></div>
-  <h2 class="reveal">📈 המסע של כולנו</h2>
-  <div class="card chart reveal" id="chartCard"><div id="chart"></div><div class="legend" id="legend"></div></div>
-  <h2 class="reveal">🗓️ כל השבועות</h2>
-  <div class="card tw reveal"><table id="tbl"></table></div>
   <h2 class="reveal">🎲 הימורי השבוע</h2>
   <div class="card reveal" id="predCard"></div>
+  <h2 class="reveal">🏅 ליגת הנקודות</h2>
+  <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1<br>הליגה מתחילה מהשבוע של י״ב חשוון (23.10). שבוע שרק משתתף אחד עדכן בו לא נותן נקודות.</div></div>
+  <h2 class="reveal">🏆 טבלת המובילים</h2>
+  <div class="lb" id="lb"></div>
+  <h2 class="reveal">🗓️ כל השבועות</h2>
+  <div class="card tw reveal"><table id="tbl"></table></div>
+  <h2 class="reveal">🔥 סטטיסטיקות</h2>
+  <div id="spot"></div>
+  <div class="ticker reveal" id="tkFacts"></div>
   <h2 class="reveal">💬 מילות המנצחים והבדיחות</h2>
   <div class="ticker reveal" id="tkQuotes"></div>
   <div class="ticker rev reveal" id="tkJokes" style="margin-top:12px"></div>
+  <h2 class="reveal">📈 המסע של כולנו</h2>
+  <div class="card chart reveal" id="chartCard"><div id="chart"></div><div class="legend" id="legend"></div></div>
+  <h2 class="reveal">🏁 מרוץ השבועות</h2>
+  <div class="card reveal" id="raceCard"><div class="race-head"><button id="raceBtn" aria-label="נגן">▶</button><input id="raceRange" type="range" min="0" max="0" value="0"><b id="raceLbl"></b></div><div id="raceBars"></div></div>
+  <h2 class="reveal">🎯 היעד המשפחתי</h2>
+  <div class="card reveal" id="family"></div>
   <h2 class="reveal" id="rulesH">📜 חוקי התחרות</h2>
   <div class="card reveal rules" id="rules"><ol>
    <li><b>שקילה שבועית:</b> בכל שבוע (ביום שישי) כל משתתף נכנס לאזור האישי וכותב רק את המשקל שלו. האתר מחשב לבד כמה ירד, באילו אחוזים, ומעדכן את העמוד הראשי. מי שלא שוקל השבוע לוחץ ״דילגתי השבוע״.</li>
@@ -291,7 +308,8 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
   <div id="rxPop" class="rxpop"></div>
   <div class="ch-h"><b>💬 צ'אט המשפחה</b><button class="close" onclick="chatToggle(false)">✕</button></div>
   <div class="ch-b" id="chatList"></div>
-  <div class="ch-f"><button class="sec attach" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><input id="chatIn" maxlength="300" placeholder="כתבו הודעה..."><button id="chatSend">שליחה</button></div>
+  <div id="emoPick" class="emopick"></div>
+  <div class="ch-f"><button class="sec attach" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><button class="sec attach" id="chatEmo" title="אימוג'ים">😊</button><textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה... (Ctrl+Enter לשורה חדשה)"></textarea><button id="chatSend">שליחה</button></div>
 </aside>
 <div id="toast"></div>
 <div id="tv"><button class="tvx" onclick="event.stopPropagation();tvClose()">✕</button><div id="tvBody"></div><div id="tvDots"></div><div id="tvProgW"><div id="tvProg"></div></div></div>
@@ -374,7 +392,7 @@ function facts(P,W){
  if(pr.length)out.push(["🎯","הכי קרוב ליעד",N(pr[0][0])+" · "+pr[0][1].toFixed(1)+"% מהדרך"]);
  {const pt=points(P,W),mp=Math.max(0,...pt.map(z=>z.pts));if(mp>0)out.push(["🏅","מוביל ליגת הנקודות",names(idx.filter(i=>pt[i].pts===mp))+" ("+mp+" נק׳)"])}
  if(P.length>=2)out.push(["📏","הפער בין המקום הראשון לשני",N(0)+" מול "+N(1)+" · "+(P[0].tot-P[1].tot).toFixed(2)+"%"]);
- return out}
+ return out.concat(moreFacts(P,W))}
 
 /* ===== תצוגה ראשית ===== */
 function render(){
@@ -394,9 +412,9 @@ function render(){
  const medals=["🥇","🥈","🥉"],BG=badges(P,W);BADGES=BG;
  $("lb").innerHTML=P.length?P.map((m,r)=>{
   const g=m.goalPct,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0;
-  return `<div class="row ${r===0?"first":""}" style="--i:${r}">${av(m)}<div><div class="name">${medals[r]||"🎖️"} ${esc(m.name)}</div>
+  return `<div class="row ${r===0?"first":""}" style="--i:${r}">${av(m)}<div><div class="name" onclick="memStats(${r})">${medals[r]||"🎖️"} ${esc(m.name)}</div>
   <div class="sub">${g?`יעד ${g.toFixed(2)}% · נותרו ${Math.max(0,g-m.tot).toFixed(2)}%`:"טרם הוגדר יעד"}${m.claimed?"":" · ממתין/ה להצטרפות"}</div>
-  <div class="chips">${(BG[r]||[]).map((b,k)=>`<button class="chip" onclick="spot(${r},${k})">${b[0]} ${esc(b[1])}</button>`).join("")}</div>
+  <div class="chips"><button class="chip statb" onclick="memStats(${r})">📊 סטטיסטיקות</button>${(BG[r]||[]).map((b,k)=>`<button class="chip" onclick="spot(${r},${k})">${b[0]} ${esc(b[1])}</button>`).join("")}</div>
   <div class="bar"><i style="width:0;background-color:${esc(m.c)}" data-w="${prog}"></i></div></div>
   <div class="pct" style="color:${esc(m.c)}">${cnt(m.tot,2,"%")}</div></div>`}).join(""):`<div class="card empty">עדיין אין משתתפים. לחצו על ״הוספת משתמש״</div>`;
  setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),200);
@@ -510,7 +528,9 @@ A.area=async()=>{
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
  const bw=betWeek();
  const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים גלויים לכולם.</div></div>`;
- const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):"לפני ההצטרפות"}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
+ const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
+ const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
+ const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
  emo=m.av||EMOS[0];photo=null;
  open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
  <div class="g2"><div class="stat"><b>${lost.toFixed(1)}</b><span>ק״ג שירדת</span></div><div class="stat"><b>${Math.max(0,kg-p.goal).toFixed(1)}</b><span>ק״ג עד היעד</span></div>
@@ -558,32 +578,39 @@ function countUp(){if(reduced)return;document.querySelectorAll(".cnt").forEach(e
 function confetti(){if(reduced)return;const box=document.createElement("div");box.className="confetti";const E=["🎉","✨","🏆","⭐","🎊"];
  for(let i=0;i<28;i++){const s=document.createElement("span");s.textContent=E[i%5];s.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*1.3}s;font-size:${16+Math.random()*18}px`;box.appendChild(s)}
  document.body.appendChild(box);setTimeout(()=>box.remove(),5200)}
-let CHD=null,chartRaf=0,chartVis=true,chartT0=0;
-const eb=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
-const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+let CHD=null,chartRaf=0,chartVis=true,chartT0=0,CHL={u:1,al:1};
+const ease=t=>(1-Math.cos(Math.PI*Math.max(0,Math.min(1,t))))/2;
 const mark=m=>emojiOf(m);
-function chartDraw(k){if(!CHD)return;const{P,W,n,cum,w,h,pl,pr,mx,mn,X,Y}=CHD;
- let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="גרף ירידה מצטברת">`;
+const CH_T={travel:22000,hold:4500,fade:2200,gap:1200};
+function chartSvg(sfx){const{P,W,n,cum,w,h,pl,pr,mx,mn,X,Y}=CHD;
+ let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="גרף ירידה מצטברת"><defs><clipPath id="ct_${sfx}"><rect data-clip="1" x="${X(0)}" y="0" width="0" height="${h}"/></clipPath></defs>`;
  for(let v=mn;v<=mx;v++)s+=`<line x1="${pl}" x2="${w-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pl-6}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}%</text>`;
  W.forEach((x,i)=>s+=`<text x="${X(i)}" y="${h-12}" text-anchor="middle" font-size="10" fill="var(--muted)">${esc(hl(x.id))}</text>`);
- const hp=k*(n-1),f=Math.min(n-1,Math.floor(hp)),fr=hp-f;
- P.forEach((m,q)=>{
-  const pts=[];
-  for(let i=0;i<=f;i++){const loc=k>=1?1:Math.max(0,Math.min(1,(hp-i)*.6));pts.push([X(i),Y(cum[q][i]*(k>=1?1:ease(loc)))])}
-  if(k<1&&f<n-1){const a=pts[f],bx=X(f+1),by=Y(cum[q][f+1]);pts.push([a[0]+(bx-a[0])*fr,a[1]+(by-a[1])*fr])}
-  s+=`<polyline fill="none" stroke="${esc(m.c)}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" points="${pts.map(z=>z.join(",")).join(" ")}"/>`;
-  for(let i=0;i<=f;i++)if(W[i].has[q])s+=`<circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="4" fill="${esc(m.c)}"/>`;
-  const hd=pts[pts.length-1];
-  if(k>=1)s+=`<circle class="pulse" cx="${hd[0]}" cy="${hd[1]}" r="9" fill="${esc(m.c)}"/>`;
-  s+=`<circle cx="${hd[0]}" cy="${hd[1]}" r="12" fill="${esc(m.c)}" stroke="#fff" stroke-width="2"/><text x="${hd[0]}" y="${hd[1]+5}" text-anchor="middle" font-size="13">${esc(mark(m))}</text>`});
- const out=s+"</svg>";$("chart").innerHTML=out;const tc=$("tvChart");if(tc)tc.innerHTML=out}
+ P.forEach((m,q)=>{const pts=cum[q].map((v,i)=>[X(i),Y(v)]),str=pts.map(z=>z.join(",")).join(" "),c=esc(m.c);
+  s+=`<polyline fill="none" stroke="${c}" stroke-opacity=".28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${str}"/>`;
+  s+=`<polyline data-trail="${q}" fill="none" stroke="${c}" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#ct_${sfx})" points="${str}"/>`;
+  pts.forEach((z,i)=>{if(W[i].has[q])s+=`<circle cx="${z[0]}" cy="${z[1]}" r="3.6" fill="${c}" fill-opacity=".55"/>`});
+  const e=pts[n-1];
+  s+=`<g data-mk="${q}" transform="translate(${e[0]},${e[1]})"><circle class="pulse" r="9" fill="${c}" style="display:none"/><circle r="12" fill="${c}" stroke="#fff" stroke-width="2"/><text y="5" text-anchor="middle" font-size="13">${esc(mark(m))}</text></g>`});
+ return s+"</svg>"}
+function chartBuild(){if(!CHD)return;$("chart").innerHTML=chartSvg("c");const tc=$("tvChart");if(tc)tc.innerHTML=chartSvg("t");chartFrame(CHL.u,CHL.al)}
+function chartFrame(u,al){if(!CHD)return;CHL={u,al};const{P,n,cum,X,Y}=CHD;
+ const f=Math.max(0,Math.min(1,u))*(n-1),i=Math.min(n-2,Math.floor(f)),t=f-i,cx=n>1?X(0)+(X(n-1)-X(0))*(f/(n-1)):X(0);
+ [$("chart"),$("tvChart")].forEach(root=>{if(!root)return;
+  const r=root.querySelector("rect[data-clip]");if(r){r.setAttribute("x",cx);r.setAttribute("width",Math.max(0,X(0)-cx+4))}
+  P.forEach((m,q)=>{const v=n>1?cum[q][i]+(cum[q][i+1]-cum[q][i])*t:cum[q][0];
+   const g=root.querySelector(`[data-mk="${q}"]`);if(g){g.setAttribute("transform",`translate(${cx},${Y(v)})`);g.setAttribute("opacity",al);const p=g.querySelector(".pulse");if(p)p.style.display=u>=1&&al>.9?"":"none"}
+   const tr=root.querySelector(`[data-trail="${q}"]`);if(tr)tr.setAttribute("opacity",al)})})}
 function chartLoop(now){chartRaf=0;if(!CHD)return;
- if(reduced){chartDraw(1);return}
- const ph=((now-chartT0)%16000)/16000;
- const k=ph<.62?ease(ph/.62):ph<.85?1:1-ease((ph-.85)/.15);
- chartDraw(Math.max(0,Math.min(1,k)));
+ if(reduced){chartFrame(1,1);return}
+ const T=CH_T,tot=T.travel+T.hold+T.fade+T.gap,t=(now-chartT0)%tot;let u,al;
+ if(t<T.travel){u=ease(t/T.travel);al=Math.min(1,t/1400)}
+ else if(t<T.travel+T.hold){u=1;al=1}
+ else if(t<T.travel+T.hold+T.fade){u=1;al=1-ease((t-T.travel-T.hold)/T.fade)}
+ else{u=0;al=0}
+ chartFrame(u,al);
  if(chartVis||TV.open)chartRaf=requestAnimationFrame(chartLoop)}
-function chartStart(){if(chartRaf||!CHD)return;chartT0=performance.now();chartRaf=requestAnimationFrame(chartLoop)}
+function chartStart(){if(!CHD)return;chartBuild();if(!chartRaf){chartT0=performance.now();chartRaf=requestAnimationFrame(chartLoop)}}
 {const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12}):null;
  document.querySelectorAll(".reveal").forEach(el=>io?io.observe(el):el.classList.add("in"));
  if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{chartVis=e.isIntersecting;if(chartVis)chartStart()}),{threshold:.05}).observe($("chartCard"))}
@@ -604,7 +631,59 @@ function badges(P,W){
  idx.forEach(i=>{let prev=null,hit=null;R.forEach(w=>{const v=w.v[i];if(v===null)return;if(prev!==null&&prev<0&&v>=1)hit={p:prev,v,w};prev=v});if(hit)add(i,"💪","קאמבק","אחרי עלייה של "+Math.abs(hit.p).toFixed(2)+"% חזר עם ירידה של "+hit.v.toFixed(2)+"% בשבוע "+esc(hl(hit.w.id)))});
  idx.forEach(i=>{let c=0,b=0;R.forEach(w=>{const v=w.v[i];if(v===null)return;c=v>0?c+1:0;b=Math.max(b,c)});if(b>=4)add(i,"💚","רצף ירידות "+b,b+" שבועות ברצף של ירידה במשקל")});
  idx.forEach(i=>{const g=P[i].goalPct;if(g>0&&P[i].tot/g>=.5)add(i,"🏁","חצי דרך ליעד",(P[i].tot/g*100).toFixed(0)+"% מהדרך ליעד ("+P[i].tot.toFixed(2)+"% מתוך "+g.toFixed(2)+"%)")});
+ return out.concat(moreFacts(P,W))}
+const HOLI={from:"2026-09-18",to:"2026-10-16"};
+function analyze(P,W){
+ const R=W.filter(w=>!w.virtual&&w.has.some(Boolean));if(!R.length||!P.length)return null;
+ const eps={rec:[],open:[]},hol=[];
+ P.forEach((m,q)=>{let c=0,open=null,B=0,gained=false,minC=0,recW=null,started=false;
+  R.forEach(w=>{const v=w.v[q];if(v===null)return;const before=c;c+=v;
+   if(open&&c>=open.base-1e-9){open.rec=w;eps.rec.push({q,...open});open=null}
+   if(!open&&v<0)open={base:before,start:w,min:c};else if(open)open.min=Math.min(open.min,c);
+   if(w.id<HOLI.from){B=c;minC=c}
+   else{started=true;if(!gained&&w.id<=HOLI.to&&c<B-1e-9){gained=true;minC=c}
+    if(gained){minC=Math.min(minC,c);if(!recW&&c>=B-1e-9)recW=w}}});
+  if(open)eps.open.push({q,...open,miss:open.base-c});
+  if(gained)hol.push({q,gain:B-minC,rec:recW,miss:Math.max(0,B-c)})});
+ return{R,eps,hol}}
+function moreFacts(P,W){
+ const A=analyze(P,W),out=[];if(!A)return out;const nm=q=>esc(P[q].name);
+ if(A.eps.rec.length){const f=A.eps.rec.slice().sort((a,b)=>a.rec.id<b.rec.id?-1:1)[0],t=A.eps.rec.filter(e=>e.rec.id===f.rec.id);
+  out.push(["🔄","הראשון שהחזיר את מה שהעלה",t.map(e=>nm(e.q)).join(", ")+" · חזר לרמה שלפני העלייה בשבוע "+esc(hl(f.rec.id))])}
+ if(A.hol.length){
+  out.push(["🍂","מה עלה בחגים",A.hol.slice().sort((a,b)=>b.gain-a.gain).map(h=>nm(h.q)+" "+h.gain.toFixed(2)+"%").join(" · ")]);
+  const rc=A.hol.filter(h=>h.rec);
+  if(rc.length){const f=rc.slice().sort((a,b)=>a.rec.id<b.rec.id?-1:1)[0],t=rc.filter(h=>h.rec.id===f.rec.id);
+   out.push(["🎉","הראשון שהחזיר את מה שהעלה בחגים",t.map(h=>nm(h.q)).join(", ")+" · בשבוע "+esc(hl(f.rec.id))])}
+  const op=A.hol.filter(h=>!h.rec).sort((a,b)=>a.miss-b.miss);
+  if(op.length)out.push(["🧗","בדרך להחזיר את מה שהעלו בחגים",op.map(h=>nm(h.q)+" (חסר "+h.miss.toFixed(2)+"%)").join(" · ")])}
+ P.forEach((m,q)=>{const vs=A.R.map(w=>w.v[q]).filter(v=>v!==null);if(!vs.length)return;
+  out.push(["📊",nm(q),fmt(m.tot)+" ב-"+vs.length+" שקילות · ממוצע "+fmt(m.tot/vs.length)+" לשבוע · שיא "+fmt(Math.max(...vs))]);
+  if(q>0)out.push(["🎯",nm(q)+" במרדף",(P[0].tot-m.tot).toFixed(2)+"% מהמקום הראשון"+(q>1?" · "+(P[q-1].tot-m.tot).toFixed(2)+"% מ"+nm(q-1):"")])});
  return out}
+function memberFacts(P,W,q){
+ const A=analyze(P,W),m=P[q],out=[];
+ const R=W.filter(w=>!w.virtual&&w.has.some(Boolean)),WR=R.filter(w=>w.done),vs=R.map(w=>[w,w.v[q]]).filter(z=>z[1]!==null),n=vs.length;
+ if(!n){out.push(["⏳","עוד אין שקילות","אין עדיין שקילות באתר"]);return out}
+ out.push(["📊","סה״כ ירידה",fmt(m.tot)+" ב-"+n+" שקילות"]);
+ out.push(["📈","ממוצע שבועי",fmt(m.tot/n)]);
+ if(m.goalPct>0)out.push(["🎯","התקדמות ליעד",(m.tot/m.goalPct*100).toFixed(1)+"% מהדרך · נותרו "+Math.max(0,m.goalPct-m.tot).toFixed(2)+"%"]);
+ out.push(["🏅","מקום בדירוג","מקום "+(q+1)+" מתוך "+P.length+(q>0?" · "+(P[0].tot-m.tot).toFixed(2)+"% מהמקום הראשון":" · מוביל")]);
+ const bw=vs.reduce((a,b)=>b[1]>a[1]?b:a),ww=vs.reduce((a,b)=>b[1]<a[1]?b:a);
+ out.push(["🚀","השבוע הטוב ביותר",fmt(bw[1])+" ("+esc(hl(bw[0].id))+")"]);
+ if(ww[1]<0)out.push(["📉","השבוע הקשה ביותר",fmt(ww[1])+" ("+esc(hl(ww[0].id))+")"]);
+ const lw=vs[vs.length-1];out.push(["🗓️","השקילה האחרונה",fmt(lw[1])+" בשבוע "+esc(hl(lw[0].id))]);
+ const wn=WR.filter(w=>w.win.includes(q)).length;out.push(["🏆","ניצחונות שבועיים",String(wn)]);
+ let sw=0;WR.forEach(w=>{sw=w.win.includes(q)?sw+1:0});if(sw>=2)out.push(["🔥","רצף ניצחונות פעיל",sw+" שבועות"]);
+ let ls=0,bl=0;vs.forEach(z=>{ls=z[1]>0?ls+1:0;bl=Math.max(bl,ls)});out.push(["💚","רצף ירידות",(ls?"פעיל: "+ls+" · ":"")+"הכי ארוך: "+bl+" שבועות"]);
+ const pt=points(P,W)[q];out.push(["🏅","נקודות בליגה",pt.pts+" נק׳"+(pt.bet?" · "+pt.bet+" ניחושים נכונים":"")]);
+ if(A){const h=A.hol.find(x=>x.q===q);
+  if(h)out.push(["🍂","בחגים",h.rec?"העלה "+h.gain.toFixed(2)+"% והחזיר בשבוע "+esc(hl(h.rec.id)):"עלה "+h.gain.toFixed(2)+"% · חסר "+h.miss.toFixed(2)+"% כדי להחזיר"]);
+  const e=A.eps.rec.filter(x=>x.q===q).length;if(e)out.push(["🔄","החזיר את מה שהעלה",e+(e===1?" פעם":" פעמים")])}
+ return out}
+function memStats(r){const P=D.ms,m=P[r],el=$("spot"),f=memberFacts(P,D.ws,r);
+ el.innerHTML=`<div class="spot big"><button class="close" onclick="$('spot').innerHTML=''">✕</button><div class="spot-m" style="font-size:21px">${av(m,44)} <b>${esc(m.name)}</b> · סטטיסטיקות</div><div class="mgrid">${f.map(x=>`<div class="mstat"><em>${x[0]}</em><b>${x[1]}</b><span>${x[2]}</span></div>`).join("")}</div></div>`;
+ el.scrollIntoView({behavior:"smooth",block:"center"})}
 function spot(r,k){const P=D.ms,b=(BADGES[r]||[])[k];if(!b)return;const m=P[r],el=$("spot");
  el.innerHTML=`<div class="spot"><button class="close" onclick="$('spot').innerHTML=''">✕</button><div class="spot-e">${b[0]}</div><div><div class="spot-t">${esc(b[1])}</div><div class="spot-m">${av(m,32)} ${esc(m.name)}</div><div class="spot-d">${b[3]}</div></div></div>`;
  el.scrollIntoView({behavior:"smooth",block:"center"})}
@@ -709,6 +788,7 @@ function tvSlides(){
 function tvShow(i){const S=tvSlides();if(!S.length)return;TV.i=((i%S.length)+S.length)%S.length;
  $("tvBody").innerHTML=`<div class="tv-slide">${S[TV.i]}</div>`;
  $("tvDots").innerHTML=S.map((_,k)=>`<i class="${k===TV.i?"on":""}"></i>`).join("");
+ if($("tvChart"))chartBuild();
  const p=$("tvProg");p.style.transition="none";p.style.width="0";requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transition="width 12s linear";p.style.width="100%"}))}
 function tvOpen(){if(!D)return;TV.open=true;$("tv").classList.add("open");tvShow(0);clearInterval(TV.t);TV.t=setInterval(()=>tvShow(TV.i+1),12000);chartStart();
  try{if($("tv").requestFullscreen)$("tv").requestFullscreen().catch(()=>{})}catch(e){}}
@@ -719,7 +799,7 @@ document.addEventListener("fullscreenchange",()=>{if(TV.open&&!document.fullscre
 
 /* ===== צ'אט ===== */
 const CH={open:false,msgs:[],err:null,stick:false,sig:""};let chTick=0;
-const RXS=["👏","👍","❤️","😂","🔥","💪"];
+const RXS=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const seen=()=>{try{return +localStorage.getItem("chatseen")||0}catch(e){return 0}};
 const setSeen=t=>{try{localStorage.setItem("chatseen",String(t))}catch(e){}};
 const fsize=n=>n>1048576?(n/1048576).toFixed(1)+"MB":Math.max(1,Math.round(n/1024))+"KB";
@@ -730,12 +810,13 @@ function chatRender(){
  $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=false;
  const sig=JSON.stringify(CH.msgs)+c.id;if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
  let last="";
- const h=CH.msgs.map(m=>{const d=new Date(m.ts),day=d.toLocaleDateString("he-IL"),mem=memOf(m.by),mine=m.by===c.id;
+ const h=CH.msgs.map((m,ix)=>{const d=new Date(m.ts),day=d.toLocaleDateString("he-IL"),mem=memOf(m.by),mine=m.by===c.id;
   const sep=day!==last?`<div class="ch-day">${esc(day)}</div>`:"";last=day;
   const body=(m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"")+(m.text?`<p>${esc(m.text)}</p>`:"");
   const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
   const pick=`<button class="rxb" onclick="rxOpen(event,'${m.id}')">☺</button>`;
-  return sep+`<div class="cm ${mine?"mine":""}">${av(mem,30)}<div class="cb"><b>${esc(mem.name||"")}</b>${body}<small>${esc(d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}))}</small><div class="rx">${rx}${pick}</div></div></div>`}).join("");
+  const pv=CH.msgs[ix-1],nx=CH.msgs[ix+1],near=(p,q)=>p&&q&&p.by===q.by&&new Date(p.ts).toDateString()===new Date(q.ts).toDateString()&&Math.abs(q.ts-p.ts)<300000,cont=near(pv,m),lastG=!near(m,nx);
+  return sep+`<div class="cm ${mine?"mine":""} ${cont?"cont":""}">${cont?`<span class="avsp"></span>`:av(mem,30)}<div class="cb">${cont?"":`<b>${esc(mem.name||"")}</b>`}${body}${lastG?`<small>${esc(d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}))}</small>`:""}<div class="rx">${rx}${pick}</div></div></div>`}).join("");
  const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-60;
  L.innerHTML=h||`<div class="empty">עוד אין הודעות. תהיו הראשונים!</div>`;
  if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;CH.stick=false}
@@ -745,7 +826,7 @@ async function chatLoad(){const c=chatTok();if(!c){chatRender();return}
  if(r.err){CH.err=r.err;if(/להיכנס/.test(r.err)){delete TOK[c.id];saveTok()}chatRender();return}
  CH.err=null;CH.msgs=r.msgs;chatRender();if(CH.open&&CH.msgs.length)setSeen(CH.msgs[CH.msgs.length-1].ts);chatBadge()}
 function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);if(CH.open){CH.stick=true;CH.sig="";chatRender();chatLoad()}else chatBadge()}
-async function chatSend(){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;i.value="";
+async function chatSend(){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;i.value="";autosize(i);
  const r=await api("say",{token:c.t,text:t});if(r.err)return alert(r.err);CH.stick=true;chatLoad()}
 async function chatReact(mid,e){const c=chatTok();if(!c)return;const r=await api("react",{token:c.t,mid,emoji:e});if(r.err)return alert(r.err);CH.sig="";chatLoad()}
 const EXT={pdf:"application/pdf",txt:"text/plain",zip:"application/zip",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xls:"application/vnd.ms-excel",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",gif:"image/gif"};
@@ -759,7 +840,7 @@ async function chatUpload(f){const c=chatTok();if(!c)return alert("יש להיכ
  $("chatAtt").textContent="⏳";
  const r=await api("upload",{token:c.t,name,type,data,text:$("chatIn").value.trim()});
  $("chatAtt").textContent="📎";if(r.err)return alert(r.err);
- $("chatIn").value="";CH.stick=true;CH.sig="";chatLoad()}
+ $("chatIn").value="";autosize($("chatIn"));CH.stick=true;CH.sig="";chatLoad()}
 let RXM=null;
 function rxOpen(ev,mid){ev.stopPropagation();const pop=$("rxPop"),btn=ev.currentTarget,ch=$("chat");
  if(RXM===mid&&pop.classList.contains("open")){pop.classList.remove("open");RXM=null;return}
@@ -770,7 +851,17 @@ function rxOpen(ev,mid){ev.stopPropagation();const pop=$("rxPop"),btn=ev.current
  pop.style.left=left+"px";pop.style.top=top+"px"}
 function rxPick(e){const mid=RXM;$("rxPop").classList.remove("open");RXM=null;if(mid)chatReact(mid,e)}
 document.addEventListener("click",ev=>{const p=$("rxPop");if(p&&p.classList.contains("open")&&!p.contains(ev.target)){p.classList.remove("open");RXM=null}});
-$("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;$("chatIn").onkeydown=e=>{if(e.key==="Enter")chatSend()};
+$("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;const autosize=el=>{el.style.height="auto";el.style.height=Math.min(el.scrollHeight,120)+"px"};
+function insertAtCursor(el,txt){const st=el.selectionStart==null?el.value.length:el.selectionStart,en=el.selectionEnd==null?st:el.selectionEnd;
+ if(el.value.length-(en-st)+txt.length>300)return;el.value=el.value.slice(0,st)+txt+el.value.slice(en);el.selectionStart=el.selectionEnd=st+txt.length;el.focus();autosize(el)}
+$("chatIn").oninput=e=>autosize(e.target);
+$("chatIn").onkeydown=e=>{if(e.key!=="Enter"||e.isComposing)return;e.preventDefault();
+ if(e.ctrlKey||e.shiftKey||e.metaKey)insertAtCursor(e.target,"\n");else chatSend()};
+const EMOJIS=["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "😉", "😍", "🥰", "😘", "😋", "😛", "😜", "🤪", "😎", "🤓", "🤩", "🥳", "😏", "😌", "😴", "🤔", "🤗", "🤭", "😮", "😲", "😢", "😭", "😤", "😡", "🥺", "😱", "😬", "🙄", "🤤", "🥵", "🥶", "🤯", "😈", "👍", "👎", "👏", "🙌", "🤝", "🙏", "💪", "👌", "✌️", "🤞", "🤟", "👋", "🤙", "👊", "✊", "👀", "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "💖", "💝", "💯", "✨", "🌟", "⭐", "🔥", "🎉", "🎊", "🎈", "🎁", "🏆", "🥇", "🥈", "🥉", "🏅", "🍎", "🍏", "🍌", "🍇", "🍓", "🍉", "🥗", "🥦", "🥕", "🥑", "🍅", "🥒", "🍋", "🥤", "💧", "🍫", "🍰", "🍩", "🍕", "🍔", "🍟", "🍪", "🥐", "🍷", "☕", "🍯", "⚽", "🏀", "🏋️", "🚴", "🏊", "👟", "⚖️", "📉", "📈", "📊", "🎯", "🚀", "🌈", "☀️", "🌸", "🍀", "🦁", "🐯", "🐻", "🦊", "🐼", "🦉", "🐬", "🦄"];
+$("emoPick").innerHTML=EMOJIS.map(e=>`<button type="button" data-e="${e}">${e}</button>`).join("");
+$("emoPick").onclick=e=>{const b=e.target.closest("button[data-e]");if(b)insertAtCursor($("chatIn"),b.dataset.e)};
+$("chatEmo").onclick=e=>{e.stopPropagation();$("emoPick").classList.toggle("open")};
+document.addEventListener("click",ev=>{const p=$("emoPick");if(p.classList.contains("open")&&!p.contains(ev.target)&&ev.target.id!=="chatEmo")p.classList.remove("open")});
 $("chatAtt").onclick=()=>$("chatFile").click();
 $("chatFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(f)await chatUpload(f)};
 setInterval(()=>{chTick++;if(CH.open||chTick%6===0)chatLoad()},5000);
