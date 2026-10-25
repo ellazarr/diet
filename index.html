@@ -252,6 +252,78 @@ button.chip:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--
 .mstat span{display:block;margin-top:2px}
 button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);border-color:var(--accent)}
 .name{cursor:pointer}
+
+#chat{width:min(430px,96vw)}
+.ib{background:none;color:var(--ink);box-shadow:none;padding:6px 9px;border-radius:50%;font-size:17px;line-height:1}
+.ib:hover{background:var(--line);transform:none;filter:none;box-shadow:none}
+.ch-h{padding:12px 14px}
+.ch-t b{font-family:"Frank Ruhl Libre",serif;font-size:21px}
+.ch-t small{display:block;color:var(--muted);font-size:12px}
+.ch-hb{display:flex;gap:2px}
+.ch-search{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line)}
+.ch-search[hidden]{display:none}
+.ch-search input{flex:1;font:inherit;padding:7px 12px;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--ink)}
+.ch-search span{font-size:12px;color:var(--muted);white-space:nowrap}
+.ch-pin{display:flex;gap:8px;align-items:center;padding:8px 14px;background:color-mix(in srgb,var(--gold) 13%,var(--card));border-bottom:1px solid var(--line);font-size:13.5px;cursor:pointer}
+.ch-pin[hidden]{display:none}
+.ch-pin .pt{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-b{padding:6px 0 10px;gap:0;position:relative}
+.ch-day{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:12px 14px 6px}
+.ch-day::before,.ch-day::after{content:"";flex:1;height:1px;background:var(--line)}
+.ch-new{display:flex;align-items:center;gap:8px;color:var(--neg);font-size:12px;font-weight:700;margin:8px 14px 2px}
+.ch-new::after{content:"";flex:1;height:1px;background:var(--neg)}
+.gm{display:flex;gap:10px;padding:4px 14px;position:relative}
+.gm:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.gm.ment{background:color-mix(in srgb,var(--gold) 13%,transparent);box-shadow:inset 3px 0 0 var(--gold)}
+.gm-av{width:36px;flex:none;text-align:center;padding-top:2px}
+.gm-av .av{width:34px;height:34px;font-size:18px;border-width:1px}
+.gm-t{font-size:10.5px;color:var(--muted);visibility:hidden;display:block;margin-top:5px}
+.gm.cont:hover .gm-t,.gm.cont.act .gm-t{visibility:visible}
+.gm-b{flex:1;min-width:0}
+.gm-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gm-h b{font-size:14.5px}
+.gm-time{font-size:12px;color:var(--muted)}
+.gm-ed{font-size:11px;color:var(--muted)}
+.gm-body{word-break:break-word;white-space:pre-wrap;font-size:15.5px}
+.gm-body code{background:var(--line);border-radius:5px;padding:0 5px;font-family:monospace;font-size:14px}
+.gm-body a{color:var(--accent)}
+.gm-body mark{background:color-mix(in srgb,var(--gold) 45%,transparent);color:inherit;border-radius:3px}
+.mention{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent);border-radius:6px;padding:0 3px;font-weight:700}
+.gm-del{color:var(--muted);font-style:italic}
+.gm-q{border-inline-start:3px solid var(--gold);background:color-mix(in srgb,var(--ink) 5%,transparent);padding:4px 10px;border-radius:6px;margin:2px 0 5px;cursor:pointer;font-size:13.5px}
+.gm-q b{color:var(--gold)}
+.gm-q span{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm .cimg{max-height:240px}
+.gm .rx{margin-top:4px}
+.gm-tools{position:absolute;top:-15px;inset-inline-end:14px;display:none;gap:1px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:2px;box-shadow:0 4px 14px rgba(0,0,0,.2);z-index:3}
+.gm:hover .gm-tools,.gm.act .gm-tools{display:flex}
+.gm-tools button{background:none;color:var(--ink);box-shadow:none;padding:3px 8px;font-size:16px;border-radius:8px}
+.gm-tools button:hover{background:var(--line);transform:none;filter:none}
+.gm.hl{animation:hlflash 1.8s}
+@keyframes hlflash{0%,55%{background:color-mix(in srgb,var(--gold) 34%,transparent)}100%{background:transparent}}
+.ch-seen{font-size:11.5px;color:var(--muted);padding:2px 16px;text-align:end}
+.ch-typing{min-height:18px;font-size:12.5px;color:var(--muted);padding:0 16px 2px}
+.ch-down{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(138px + env(safe-area-inset-bottom,0px));z-index:6;font-size:13px;padding:5px 16px;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.ch-down[hidden]{display:none}
+.ch-f2{border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));position:relative}
+.ch-ctx{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg);border-inline-start:3px solid var(--gold);border-radius:8px;padding:5px 10px;margin-bottom:6px;font-size:13px}
+.ch-ctx[hidden],.ch-fmt[hidden]{display:none}
+.ch-ctx span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-fmt{display:flex;gap:2px;margin-bottom:4px}
+.ch-f2 textarea{width:100%;font:inherit;padding:10px 14px;border:1px solid var(--line);border-radius:18px;background:var(--bg);color:var(--ink);resize:none;max-height:120px;line-height:1.4}
+.ch-tools{display:flex;align-items:center;gap:2px;margin-top:6px}
+.ch-tools .send{margin-inline-start:auto;border-radius:50%;width:40px;height:40px;padding:0;font-size:17px}
+.mentpop{display:none;position:absolute;left:12px;right:12px;bottom:calc(120px + env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--gold);border-radius:14px;max-height:190px;overflow:auto;z-index:12;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.mentpop.open{display:block}
+.mi{display:flex;gap:8px;align-items:center;padding:6px 12px;cursor:pointer}
+.mi.on,.mi:hover{background:var(--line)}
+.mi .av{width:26px;height:26px;font-size:14px;border-width:1px}
+.cmenu{position:absolute;display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:13;min-width:170px;padding:4px}
+.cmenu.open{display:block}
+.cmenu button{display:block;width:100%;text-align:right;background:none;color:var(--ink);box-shadow:none;border-radius:8px;padding:7px 12px}
+.cmenu button:hover{background:var(--line);transform:none;filter:none}
+#chatBadge.at{background:var(--accent)}
+.emopick{bottom:calc(122px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
@@ -306,10 +378,21 @@ button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);bo
 <button id="chatBtn" aria-label="צ'אט המשפחה">💬 צ'אט<i id="chatBadge" hidden></i></button>
 <aside id="chat" aria-label="צ'אט המשפחה">
   <div id="rxPop" class="rxpop"></div>
-  <div class="ch-h"><b>💬 צ'אט המשפחה</b><button class="close" onclick="chatToggle(false)">✕</button></div>
+  <div id="cmenu" class="cmenu"></div>
+  <div class="ch-h"><div class="ch-t"><b>💬 צ'אט המשפחה</b><small id="chSub"></small></div><div class="ch-hb"><button class="ib" id="chSearchBtn" title="חיפוש בצ'אט">🔍</button><button class="ib" onclick="chatToggle(false)" title="סגירה">✕</button></div></div>
+  <div class="ch-search" id="chSearch" hidden><input id="chSearchIn" placeholder="חיפוש בצ'אט"><span id="chSearchCnt"></span></div>
+  <div class="ch-pin" id="chPin" hidden></div>
   <div class="ch-b" id="chatList"></div>
+  <button class="ch-down" id="chDown" hidden>⬇ לחדשות</button>
+  <div class="ch-typing" id="chTyping"></div>
   <div id="emoPick" class="emopick"></div>
-  <div class="ch-f"><button class="sec attach" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><button class="sec attach" id="chatEmo" title="אימוג'ים">😊</button><textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה... (Ctrl+Enter לשורה חדשה)"></textarea><button id="chatSend">שליחה</button></div>
+  <div id="mentPop" class="mentpop"></div>
+  <div class="ch-f2">
+    <div class="ch-ctx" id="chCtx" hidden></div>
+    <div class="ch-fmt" id="chFmt" hidden><button class="ib" onclick="chatFmt('*')" title="מודגש"><b>B</b></button><button class="ib" onclick="chatFmt('_')" title="נטוי"><i>I</i></button><button class="ib" onclick="chatFmt('~')" title="קו חוצה"><s>S</s></button><button class="ib" onclick="chatFmt('`')" title="קוד">&lt;/&gt;</button></div>
+    <textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה (Enter לשליחה, Ctrl+Enter לשורה חדשה, @ לאזכור)"></textarea>
+    <div class="ch-tools"><button class="ib" id="chatFmtBtn" title="עיצוב טקסט">Aa</button><button class="ib" id="chatEmo" title="אימוג'ים">😊</button><button class="ib" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><button id="chatSend" class="send" title="שליחה">➤</button></div>
+  </div>
 </aside>
 <div id="toast"></div>
 <div id="tv"><button class="tvx" onclick="event.stopPropagation();tvClose()">✕</button><div id="tvBody"></div><div id="tvDots"></div><div id="tvProgW"><div id="tvProg"></div></div></div>
@@ -797,74 +880,165 @@ $("tv").onclick=()=>tvShow(TV.i+1);$("bTv").onclick=tvOpen;$("bRules").onclick=(
 document.addEventListener("keydown",e=>{if(!TV.open)return;if(e.key==="Escape")tvClose();else if(e.key==="ArrowLeft")tvShow(TV.i+1);else if(e.key==="ArrowRight")tvShow(TV.i-1)});
 document.addEventListener("fullscreenchange",()=>{if(TV.open&&!document.fullscreenElement&&TV.fs)tvClose();TV.fs=!!document.fullscreenElement});
 
-/* ===== צ'אט ===== */
-const CH={open:false,msgs:[],err:null,stick:false,sig:""};let chTick=0;
+/* ===== צ'אט בסגנון Google Chat ===== */
+const CH={open:false,msgs:[],typing:[],seen:{},err:null,stick:false,sig:"",reply:null,edit:null,q:"",unreadFrom:0,pinIdx:0,lastTyping:0,sentSeen:0,menuId:null,ment:null};let chTick=0;
 const RXS=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const seen=()=>{try{return +localStorage.getItem("chatseen")||0}catch(e){return 0}};
 const setSeen=t=>{try{localStorage.setItem("chatseen",String(t))}catch(e){}};
 const fsize=n=>n>1048576?(n/1048576).toFixed(1)+"MB":Math.max(1,Math.round(n/1024))+"KB";
+const hm=ts=>new Date(ts).toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+const dayLbl=ts=>{const d=new Date(ts),n=new Date(),y=new Date(n);y.setDate(n.getDate()-1);return d.toDateString()===n.toDateString()?"היום":d.toDateString()===y.toDateString()?"אתמול":d.toLocaleDateString("he-IL")};
+const reEsc=x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 function chatTok(){const ids=Object.keys(TOK),id=(cur&&TOK[cur])?cur:ids[0];return id?{id,t:TOK[id]}:null}
+function fmtText(t,hi){let h=esc(t);
+ h=h.replace(/`([^`\n]+)`/g,"<code>$1</code>").replace(/\*([^*\n]+)\*/g,"<b>$1</b>").replace(/(^|[\s(>])_([^_\n]+)_(?=$|[\s).,!?<])/g,"$1<i>$2</i>").replace(/~([^~\n]+)~/g,"<s>$1</s>");
+ h=h.replace(/(https?:\/\/[^\s<]+)/g,u=>`<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+ (D?D.ms:[]).map(m=>m.name).filter(Boolean).sort((a,b)=>b.length-a.length).forEach(n=>{h=h.replace(new RegExp("@"+reEsc(esc(n))+"(?![\\p{L}\\p{N}])","gu"),x=>`<span class="mention">${x}</span>`)});
+ if(hi){const re=new RegExp(reEsc(esc(hi)),"gi");h=h.split(/(<[^>]+>)/).map(p=>p[0]==="<"?p:p.replace(re,"<mark>$&</mark>")).join("")}
+ return h}
+const brief=m=>esc((m.text||"").slice(0,80)||(m.f?"📎 "+m.f.name:""));
 function chatRender(){
  const c=chatTok(),L=$("chatList");
- if(!c){CH.sig="";L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;$("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=true;return}
- $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=false;
- const sig=JSON.stringify(CH.msgs)+c.id;if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
- let last="";
- const h=CH.msgs.map((m,ix)=>{const d=new Date(m.ts),day=d.toLocaleDateString("he-IL"),mem=memOf(m.by),mine=m.by===c.id;
-  const sep=day!==last?`<div class="ch-day">${esc(day)}</div>`:"";last=day;
-  const body=(m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"")+(m.text?`<p>${esc(m.text)}</p>`:"");
-  const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
-  const pick=`<button class="rxb" onclick="rxOpen(event,'${m.id}')">☺</button>`;
-  const pv=CH.msgs[ix-1],nx=CH.msgs[ix+1],near=(p,q)=>p&&q&&p.by===q.by&&new Date(p.ts).toDateString()===new Date(q.ts).toDateString()&&Math.abs(q.ts-p.ts)<300000,cont=near(pv,m),lastG=!near(m,nx);
-  return sep+`<div class="cm ${mine?"mine":""} ${cont?"cont":""}">${cont?`<span class="avsp"></span>`:av(mem,30)}<div class="cb">${cont?"":`<b>${esc(mem.name||"")}</b>`}${body}${lastG?`<small>${esc(d.toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"}))}</small>`:""}<div class="rx">${rx}${pick}</div></div></div>`}).join("");
- const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-60;
- L.innerHTML=h||`<div class="empty">עוד אין הודעות. תהיו הראשונים!</div>`;
- if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;CH.stick=false}
-function chatBadge(){const c=chatTok(),k=c?CH.msgs.filter(m=>m.ts>seen()&&m.by!==c.id).length:0;$("chatBadge").hidden=!k||CH.open;$("chatBadge").textContent=k}
+ $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=!c;
+ $("chSub").textContent=D?D.ms.filter(m=>m.claimed).length+" משתתפים":"";
+ if(!c){CH.sig="";L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;return}
+ const me=memOf(c.id),q=(CH.q||"").trim();
+ const sig=JSON.stringify([CH.msgs,CH.seen,q,CH.unreadFrom,c.id,D?D.ms.length:0]);if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
+ let list=CH.msgs;if(q){const lq=q.toLowerCase();list=list.filter(m=>!m.del&&((m.text||"").toLowerCase().includes(lq)||(m.f&&m.f.name.toLowerCase().includes(lq))))}
+ $("chSearchCnt").textContent=q?(list.length===1?"תוצאה אחת":list.length+" תוצאות"):"";
+ const myRe=me.name?new RegExp("@"+reEsc(me.name)+"(?![\\p{L}\\p{N}])","u"):null;
+ let last="",divDone=false;
+ const rows=list.map((m,ix)=>{
+  const d=new Date(m.ts),day=d.toDateString(),mem=memOf(m.by);
+  let pre=day!==last?`<div class="ch-day"><span>${esc(dayLbl(m.ts))}</span></div>`:"";last=day;
+  if(!q&&CH.unreadFrom&&!divDone&&m.ts>CH.unreadFrom&&m.by!==c.id){pre+=`<div class="ch-new">הודעות חדשות</div>`;divDone=true}
+  const pv=list[ix-1],cont=!q&&pv&&pv.by===m.by&&new Date(pv.ts).toDateString()===day&&m.ts-pv.ts<300000&&!pv.del;
+  const ment=!m.del&&myRe&&m.text&&m.by!==c.id&&myRe.test(m.text);
+  let body="";
+  if(m.del)body=`<div class="gm-del">🚫 ההודעה נמחקה</div>`;
+  else{
+   const qq=m.q?`<div class="gm-q" onclick="chatJump('${esc(m.q.id)}')"><b>${esc(memOf(m.q.by).name||"")}</b><span>${m.q.gone?"הודעה שנמחקה":(esc(m.q.text||"")||"📎 "+esc(m.q.f||""))}</span></div>`:"";
+   const fl=m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"";
+   const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" title="${esc(ids.map(i=>memOf(i).name||"").join(", "))}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
+   body=qq+fl+(m.text?`<div class="gm-body">${fmtText(m.text,q)}</div>`:"")+(rx?`<div class="rx">${rx}</div>`:"");
+  }
+  const head=cont?"":`<div class="gm-h"><b>${esc(mem.name||"")}</b><span class="gm-time">${hm(m.ts)}</span>${m.ed&&!m.del?`<span class="gm-ed">(נערך)</span>`:""}${m.pin?`<span title="הודעה מוצמדת">📌</span>`:""}</div>`;
+  const tools=m.del?"":`<div class="gm-tools"><button title="הוסף תגובה" onclick="rxOpen(event,'${m.id}')">☺</button><button title="השב בציטוט" onclick="chatReply('${m.id}')">↩</button><button title="עוד" onclick="chatMenu(event,'${m.id}')">⋮</button></div>`;
+  return pre+`<div class="gm ${cont?"cont":""} ${ment?"ment":""}" id="m_${esc(m.id)}"><div class="gm-av">${cont?`<span class="gm-t">${hm(m.ts)}</span>`:av(mem,34)}</div><div class="gm-b">${head}${body}</div>${tools}</div>`});
+ let seenLine="";const lm=CH.msgs[CH.msgs.length-1];
+ if(lm&&!q){const ids=Object.entries(CH.seen).filter(([i,t])=>t>=lm.ts&&i!==c.id&&i!==lm.by).map(e=>e[0]);if(ids.length)seenLine=`<div class="ch-seen">👁 נראה על ידי ${ids.map(i=>esc(memOf(i).name||"")).join(", ")}</div>`}
+ const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-80,st=L.scrollTop;
+ L.innerHTML=rows.length?rows.join("")+seenLine:`<div class="empty">${q?"לא נמצאו הודעות":"עוד אין הודעות. תהיו הראשונים!"}</div>`;
+ if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;else L.scrollTop=st;
+ CH.stick=false;chatScrollUi()}
+function chatScrollUi(){const L=$("chatList");$("chDown").hidden=L.scrollHeight-L.scrollTop-L.clientHeight<160}
+function chatPinBar(){const pins=CH.msgs.filter(m=>m.pin&&!m.del).sort((a,b)=>a.pin.ts-b.pin.ts),el=$("chPin");
+ if(!pins.length){el.hidden=true;return}
+ const p=pins[pins.length-1-(CH.pinIdx%pins.length)];el.hidden=false;
+ el.innerHTML=`<span>📌</span><div style="flex:1;min-width:0"><b>${pins.length>1?pins.length+" הודעות מוצמדות":"הודעה מוצמדת"}</b><div class="pt">${esc(memOf(p.by).name||"")}: ${brief(p)}</div></div>`;
+ el.onclick=()=>{CH.pinIdx++;chatJump(p.id);chatPinBar()}}
+function chatTypingRender(){const n=CH.typing.map(i=>memOf(i).name).filter(Boolean);$("chTyping").textContent=n.length?n.join(" ו")+(n.length>1?" מקלידים...":" מקליד/ה..."):""}
+function chatBadge(){const c=chatTok(),me=c?memOf(c.id):{},myRe=me.name?new RegExp("@"+reEsc(me.name)+"(?![\\p{L}\\p{N}])","u"):null;
+ const un=c?CH.msgs.filter(m=>m.ts>seen()&&m.by!==c.id&&!m.del):[],at=un.some(m=>myRe&&m.text&&myRe.test(m.text)),b=$("chatBadge");
+ b.hidden=!un.length||CH.open;b.textContent=(at?"@":"")+un.length;b.classList.toggle("at",at)}
 async function chatLoad(){const c=chatTok();if(!c){chatRender();return}
  const r=await api("chat",{token:c.t});
  if(r.err){CH.err=r.err;if(/להיכנס/.test(r.err)){delete TOK[c.id];saveTok()}chatRender();return}
- CH.err=null;CH.msgs=r.msgs;chatRender();if(CH.open&&CH.msgs.length)setSeen(CH.msgs[CH.msgs.length-1].ts);chatBadge()}
-function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);if(CH.open){CH.stick=true;CH.sig="";chatRender();chatLoad()}else chatBadge()}
-async function chatSend(){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;i.value="";autosize(i);
- const r=await api("say",{token:c.t,text:t});if(r.err)return alert(r.err);CH.stick=true;chatLoad()}
+ CH.err=null;CH.msgs=r.msgs;CH.typing=r.typing||[];CH.seen=r.seen||{};
+ chatRender();chatTypingRender();chatPinBar();
+ if(CH.open&&CH.msgs.length){const lt=CH.msgs[CH.msgs.length-1].ts;setSeen(lt);if(lt>CH.sentSeen){CH.sentSeen=lt;api("seen",{token:c.t,ts:lt})}}
+ chatBadge()}
+function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);
+ if(CH.open){CH.unreadFrom=seen();CH.stick=true;CH.sig="";chatRender();chatLoad()}else{CH.unreadFrom=0;chatBadge()}}
+/* פעולות על הודעות */
+function popPlace(pop,btn){const ch=$("chat"),cr=ch.getBoundingClientRect(),br=btn.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+ let left=br.right-cr.left-pw;left=Math.max(8,Math.min(left,cr.width-pw-8));
+ let top=br.top-cr.top-ph-6;if(top<56)top=br.bottom-cr.top+6;pop.style.left=left+"px";pop.style.top=top+"px"}
+let RXM=null;
+function rxOpen(ev,mid){ev.stopPropagation();const pop=$("rxPop");$("cmenu").classList.remove("open");
+ if(RXM===mid&&pop.classList.contains("open")){pop.classList.remove("open");RXM=null;return}
+ RXM=mid;pop.innerHTML=RXS.map(e=>`<button onclick="rxPick('${e}')">${e}</button>`).join("");pop.classList.add("open");popPlace(pop,ev.currentTarget)}
+function rxPick(e){const mid=RXM;$("rxPop").classList.remove("open");RXM=null;if(mid)chatReact(mid,e)}
 async function chatReact(mid,e){const c=chatTok();if(!c)return;const r=await api("react",{token:c.t,mid,emoji:e});if(r.err)return alert(r.err);CH.sig="";chatLoad()}
+function chatMenu(ev,mid){ev.stopPropagation();const m=CH.msgs.find(x=>x.id===mid),c=chatTok();if(!m||!c)return;const pop=$("cmenu");$("rxPop").classList.remove("open");RXM=null;
+ if(CH.menuId===mid&&pop.classList.contains("open")){pop.classList.remove("open");CH.menuId=null;return}
+ CH.menuId=mid;const mine=m.by===c.id;
+ pop.innerHTML=[`<button onclick="chatReply('${mid}')">↩ השב בציטוט</button>`,m.text?`<button onclick="chatCopy('${mid}')">📋 העתק טקסט</button>`:"",`<button onclick="chatPin('${mid}')">📌 ${m.pin?"בטל הצמדה":"הצמד הודעה"}</button>`,mine&&m.text?`<button onclick="chatEditStart('${mid}')">✏️ ערוך</button>`:"",mine?`<button onclick="chatDelete('${mid}')">🗑️ מחק</button>`:""].join("");
+ pop.classList.add("open");popPlace(pop,ev.currentTarget)}
+function chatMenuClose(){$("cmenu").classList.remove("open");CH.menuId=null}
+function chatCtx(){const el=$("chCtx");
+ if(CH.edit){el.hidden=false;el.innerHTML=`<span>✏️ עריכת הודעה</span><button class="ib" onclick="chatCancelCtx()">✕</button>`}
+ else if(CH.reply){const r=CH.reply;el.hidden=false;el.innerHTML=`<span>↩ מגיב/ה ל<b>${esc(memOf(r.by).name||"")}</b>: ${brief(r)}</span><button class="ib" onclick="chatCancelCtx()">✕</button>`}
+ else{el.hidden=true;el.innerHTML=""}}
+function chatCancelCtx(){if(CH.edit)$("chatIn").value="";CH.reply=null;CH.edit=null;chatCtx();autosize($("chatIn"))}
+function chatReply(mid){chatMenuClose();const m=CH.msgs.find(x=>x.id===mid);if(!m||m.del)return;CH.edit=null;CH.reply=m;chatCtx();$("chatIn").focus()}
+function chatEditStart(mid){chatMenuClose();const m=CH.msgs.find(x=>x.id===mid);if(!m||m.del)return;CH.reply=null;CH.edit=m;chatCtx();const i=$("chatIn");i.value=m.text||"";autosize(i);i.focus()}
+async function chatDelete(mid){chatMenuClose();const c=chatTok();if(!c||!confirm("למחוק את ההודעה?"))return;const r=await api("delmsg",{token:c.t,mid});if(r.err)return alert(r.err);CH.sig="";chatLoad()}
+async function chatPin(mid){chatMenuClose();const c=chatTok();if(!c)return;const r=await api("pin",{token:c.t,mid});if(r.err)return alert(r.err);CH.sig="";chatLoad()}
+async function chatCopy(mid){chatMenuClose();const m=CH.msgs.find(x=>x.id===mid);if(!m)return;
+ try{await navigator.clipboard.writeText(m.text||"")}catch(e){const a=document.createElement("textarea");a.value=m.text||"";document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()}toast("הטקסט הועתק ✓")}
+function chatJump(id){if(CH.q){CH.q="";$("chSearchIn").value="";CH.sig="";chatRender()}
+ const el=document.getElementById("m_"+id);if(!el)return toast("ההודעה לא נמצאת בהיסטוריה");
+ el.scrollIntoView({behavior:"smooth",block:"center"});el.classList.remove("hl");void el.offsetWidth;el.classList.add("hl")}
+/* כתיבה ושליחה */
+const autosize=el=>{el.style.height="auto";el.style.height=Math.min(el.scrollHeight,120)+"px"};
+function insertAtCursor(el,txt){const st=el.selectionStart==null?el.value.length:el.selectionStart,en=el.selectionEnd==null?st:el.selectionEnd;
+ if(el.value.length-(en-st)+txt.length>300)return;el.value=el.value.slice(0,st)+txt+el.value.slice(en);el.selectionStart=el.selectionEnd=st+txt.length;el.focus();autosize(el)}
+function chatFmt(a){const i=$("chatIn"),s0=i.selectionStart,e0=i.selectionEnd,sel=i.value.slice(s0,e0);
+ if(i.value.length+2>300)return;i.value=i.value.slice(0,s0)+a+sel+a+i.value.slice(e0);i.selectionStart=i.selectionEnd=sel?s0+a.length*2+sel.length:s0+a.length;i.focus();autosize(i)}
+async function chatSend(){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;
+ const r=CH.edit?await api("edit",{token:c.t,mid:CH.edit.id,text:t}):await api("say",{token:c.t,text:t,q:CH.reply?CH.reply.id:undefined});
+ if(r.err)return alert(r.err);
+ i.value="";autosize(i);CH.reply=null;CH.edit=null;chatCtx();mentHide();CH.stick=true;CH.sig="";chatLoad()}
+function chatTyping(){const c=chatTok();if(!c||Date.now()-CH.lastTyping<3000)return;CH.lastTyping=Date.now();api("typing",{token:c.t})}
+function mentToken(){const i=$("chatIn"),p=i.selectionStart==null?i.value.length:i.selectionStart,m=/(^|\s)@([^\s@]*)$/.exec(i.value.slice(0,p));return m?{q:m[2],start:p-m[2].length-1,end:p}:null}
+function mentShow(){const tk=mentToken(),el=$("mentPop");if(!tk){mentHide();return}
+ const me=chatTok(),L=(D?D.ms:[]).filter(m=>m.claimed&&(!me||m.id!==me.id)&&m.name.toLowerCase().includes(tk.q.toLowerCase()));
+ if(!L.length){mentHide();return}CH.ment={list:L,i:0};
+ el.innerHTML=L.map((m,k)=>`<div class="mi ${k===0?"on":""}" data-k="${k}">${av(m,26)}<b>${esc(m.name)}</b></div>`).join("");el.classList.add("open")}
+function mentHide(){CH.ment=null;$("mentPop").classList.remove("open")}
+function mentMove(d){const M=CH.ment;if(!M)return;M.i=(M.i+d+M.list.length)%M.list.length;[...$("mentPop").children].forEach((x,k)=>x.classList.toggle("on",k===M.i))}
+function mentPick(k){const M=CH.ment,tk=mentToken();if(!M||!tk)return mentHide();const m=M.list[k],i=$("chatIn");
+ i.value=i.value.slice(0,tk.start)+"@"+m.name+" "+i.value.slice(tk.end);i.selectionStart=i.selectionEnd=tk.start+m.name.length+2;i.focus();mentHide();autosize(i)}
+$("mentPop").onmousedown=e=>{const it=e.target.closest(".mi");if(it){e.preventDefault();mentPick(+it.dataset.k)}};
+$("chatIn").oninput=e=>{autosize(e.target);chatTyping();mentShow()};
+$("chatIn").onkeydown=e=>{if(e.isComposing)return;
+ if(CH.ment){if(e.key==="ArrowDown"){e.preventDefault();return mentMove(1)}if(e.key==="ArrowUp"){e.preventDefault();return mentMove(-1)}
+  if(e.key==="Enter"||e.key==="Tab"){e.preventDefault();return mentPick(CH.ment.i)}if(e.key==="Escape"){e.preventDefault();return mentHide()}}
+ if(e.key==="Escape"&&(CH.reply||CH.edit)){chatCancelCtx();return}
+ if(e.key!=="Enter")return;e.preventDefault();
+ if(e.ctrlKey||e.shiftKey||e.metaKey)insertAtCursor(e.target,"\n");else chatSend()};
+const EMOJIS=["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "😉", "😍", "🥰", "😘", "😋", "😛", "😜", "🤪", "😎", "🤓", "🤩", "🥳", "😏", "😌", "😴", "🤔", "🤗", "🤭", "😮", "😲", "😢", "😭", "😤", "😡", "🥺", "😱", "😬", "🙄", "🤤", "🥵", "🥶", "🤯", "😈", "👍", "👎", "👏", "🙌", "🤝", "🙏", "💪", "👌", "✌️", "🤞", "🤟", "👋", "🤙", "👊", "✊", "👀", "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "💖", "💝", "💯", "✨", "🌟", "⭐", "🔥", "🎉", "🎊", "🎈", "🎁", "🏆", "🥇", "🥈", "🥉", "🏅", "🍎", "🍏", "🍌", "🍇", "🍓", "🍉", "🥗", "🥦", "🥕", "🥑", "🍅", "🥒", "🍋", "🥤", "💧", "🍫", "🍰", "🍩", "🍕", "🍔", "🍟", "🍪", "🥐", "🍷", "☕", "🍯", "⚽", "🏀", "🏋️", "🚴", "🏊", "👟", "⚖️", "📉", "📈", "📊", "🎯", "🚀", "🌈", "☀️", "🌸", "🍀", "🦁", "🐯", "🐻", "🦊", "🐼", "🦉", "🐬", "🦄"];
+$("emoPick").innerHTML=EMOJIS.map(e=>`<button type="button" data-e="${e}">${e}</button>`).join("");
+$("emoPick").onclick=e=>{const b=e.target.closest("button[data-e]");if(b)insertAtCursor($("chatIn"),b.dataset.e)};
+$("chatEmo").onclick=e=>{e.stopPropagation();$("emoPick").classList.toggle("open")};
+$("chatFmtBtn").onclick=()=>{$("chFmt").hidden=!$("chFmt").hidden};
+$("chSearchBtn").onclick=()=>{const s0=$("chSearch");s0.hidden=!s0.hidden;if(!s0.hidden)$("chSearchIn").focus();else{CH.q="";$("chSearchIn").value="";CH.sig="";chatRender()}};
+$("chSearchIn").oninput=e=>{CH.q=e.target.value;CH.sig="";chatRender()};
+$("chatList").onscroll=chatScrollUi;
+$("chDown").onclick=()=>{const L=$("chatList");L.scrollTo({top:L.scrollHeight,behavior:"smooth"})};
+$("chatList").onclick=e=>{if(e.target.closest("button,a,img,.gm-q"))return;const g=e.target.closest(".gm");document.querySelectorAll("#chatList .gm.act").forEach(x=>{if(x!==g)x.classList.remove("act")});if(g)g.classList.toggle("act")};
+document.addEventListener("click",ev=>{
+ const p=$("rxPop");if(p.classList.contains("open")&&!p.contains(ev.target)){p.classList.remove("open");RXM=null}
+ const m=$("cmenu");if(m.classList.contains("open")&&!m.contains(ev.target))chatMenuClose();
+ const e=$("emoPick");if(e.classList.contains("open")&&!e.contains(ev.target)&&ev.target.id!=="chatEmo")e.classList.remove("open")});
+/* קבצים */
 const EXT={pdf:"application/pdf",txt:"text/plain",zip:"application/zip",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xls:"application/vnd.ms-excel",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",gif:"image/gif"};
 const extType=f=>EXT[(f.name.split(".").pop()||"").toLowerCase()]||f.type||"";
-const b64=buf=>{let s="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)};
+const b64=buf=>{let s0="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=0x8000)s0+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s0)};
 function resizeImg(f){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);ok(c.toDataURL("image/jpeg",.82).split(",")[1])};im.onerror=no;im.src=URL.createObjectURL(f)})}
 async function chatUpload(f){const c=chatTok();if(!c)return alert("יש להיכנס כדי לשלוח קבצים");
  let type=extType(f),name=f.name,data;
  try{if(/^image\/(jpeg|png|webp|gif)$/.test(type)){data=await resizeImg(f);type="image/jpeg";name=name.replace(/\.\w+$/,"")+".jpg"}
   else{if(f.size>4*1048576)return alert("הקובץ גדול מדי (עד 4MB)");data=b64(await f.arrayBuffer())}}catch(e){return alert("לא הצלחתי לקרוא את הקובץ")}
  $("chatAtt").textContent="⏳";
- const r=await api("upload",{token:c.t,name,type,data,text:$("chatIn").value.trim()});
+ const r=await api("upload",{token:c.t,name,type,data,text:$("chatIn").value.trim(),q:CH.reply?CH.reply.id:undefined});
  $("chatAtt").textContent="📎";if(r.err)return alert(r.err);
- $("chatIn").value="";autosize($("chatIn"));CH.stick=true;CH.sig="";chatLoad()}
-let RXM=null;
-function rxOpen(ev,mid){ev.stopPropagation();const pop=$("rxPop"),btn=ev.currentTarget,ch=$("chat");
- if(RXM===mid&&pop.classList.contains("open")){pop.classList.remove("open");RXM=null;return}
- RXM=mid;pop.innerHTML=RXS.map(e=>`<button onclick="rxPick('${e}')">${e}</button>`).join("");pop.classList.add("open");
- const cr=ch.getBoundingClientRect(),br=btn.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
- let left=br.right-cr.left-pw;left=Math.max(8,Math.min(left,cr.width-pw-8));
- let top=br.top-cr.top-ph-6;if(top<56)top=br.bottom-cr.top+6;
- pop.style.left=left+"px";pop.style.top=top+"px"}
-function rxPick(e){const mid=RXM;$("rxPop").classList.remove("open");RXM=null;if(mid)chatReact(mid,e)}
-document.addEventListener("click",ev=>{const p=$("rxPop");if(p&&p.classList.contains("open")&&!p.contains(ev.target)){p.classList.remove("open");RXM=null}});
-$("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;const autosize=el=>{el.style.height="auto";el.style.height=Math.min(el.scrollHeight,120)+"px"};
-function insertAtCursor(el,txt){const st=el.selectionStart==null?el.value.length:el.selectionStart,en=el.selectionEnd==null?st:el.selectionEnd;
- if(el.value.length-(en-st)+txt.length>300)return;el.value=el.value.slice(0,st)+txt+el.value.slice(en);el.selectionStart=el.selectionEnd=st+txt.length;el.focus();autosize(el)}
-$("chatIn").oninput=e=>autosize(e.target);
-$("chatIn").onkeydown=e=>{if(e.key!=="Enter"||e.isComposing)return;e.preventDefault();
- if(e.ctrlKey||e.shiftKey||e.metaKey)insertAtCursor(e.target,"\n");else chatSend()};
-const EMOJIS=["😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "😉", "😍", "🥰", "😘", "😋", "😛", "😜", "🤪", "😎", "🤓", "🤩", "🥳", "😏", "😌", "😴", "🤔", "🤗", "🤭", "😮", "😲", "😢", "😭", "😤", "😡", "🥺", "😱", "😬", "🙄", "🤤", "🥵", "🥶", "🤯", "😈", "👍", "👎", "👏", "🙌", "🤝", "🙏", "💪", "👌", "✌️", "🤞", "🤟", "👋", "🤙", "👊", "✊", "👀", "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "💖", "💝", "💯", "✨", "🌟", "⭐", "🔥", "🎉", "🎊", "🎈", "🎁", "🏆", "🥇", "🥈", "🥉", "🏅", "🍎", "🍏", "🍌", "🍇", "🍓", "🍉", "🥗", "🥦", "🥕", "🥑", "🍅", "🥒", "🍋", "🥤", "💧", "🍫", "🍰", "🍩", "🍕", "🍔", "🍟", "🍪", "🥐", "🍷", "☕", "🍯", "⚽", "🏀", "🏋️", "🚴", "🏊", "👟", "⚖️", "📉", "📈", "📊", "🎯", "🚀", "🌈", "☀️", "🌸", "🍀", "🦁", "🐯", "🐻", "🦊", "🐼", "🦉", "🐬", "🦄"];
-$("emoPick").innerHTML=EMOJIS.map(e=>`<button type="button" data-e="${e}">${e}</button>`).join("");
-$("emoPick").onclick=e=>{const b=e.target.closest("button[data-e]");if(b)insertAtCursor($("chatIn"),b.dataset.e)};
-$("chatEmo").onclick=e=>{e.stopPropagation();$("emoPick").classList.toggle("open")};
-document.addEventListener("click",ev=>{const p=$("emoPick");if(p.classList.contains("open")&&!p.contains(ev.target)&&ev.target.id!=="chatEmo")p.classList.remove("open")});
+ $("chatIn").value="";autosize($("chatIn"));CH.reply=null;chatCtx();CH.stick=true;CH.sig="";chatLoad()}
+$("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;
 $("chatAtt").onclick=()=>$("chatFile").click();
 $("chatFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(f)await chatUpload(f)};
-setInterval(()=>{chTick++;if(CH.open||chTick%6===0)chatLoad()},5000);
+setInterval(()=>{chTick++;if(CH.open||chTick%10===0)chatLoad()},3000);
 
 render();refresh();
 setInterval(()=>{if(!$("dlg").open)refresh()},20000);

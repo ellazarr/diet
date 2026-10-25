@@ -87,10 +87,27 @@ export default async req=>{
   if(act==="reset"){p.salt=rnd();p.hash=H(String(b.newPassword),p.salt)}
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
- if(act==="chat")return J({msgs:((await st.get("chat",{type:"json"}))||[]).slice(-150)});
+ const metaGet=async()=>(await st.get("chatmeta",{type:"json"}))||{typing:{},seen:{}};
+ const mkQ=(m,qid)=>{const o=qid?m.find(x=>x.id===qid):null;return o&&!o.del?{id:o.id,by:o.by,text:(o.text||"").slice(0,120),f:o.f?o.f.name:undefined}:undefined};
+ if(act==="chat"){const meta=await metaGet(),now=Date.now();
+  return J({msgs:((await st.get("chat",{type:"json"}))||[]).slice(-150),typing:Object.entries(meta.typing||{}).filter(([k,v])=>k!==id&&now-v<6000).map(e=>e[0]),seen:meta.seen||{}})}
+ if(act==="typing"){const meta=await metaGet();meta.typing=meta.typing||{};meta.typing[id]=Date.now();await st.setJSON("chatmeta",meta);return J({ok:1})}
+ if(act==="seen"){const meta=await metaGet();meta.seen=meta.seen||{};meta.seen[id]=Math.max(meta.seen[id]||0,Math.min(Number(b.ts)||0,Date.now()));await st.setJSON("chatmeta",meta);return J({ok:1})}
+ if(act==="edit"||act==="delmsg"||act==="pin"){
+  const m=(await st.get("chat",{type:"json"}))||[],msg=m.find(x=>x.id===b.mid);
+  if(!msg||msg.del)return bad("הודעה לא נמצאה",404);
+  if(act==="pin"){if(msg.pin)delete msg.pin;else msg.pin={by:id,ts:Date.now()}}
+  else{
+   if(msg.by!==id)return bad("אפשר לשנות רק הודעות שלך",403);
+   if(act==="edit"){const t=String(b.text||"").trim().slice(0,300);if(!t&&!msg.f)return bad("הודעה ריקה");msg.text=t;msg.ed=Date.now()}
+   else{
+    if(msg.f){try{await st.delete("file:"+msg.f.id)}catch(e){}}
+    m.forEach(x=>{if(x.q&&x.q.id===msg.id)x.q={id:msg.id,by:msg.by,text:"",gone:true}});
+    delete msg.text;delete msg.f;delete msg.r;delete msg.q;delete msg.pin;msg.del=true}}
+  await st.setJSON("chat",m);return J({ok:1})}
  if(act==="react"){
   const e=String(b.emoji);if(!RX.includes(e))return bad("אימוג'י לא נתמך");
-  const m=(await st.get("chat",{type:"json"}))||[],msg=m.find(x=>x.id===b.mid);if(!msg)return bad("הודעה לא נמצאה",404);
+  const m=(await st.get("chat",{type:"json"}))||[],msg=m.find(x=>x.id===b.mid);if(!msg||msg.del)return bad("הודעה לא נמצאה",404);
   msg.r=msg.r||{};const arr=msg.r[e]||[],k=arr.indexOf(id);if(k>=0)arr.splice(k,1);else arr.push(id);
   if(arr.length)msg.r[e]=arr;else delete msg.r[e];
   await st.setJSON("chat",m);return J({ok:1})}
@@ -102,7 +119,7 @@ export default async req=>{
   const fid=crypto.randomBytes(16).toString("hex");
   await st.set("file:"+fid,buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),{metadata:{type,name,img:FT[type]}});
   const m=(await st.get("chat",{type:"json"}))||[];
-  m.push({id:rnd(),by:id,ts:Date.now(),text:String(b.text||"").trim().slice(0,300),f:{id:fid,name,type,size:buf.length,img:!!FT[type]}});
+  m.push({id:rnd(),by:id,ts:Date.now(),q:mkQ(m,b.q),text:String(b.text||"").trim().slice(0,300),f:{id:fid,name,type,size:buf.length,img:!!FT[type]}});
   await st.setJSON("chat",m.slice(-300));return J({ok:1})}
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
@@ -113,7 +130,7 @@ export default async req=>{
   await save();return J({ok:1})}
  if(act==="say"){
   const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
-  const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t});
+  const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t,q:mkQ(m,b.q)});
   await st.setJSON("chat",m.slice(-300));return J({ok:1})}
  if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,legacy:legacyW(pub,id,p),mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
