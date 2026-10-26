@@ -156,6 +156,7 @@ export default async req=>{
   p.email=em;p.remind=!!b.remind&&!!em;
   p.start=start;p.goal=goal;recompute(pub,id,p);m.name=name;m.av=String(b.av||m.av||"").slice(0,4);m.goalPct=R2((start-goal)/start*100);
   if(PHOTO.test(b.photo||""))m.photo=b.photo;
+  if(b.rmPhoto&&!PHOTO.test(b.photo||""))m.photo=null;
   await save();return J({ok:1})}
  if(act==="testmail"){
   if(!p.email)return bad("לא הוגדר מייל");

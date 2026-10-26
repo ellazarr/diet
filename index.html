@@ -324,6 +324,89 @@ button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);bo
 .cmenu button:hover{background:var(--line);transform:none;filter:none}
 #chatBadge.at{background:var(--accent)}
 .emopick{bottom:calc(122px + env(safe-area-inset-bottom,0px))}
+
+.thav{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:15px}
+.thav .av{width:28px;height:28px;border-width:1px}
+.wk-av{display:flex;gap:12px;justify-content:center;margin:10px 0 4px}
+.wk-av .av{width:72px;height:72px;border-width:3px;box-shadow:0 6px 18px rgba(184,138,46,.4);animation:bob 3s ease-in-out infinite}
+.tvav{display:flex;gap:2vw;justify-content:center;margin:2vh 0}.tvav .av{width:min(18vh,150px);height:min(18vh,150px)}
+.bets{display:grid;gap:14px}
+.bet-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.bet-t{font-family:"Frank Ruhl Libre",serif;font-size:26px;font-weight:900}
+.bet-t small{font-family:"Assistant",sans-serif;font-size:15px;color:var(--muted);font-weight:400}
+.bet-s{color:var(--muted);font-size:14px}
+.bet-dl{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,transparent),color-mix(in srgb,var(--gold) 8%,transparent));border:1px solid var(--gold);border-radius:16px;padding:8px 16px;font-weight:700;text-align:center}
+.bet-dl small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.bet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.bc{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:20px;padding:18px 10px 12px;transition:transform .3s,box-shadow .3s;animation:rise .7s both;animation-delay:calc(var(--i,0)*90ms)}
+.bc:hover{transform:translateY(-5px);box-shadow:0 14px 28px rgba(20,40,30,.16)}
+.bc .av{width:72px;height:72px;border-width:3px;border-color:var(--c)}
+.bc>b{font-family:"Frank Ruhl Libre",serif;font-size:21px}
+.bc.lead{border-color:var(--gold);border-top-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 28%,transparent)}
+.bc.mine{background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
+.bc-crown{position:absolute;top:-16px;font-size:26px;animation:bob 2.2s ease-in-out infinite}
+.bc-me{position:absolute;top:8px;inset-inline-start:8px;font-size:11px;background:var(--accent);color:#fff;border-radius:99px;padding:1px 8px}
+.bc-n{font-size:13.5px;color:var(--muted)}
+.bc-bar{width:80%;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bc-bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.stack{display:flex;justify-content:center;min-height:30px;padding-inline-start:8px}
+.stack .av{width:28px;height:28px;border:2px solid var(--card);margin-inline-start:-8px}
+.bet-sub{font-family:"Frank Ruhl Libre",serif;font-size:19px;font-weight:700;margin-top:6px}
+.brows{display:grid;gap:6px}
+.brow{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:6px 12px}
+.brow.ok{border-color:var(--accent)}.brow.no{opacity:.75}
+.brow .av{width:34px;height:34px}
+.brow .arr{color:var(--gold);font-weight:900;padding:0 4px}
+.brow em{font-style:normal;margin-inline-start:auto;font-weight:700}
+.bboard{display:grid;gap:6px}
+.bb{display:grid;grid-template-columns:40px 1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.bb .av{width:36px;height:36px}
+.bb em{font-style:normal;font-family:"Frank Ruhl Libre",serif;font-weight:900;font-size:22px;color:var(--gold)}
+
+:root{--bub-o:#eceff1;--bub-m:#d3e3fd;--cbox:#edf2fa;--blue:#0b57d0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bub-o:#2a3731;--bub-m:#2b4a78;--cbox:#1f2e28}}
+:root[data-theme="dark"]{--bub-o:#2a3731;--bub-m:#2b4a78;--cbox:#1f2e28}
+.ch-t{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.ch-t small{flex-basis:100%}
+.ch-av{display:flex}
+.ch-av .av{width:26px;height:26px;font-size:14px;border:2px solid var(--card);margin-inline-start:-7px}
+.ch-b{padding:6px 0 12px}
+.ch-day{justify-content:center;margin:16px 14px 8px;font-size:12.5px}
+.ch-day::before,.ch-day::after{display:none}
+.gm{padding:1px 12px;gap:8px;align-items:flex-start}
+.gm:hover{background:none}
+.gm:not(.cont){margin-top:9px}
+.gm.mine{justify-content:flex-end}
+.gm.mine .gm-av{display:none}
+.gm-av{width:34px;flex:none}
+.gm-b{display:flex;flex-direction:column;align-items:flex-start;max-width:80%;min-width:0}
+.gm.mine .gm-b{align-items:flex-end}
+.gm-h{padding:0 4px 2px;font-size:12px}
+.gm-h b{font-size:13px}
+.gm-bub{background:var(--bub-o);border-radius:18px;padding:8px 14px;max-width:100%;word-break:break-word}
+.gm.mine .gm-bub{background:var(--bub-m)}
+.gm-bub.imgonly{padding:4px;background:var(--bub-o)}
+.gm-bub .gm-body{font-size:15.5px}
+.gm-bub .cimg{border-radius:14px;margin:0;max-height:260px}
+.gm-bub .gm-q{margin:0 0 6px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.gm-bub.del{background:transparent;border:1px dashed var(--line)}
+.gm.ment .gm-bub{box-shadow:0 0 0 2px var(--gold)}
+.gm.ment{background:none;box-shadow:none}
+.gm .rx{margin:3px 4px 0}
+.gm-seen{display:flex;gap:2px;margin:2px 4px 0;justify-content:flex-end}
+.gm-seen .av{width:16px;height:16px;font-size:9px;border-width:1px;box-shadow:0 0 0 1.5px var(--card)}
+.gm-tools{top:-12px;inset-inline-end:auto;inset-inline-start:46px}
+.gm.mine .gm-tools{inset-inline-start:auto;inset-inline-end:46px}
+.ch-down{background:var(--blue);color:#fff;border-radius:99px;padding:8px 20px;font-weight:700;font-size:14px;box-shadow:0 8px 22px rgba(11,87,208,.45)}
+.ch-f2{padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.ch-compose{display:flex;align-items:flex-end;gap:8px}
+.ch-box{flex:1;background:var(--cbox);border-radius:26px;padding:4px 14px 2px;min-width:0}
+.ch-box textarea{border:0;background:transparent;padding:9px 0 4px;border-radius:0;outline:none;width:100%}
+.ch-box .ch-tools{margin:0;padding-bottom:3px;gap:0}
+.ch-box .ib{font-size:16px;padding:5px 8px}
+.ch-compose .send{width:44px;height:44px;border-radius:50%;padding:0;font-size:18px;background:var(--blue);flex:none;margin-bottom:2px}
+.ch-compose .send:disabled{background:var(--line)}
+.ch-typing{padding:0 18px 4px}
 </style>
 </head>
 <body>
@@ -379,19 +462,24 @@ button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);bo
 <aside id="chat" aria-label="צ'אט המשפחה">
   <div id="rxPop" class="rxpop"></div>
   <div id="cmenu" class="cmenu"></div>
-  <div class="ch-h"><div class="ch-t"><b>💬 צ'אט המשפחה</b><small id="chSub"></small></div><div class="ch-hb"><button class="ib" id="chSearchBtn" title="חיפוש בצ'אט">🔍</button><button class="ib" onclick="chatToggle(false)" title="סגירה">✕</button></div></div>
+  <div class="ch-h"><div class="ch-t"><b>💬 צ'אט המשפחה</b><div class="ch-av" id="chAv"></div><small id="chSub"></small></div><div class="ch-hb"><button class="ib" id="chSearchBtn" title="חיפוש בצ'אט">🔍</button><button class="ib" onclick="chatToggle(false)" title="סגירה">✕</button></div></div>
   <div class="ch-search" id="chSearch" hidden><input id="chSearchIn" placeholder="חיפוש בצ'אט"><span id="chSearchCnt"></span></div>
   <div class="ch-pin" id="chPin" hidden></div>
   <div class="ch-b" id="chatList"></div>
-  <button class="ch-down" id="chDown" hidden>⬇ לחדשות</button>
+  <button class="ch-down" id="chDown" hidden>מעבר לתחתית הדף ⬇</button>
   <div class="ch-typing" id="chTyping"></div>
   <div id="emoPick" class="emopick"></div>
   <div id="mentPop" class="mentpop"></div>
   <div class="ch-f2">
     <div class="ch-ctx" id="chCtx" hidden></div>
     <div class="ch-fmt" id="chFmt" hidden><button class="ib" onclick="chatFmt('*')" title="מודגש"><b>B</b></button><button class="ib" onclick="chatFmt('_')" title="נטוי"><i>I</i></button><button class="ib" onclick="chatFmt('~')" title="קו חוצה"><s>S</s></button><button class="ib" onclick="chatFmt('`')" title="קוד">&lt;/&gt;</button></div>
-    <textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה (Enter לשליחה, Ctrl+Enter לשורה חדשה, @ לאזכור)"></textarea>
-    <div class="ch-tools"><button class="ib" id="chatFmtBtn" title="עיצוב טקסט">Aa</button><button class="ib" id="chatEmo" title="אימוג'ים">😊</button><button class="ib" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"><button id="chatSend" class="send" title="שליחה">➤</button></div>
+    <div class="ch-compose">
+      <div class="ch-box">
+        <textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה (Enter לשליחה, Ctrl+Enter לשורה חדשה, @ לאזכור)"></textarea>
+        <div class="ch-tools"><button class="ib" id="chatFmtBtn" title="עיצוב טקסט">Aa</button><button class="ib" id="chatEmo" title="אימוג'ים">😊</button><button class="ib" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"></div>
+      </div>
+      <button id="chatSend" class="send" title="שליחה">➤</button>
+    </div>
   </div>
 </aside>
 <div id="toast"></div>
@@ -414,7 +502,7 @@ function hl(id){const p=new Intl.DateTimeFormat("he-u-ca-hebrew",{day:"numeric",
 const dm=id=>id.slice(8)+"."+id.slice(5,7);
 const DEFEM={ima:"🍀",elazar:"🦁",yosi:"🚀",rachel:"🦄"};
 const emojiOf=m=>EMOS.includes(m.av)?m.av:(DEFEM[m.id]||EMOS[[...String(m.id||m.name||"x")].reduce((x,c)=>x+c.charCodeAt(0),0)%EMOS.length]);
-function av(m,s){const z=s?`width:${s}px;height:${s}px;`:"";
+function av(m,s){const z=s?`width:${s}px;height:${s}px;font-size:${Math.round(s*.54)}px;`:"";
  if(m.photo&&PHOTO_RE.test(m.photo))return `<div class="av" style="${z}"><img src="${m.photo}" alt=""></div>`;
  return `<div class="av" style="${z}background:${esc(m.c||"#999")}33">${esc(emojiOf(m))}</div>`}
 
@@ -512,7 +600,8 @@ function render(){
    q=qt(cw)}
   else if(cw){t="🗓️ שבוע "+esc(hl(cw.id))+": עדיין אין עדכונים";if(pw){s2="המנצח בשבוע "+esc(hl(pw.id))+": "+nm(pw)+" · "+chg(top2(pw));q=qt(pw)}}
   else t="המנצח יוכרז אחרי השקילה הראשונה";
-  $("weekly").innerHTML=`<div class="wk"><div class="wk-t">${t}</div><div class="wk-s">${s2}</div>${q}<div class="wk-act"><button class="sec" onclick="copySummary()">📋 העתק סיכום</button><button onclick="shareMail()">✉️ שליחה במייל</button></div></div>`;
+  const wsrc=cw&&cw.win.length?cw:pw,wa=wsrc&&wsrc.win.length?`<div class="wk-av">${wsrc.win.map(i=>av(P[i],72)).join("")}</div>`:"";
+  $("weekly").innerHTML=`<div class="wk"><div class="wk-t">${t}</div>${wa}<div class="wk-s">${s2}</div>${q}<div class="wk-act"><button class="sec" onclick="copySummary()">📋 העתק סיכום</button><button onclick="shareMail()">✉️ שליחה במייל</button></div></div>`;
   if(won)try{if(!sessionStorage.getItem("conf"+won)){sessionStorage.setItem("conf"+won,"1");confetti()}}catch(e){}}
  const last=W[n-1];
  $("pending").innerHTML=last&&!last.done&&last.wait.length&&(last.virtual||last.has.some(Boolean))?`<div class="card" style="margin-bottom:12px">⏳ ממתינים לעדכון שבוע ${esc(hl(last.id))}: <b>${last.wait.map(i=>esc(P[i].name)).join(", ")}</b></div>`:"";
@@ -525,7 +614,7 @@ function render(){
   chartStart();
   $("legend").innerHTML=P.map(m=>`<span><i style="background:${esc(m.c)}"></i>${esc(m.name)}</span>`).join("");
  }else{CHD=null;$("chart").innerHTML=`<div class="empty">הגרף יופיע אחרי העדכון הראשון</div>`;$("legend").innerHTML=""}
- $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${P.map(m=>`<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`+
+ $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${P.map(m=>`<th><div class="thav">${av(m,28)}<span>${esc(m.name)}</span></div></th>`).join("")}</tr></thead><tbody>`+
   W.map((x,r)=>`<tr style="--i:${r}"><td>${esc(hl(x.id))}<br><small class="sub">${dm(x.id)}</small></td>${x.v.map((v,i)=>`<td>${v===null?"–":`<span class="${x.win.includes(i)?"win":""} ${v<0?"neg":""}" style="padding:3px 8px;display:inline-block">${fmt(v)}${x.win.includes(i)?" 👑":""}</span>`}</td>`).join("")}</tr>`).join("")+
   `</tbody><tfoot><tr><td>סה״כ</td>${P.map(m=>`<td>${fmt(m.tot)}</td>`).join("")}</tr></tfoot>`;
  /* סרטים נעים */
@@ -538,6 +627,7 @@ function render(){
  tick("tkQuotes",say("quote","💡"),"עדיין אין משפטי מנצחים");
  tick("tkJokes",say("joke","😄"),"עדיין אין בדיחות");
  renderExtras(P,W,RW,cnt);
+ if(CH.open)chatRender();
  countUp();
 }
 
@@ -614,7 +704,7 @@ A.area=async()=>{
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
  const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
- emo=m.av||EMOS[0];photo=null;
+ emo=m.av||EMOS[0];photo=null;A.rmPhoto=false;
  open(`<div class="me">${av(m,56)}<div><b style="font-size:20px">${esc(m.name)}</b><div class="sub">האזור האישי · נראה רק לך</div></div></div>
  <div class="g2"><div class="stat"><b>${lost.toFixed(1)}</b><span>ק״ג שירדת</span></div><div class="stat"><b>${Math.max(0,kg-p.goal).toFixed(1)}</b><span>ק״ג עד היעד</span></div>
  <div class="stat"><b>${kg.toFixed(1)}</b><span>משקל נוכחי</span></div><div class="stat"><b>${(lost/p.start*100).toFixed(2)}%</b><span>ירידה מההתחלה</span></div></div>
@@ -629,12 +719,14 @@ A.area=async()=>{
  <details class="box"><summary><b>הגדרות</b></summary>
  <label>שם<input id="s_n" value="${esc(m.name)}" maxlength="20"></label><label>סמל</label>${emoRow()}
  <label>תמונת פרופיל<input type="file" accept="image/*" onchange="A.photo(this)"></label>
+ ${m.photo?`<button class="sec" type="button" onclick="A.rmPh(this)">🗑️ הסר את תמונת הפרופיל</button>`:""}
  <div class="g2"><label>משקל התחלתי<input id="s_s" type="number" step="0.1" value="${p.start}"></label><label>משקל יעד<input id="s_g" type="number" step="0.1" value="${p.goal}"></label></div>
  <label>מייל לתזכורת שבועית (נשמר פרטי)<input id="s_e" type="email" value="${esc(p.email||"")}"></label>
  <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="s_r" ${p.remind?"checked":""} style="width:auto"> שלחו לי תזכורת בכל יום שישי בבוקר</label>
  <label>סיסמה חדשה (ריק = ללא שינוי)<input id="s_p" type="password"></label>
  <div class="msg" id="msg2"></div><div class="actions"><button onclick="A.save()">שמירת הגדרות</button><button class="sec" onclick="A.save(1)">שמירה ושליחת מייל לדוגמה</button><button class="sec" onclick="A.out()">יציאה</button></div></details>`)};
-A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);alert("ההימור נשמר ✓");A.area()};
+A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);
+ const g=(D.ms.find(x=>x.id===$("pr_g").value)||{}).name||"";await refresh();A.flash="🎲 ההימור נשמר ("+g+") וכבר מופיע באתר, בקטגוריית הימורי השבוע";A.area()};
 A.out=()=>{delete TOK[cur];saveTok();A.close()};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
@@ -642,8 +734,9 @@ A.week=async skip=>{
  if(r.err)return err(r.err);
  A.flash=r.lost==null?"":(r.lost>0?`ירדת ${r.lost} ק״ג (${r.pct}%) 🎉`:r.lost<0?`עלית ${Math.abs(r.lost)} ק״ג (${Math.abs(r.pct)}%)`:"ללא שינוי לעומת הפעם הקודמת");
  await refresh();A.area()};
+A.rmPh=b=>{A.rmPhoto=true;photo=null;b.textContent="✓ התמונה תוסר בשמירה";b.disabled=true};
 A.save=async t=>{
- const r=await api("settings",{token:TOK[cur],name:$("s_n").value,av:emo,photo,start:parseFloat($("s_s").value),goal:parseFloat($("s_g").value),password:$("s_p").value,email:$("s_e").value,remind:$("s_r").checked});
+ const r=await api("settings",{token:TOK[cur],name:$("s_n").value,av:emo,photo,start:parseFloat($("s_s").value),goal:parseFloat($("s_g").value),rmPhoto:!!A.rmPhoto,password:$("s_p").value,email:$("s_e").value,remind:$("s_r").checked});
  if(r.err)return alert(r.err);
  if(t){const q=await api("testmail",{token:TOK[cur]});alert(q.err||"נשלח מייל לדוגמה. בדקו גם בספאם.")}
  await refresh();A.area()};
@@ -674,7 +767,7 @@ function chartSvg(sfx){const{P,W,n,cum,w,h,pl,pr,mx,mn,X,Y}=CHD;
   s+=`<polyline data-trail="${q}" fill="none" stroke="${c}" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#ct_${sfx})" points="${str}"/>`;
   pts.forEach((z,i)=>{if(W[i].has[q])s+=`<circle cx="${z[0]}" cy="${z[1]}" r="3.6" fill="${c}" fill-opacity=".55"/>`});
   const e=pts[n-1];
-  s+=`<g data-mk="${q}" transform="translate(${e[0]},${e[1]})"><circle class="pulse" r="9" fill="${c}" style="display:none"/><circle r="12" fill="${c}" stroke="#fff" stroke-width="2"/><text y="5" text-anchor="middle" font-size="13">${esc(mark(m))}</text></g>`});
+  s+=`<g data-mk="${q}" transform="translate(${e[0]},${e[1]})"><circle class="pulse" r="9" fill="${c}" style="display:none"/>${m.photo&&PHOTO_RE.test(m.photo)?`<circle r="13" fill="${c}" stroke="#fff" stroke-width="2"/><clipPath id="cp_${sfx}${q}"><circle r="11"/></clipPath><image href="${m.photo}" x="-11" y="-11" width="22" height="22" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp_${sfx}${q})"/>`:`<circle r="12" fill="${c}" stroke="#fff" stroke-width="2"/><text y="5" text-anchor="middle" font-size="13">${esc(mark(m))}</text>`}</g>`});
  return s+"</svg>"}
 function chartBuild(){if(!CHD)return;$("chart").innerHTML=chartSvg("c");const tc=$("tvChart");if(tc)tc.innerHTML=chartSvg("t");chartFrame(CHL.u,CHL.al)}
 function chartFrame(u,al){if(!CHD)return;CHL={u,al};const{P,n,cum,X,Y}=CHD;
@@ -820,7 +913,7 @@ function familyRender(P,cnt){const el=$("family");
 const RACE={i:0,playing:false,t:0,key:"",auto:false};
 function raceStop(){clearInterval(RACE.t);RACE.playing=false;$("raceBtn").textContent="▶"}
 function raceSetup(P,RW){
- const key=P.map(m=>m.id).join(",");
+ const key=P.map(m=>m.id+"|"+m.name+"|"+(m.av||"")+"|"+(m.photo?m.photo.length:0)).join(",");
  if(key!==RACE.key){RACE.key=key;$("raceBars").style.height=(P.length*52)+"px";
   $("raceBars").innerHTML=P.map(m=>`<div class="rb" id="rb_${esc(m.id)}"><div>${av(m,38)}</div><div class="rb-n">${esc(m.name)}</div><div class="rb-t"><i style="background:${esc(m.c)}"></i></div><div class="rb-v">0%</div></div>`).join("")}
  const r=$("raceRange");r.max=Math.max(0,RW.length-1);if(RACE.i>RW.length-1)RACE.i=Math.max(0,RW.length-1);
@@ -845,21 +938,38 @@ if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{
 const ilToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Jerusalem"}).format(new Date());
 const addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
 function betWeek(){const td=ilToday(),dow=new Date(td+"T12:00:00Z").getUTCDay();let k=(5-dow+7)%7;if(k===0)k=7;return addD(td,k)}
+function betDeadline(bw){const U=Date.UTC(+bw.slice(0,4),+bw.slice(5,7)-1,+bw.slice(8,10));let h=3;
+ try{const p=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",timeZoneName:"shortOffset"}).formatToParts(new Date(U)).find(x=>x.type==="timeZoneName"),m=/GMT([+-]\d+)/.exec(p.value);if(m)h=+m[1]}catch(e){}
+ return U-h*3600000}
+function betCountdown(){const el=$("betCd");if(!el)return;const ms=betDeadline(betWeek())-Date.now();
+ if(ms<=0){el.textContent="ההימורים נסגרו";return}
+ const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+ el.textContent="נותרו "+(d?d+" ימים ו-":"")+h+" שעות"+(d?"":" ו-"+m+" דקות")}
+setInterval(betCountdown,30000);
 function predRender(P,W){
- const el=$("predCard"),bw=betWeek(),bets=PRD[bw]||{};
- let h=`<div class="note" style="margin:0 0 12px">🎲 הימורים לשבוע ${esc(hl(bw))} (${dm(bw)}). אפשר להמר באזור האישי עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה אחת בליגה, וההימורים גלויים לכולם.</div>`;
- const cur=Object.entries(bets).map(([uid,g])=>{const a=P.find(m=>m.id===uid),b=P.find(m=>m.id===g);return a&&b?`<span class="chip">${esc(a.name)} ← ${esc(b.name)}</span>`:""}).join("");
- h+=cur?`<div class="chips">${cur}</div>`:`<div class="empty">עוד אין הימורים לשבוע הזה</div>`;
- const lk=Object.keys(PRD).filter(k=>k<bw).sort().pop(),lw=lk?W.find(x=>x.id===lk):null;
- if(lk){const txt=Object.entries(PRD[lk]).map(([uid,g])=>{const a=P.find(m=>m.id===uid),b=P.find(m=>m.id===g);if(!a||!b)return"";const ok=lw&&lw.done&&lw.win.some(i=>P[i].id===g);return `${esc(a.name)} ← ${esc(b.name)}${lw&&lw.done?(ok?" ✅":" ❌"):" ⏳"}`}).filter(Boolean).join(" · ");
-  if(txt)h+=`<div class="note" style="margin-top:14px">שבוע ${esc(hl(lk))}: ${txt}</div>`}
- el.innerHTML=h}
+ const el=$("predCard"),bw=betWeek(),bets=PRD[bw]||{},cand=P.filter(m=>m.claimed),byId=id=>P.find(m=>m.id===id);
+ const cnt={};Object.values(bets).forEach(g=>cnt[g]=(cnt[g]||0)+1);
+ const total=Object.keys(bets).length,mx=Math.max(0,...Object.values(cnt)),me=chatTok(),mine=me?bets[me.id]:null;
+ let h=`<div class="bets"><div class="bet-head"><div><div class="bet-t">מי ינצח בשבוע ${esc(hl(bw))}? <small>(${dm(bw)})</small></div><div class="bet-s">ניחוש נכון שווה נקודה אחת בליגה · מהמרים באזור האישי</div></div><div class="bet-dl">⏳ <span id="betCd"></span><small>נסגר ביום חמישי בחצות (00:00 ליל שישי)</small></div></div>`;
+ if(!cand.length)h+=`<div class="empty">ההימורים ייפתחו כשיצטרפו משתתפים</div>`;
+ else h+=`<div class="bet-grid">${cand.map((m,k)=>{const n=cnt[m.id]||0,who=Object.entries(bets).filter(e=>e[1]===m.id).map(e=>byId(e[0])).filter(Boolean),lead=n&&n===mx;
+  return `<div class="bc ${lead?"lead":""} ${mine===m.id?"mine":""}" style="--c:${esc(m.c)};--i:${k}">${lead?`<span class="bc-crown">👑</span>`:""}${mine===m.id?`<span class="bc-me">ההימור שלך</span>`:""}${av(m,72)}<b>${esc(m.name)}</b><div class="bc-n">${n?n+" "+(n===1?"הימור":"הימורים"):"אין הימורים"}</div><div class="bc-bar"><i style="width:${total?Math.round(n/total*100):0}%"></i></div><div class="stack">${who.map(u=>`<span title="${esc(u.name)}">${av(u,28)}</span>`).join("")}</div></div>`}).join("")}</div>`;
+ h+=`<div class="note">${total?total+" הימרו עד כה. ההימורים גלויים לכולם.":"עוד אף אחד לא המר. ההימורים יהיו גלויים לכולם."}</div>`;
+ const lk=Object.keys(PRD).filter(k=>k<bw).sort().pop();
+ if(lk){const lw=W.find(x=>x.id===lk),dn=!!(lw&&lw.done&&lw.win.length),wins=dn?lw.win.map(i=>P[i].id):[];
+  const rows=Object.entries(PRD[lk]).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=dn&&wins.includes(g);
+   return `<div class="brow ${dn?(ok?"ok":"no"):""}">${av(a,34)}<b>${esc(a.name)}</b><span class="arr">←</span>${av(b,34)}<b>${esc(b.name)}</b><em>${dn?(ok?"✅ ניחוש נכון":"❌"):"⏳"}</em></div>`}).filter(Boolean).join("");
+  if(rows)h+=`<div class="bet-sub">תוצאות שבוע ${esc(hl(lk))}${dn?" · המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":""}</div><div class="brows">${rows}</div>`}
+ const pt=points(P,W),st=P.map(()=>0);Object.values(PRD).forEach(g=>Object.keys(g).forEach(u=>{const q=P.findIndex(m=>m.id===u);if(q>=0)st[q]++}));
+ const bb=P.map((m,q)=>({m,n:st[q],ok:pt[q].bet})).filter(z=>z.n>0).sort((a,b)=>b.ok-a.ok||a.n-b.n);
+ if(bb.length)h+=`<div class="bet-sub">🏆 המנחשים המובילים</div><div class="bboard">${bb.map(z=>`<div class="bb">${av(z.m,36)}<b>${esc(z.m.name)}</b><span class="sub">${z.ok} נכונות מתוך ${z.n}</span><em>${z.ok}</em></div>`).join("")}</div>`;
+ el.innerHTML=h+"</div>";betCountdown()}
 function renderExtras(P,W,RW,cnt){familyRender(P,cnt);leagueRender(P,W,cnt);raceSetup(P,RW);predRender(P,W)}
 /* מצב תצוגה */
 const TV={open:false,i:0,t:0};
 function tvSlides(){
  const P=D.ms,W=D.ws,S=[],wk=$("weekly").querySelector(".wk");
- if(wk)S.push(`<div class="tvbig">${wk.querySelector(".wk-t").innerHTML}</div><div class="tvsub">${wk.querySelector(".wk-s").innerHTML}</div>${wk.querySelector(".wk-q")?wk.querySelector(".wk-q").outerHTML:""}`);
+ if(wk)S.push(`<div class="tvbig">${wk.querySelector(".wk-t").innerHTML}</div>${wk.querySelector(".wk-av")?`<div class="tvav">${wk.querySelector(".wk-av").innerHTML}</div>`:""}<div class="tvsub">${wk.querySelector(".wk-s").innerHTML}</div>${wk.querySelector(".wk-q")?wk.querySelector(".wk-q").outerHTML:""}`);
  if(P.length)S.push(`<h3 class="tvh">🏆 הדירוג</h3>`+P.map((m,r)=>`<div class="tvr">${av(m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(m.name)}</b><span class="tvbar"><i style="width:${m.goalPct?Math.max(2,Math.min(100,m.tot/m.goalPct*100)):Math.max(2,Math.min(100,m.tot*5))}%;background:${esc(m.c)}"></i></span><em>${m.tot.toFixed(2)}%</em></div>`).join(""));
  {const pt=points(P,W);if(pt.some(z=>z.pts>0))S.push(`<h3 class="tvh">🏅 ליגת הנקודות</h3>`+P.map((m,q)=>({m,p:pt[q].pts})).sort((a,b)=>b.p-a.p).map((z,r)=>`<div class="tvr">${av(z.m,64)}<b>${["🥇","🥈","🥉"][r]||""} ${esc(z.m.name)}</b><span class="tvbar"><i style="width:${Math.max(2,z.p/Math.max(1,...pt.map(x=>x.pts))*100)}%;background:${esc(z.m.c)}"></i></span><em>${z.p}</em></div>`).join(""))}
  if(CHD)S.push(`<h3 class="tvh">📈 המסע של כולנו</h3><div class="tvchart" id="tvChart"></div>`);
@@ -903,30 +1013,32 @@ function chatRender(){
  $("chSub").textContent=D?D.ms.filter(m=>m.claimed).length+" משתתפים":"";
  if(!c){CH.sig="";L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;return}
  const me=memOf(c.id),q=(CH.q||"").trim();
- const sig=JSON.stringify([CH.msgs,CH.seen,q,CH.unreadFrom,c.id,D?D.ms.length:0]);if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
+ const sig=JSON.stringify([CH.msgs,CH.seen,q,CH.unreadFrom,c.id,D?D.ms.map(m=>m.id+(m.av||"")+(m.photo?m.photo.length:0)+m.name).join():0]);if(sig===CH.sig&&!CH.stick)return;CH.sig=sig;
  let list=CH.msgs;if(q){const lq=q.toLowerCase();list=list.filter(m=>!m.del&&((m.text||"").toLowerCase().includes(lq)||(m.f&&m.f.name.toLowerCase().includes(lq))))}
  $("chSearchCnt").textContent=q?(list.length===1?"תוצאה אחת":list.length+" תוצאות"):"";
  const myRe=me.name?new RegExp("@"+reEsc(me.name)+"(?![\\p{L}\\p{N}])","u"):null;
+ const marks={};
+ if(!q)Object.entries(CH.seen).forEach(([uid,ts])=>{if(uid===c.id)return;for(let k=CH.msgs.length-1;k>=0;k--){const m=CH.msgs[k];if(!m.del&&m.ts<=ts&&m.by!==uid){(marks[m.id]=marks[m.id]||[]).push(uid);break}}});
  let last="",divDone=false;
  const rows=list.map((m,ix)=>{
-  const d=new Date(m.ts),day=d.toDateString(),mem=memOf(m.by);
+  const d=new Date(m.ts),day=d.toDateString(),mem=memOf(m.by),mine=m.by===c.id;
   let pre=day!==last?`<div class="ch-day"><span>${esc(dayLbl(m.ts))}</span></div>`:"";last=day;
-  if(!q&&CH.unreadFrom&&!divDone&&m.ts>CH.unreadFrom&&m.by!==c.id){pre+=`<div class="ch-new">הודעות חדשות</div>`;divDone=true}
-  const pv=list[ix-1],cont=!q&&pv&&pv.by===m.by&&new Date(pv.ts).toDateString()===day&&m.ts-pv.ts<300000&&!pv.del;
-  const ment=!m.del&&myRe&&m.text&&m.by!==c.id&&myRe.test(m.text);
-  let body="";
-  if(m.del)body=`<div class="gm-del">🚫 ההודעה נמחקה</div>`;
+  if(!q&&CH.unreadFrom&&!divDone&&m.ts>CH.unreadFrom&&!mine){pre+=`<div class="ch-new">הודעות חדשות</div>`;divDone=true}
+  const pv=list[ix-1],cont=!q&&pv&&pv.by===m.by&&new Date(pv.ts).toDateString()===day&&m.ts-pv.ts<300000&&!pv.del&&!(pre);
+  const ment=!m.del&&myRe&&m.text&&!mine&&myRe.test(m.text);
+  let bub;
+  if(m.del)bub=`<div class="gm-bub del"><div class="gm-del">🚫 ההודעה נמחקה</div></div>`;
   else{
    const qq=m.q?`<div class="gm-q" onclick="chatJump('${esc(m.q.id)}')"><b>${esc(memOf(m.q.by).name||"")}</b><span>${m.q.gone?"הודעה שנמחקה":(esc(m.q.text||"")||"📎 "+esc(m.q.f||""))}</span></div>`:"";
    const fl=m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"";
-   const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" title="${esc(ids.map(i=>memOf(i).name||"").join(", "))}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
-   body=qq+fl+(m.text?`<div class="gm-body">${fmtText(m.text,q)}</div>`:"")+(rx?`<div class="rx">${rx}</div>`:"");
-  }
-  const head=cont?"":`<div class="gm-h"><b>${esc(mem.name||"")}</b><span class="gm-time">${hm(m.ts)}</span>${m.ed&&!m.del?`<span class="gm-ed">(נערך)</span>`:""}${m.pin?`<span title="הודעה מוצמדת">📌</span>`:""}</div>`;
+   const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" title="${esc(ids.map(u=>memOf(u).name||"").join(", "))}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
+   bub=`<div class="gm-bub ${m.f&&m.f.img&&!m.text&&!qq?"imgonly":""}" title="${hm(m.ts)}">${qq}${fl}${m.text?`<div class="gm-body">${fmtText(m.text,q)}</div>`:""}</div>`+(rx?`<div class="rx">${rx}</div>`:"")}
+  const head=cont?"":`<div class="gm-h">${mine?"":`<b>${esc(mem.name||"")}</b> `}<span class="gm-time">${hm(m.ts)}</span>${m.ed&&!m.del?` <span class="gm-ed">(נערך)</span>`:""}${m.pin?` <span title="הודעה מוצמדת">📌</span>`:""}</div>`;
+  const mk=marks[m.id]?`<div class="gm-seen">${marks[m.id].map(u=>`<span title="נראה על ידי ${esc(memOf(u).name||"")}">${av(memOf(u),16)}</span>`).join("")}</div>`:"";
   const tools=m.del?"":`<div class="gm-tools"><button title="הוסף תגובה" onclick="rxOpen(event,'${m.id}')">☺</button><button title="השב בציטוט" onclick="chatReply('${m.id}')">↩</button><button title="עוד" onclick="chatMenu(event,'${m.id}')">⋮</button></div>`;
-  return pre+`<div class="gm ${cont?"cont":""} ${ment?"ment":""}" id="m_${esc(m.id)}"><div class="gm-av">${cont?`<span class="gm-t">${hm(m.ts)}</span>`:av(mem,34)}</div><div class="gm-b">${head}${body}</div>${tools}</div>`});
- let seenLine="";const lm=CH.msgs[CH.msgs.length-1];
- if(lm&&!q){const ids=Object.entries(CH.seen).filter(([i,t])=>t>=lm.ts&&i!==c.id&&i!==lm.by).map(e=>e[0]);if(ids.length)seenLine=`<div class="ch-seen">👁 נראה על ידי ${ids.map(i=>esc(memOf(i).name||"")).join(", ")}</div>`}
+  return pre+`<div class="gm ${mine?"mine":""} ${cont?"cont":""} ${ment?"ment":""}" id="m_${esc(m.id)}"><div class="gm-av">${mine||cont?"":av(mem,34)}</div><div class="gm-b">${head}${bub}${mk}</div>${tools}</div>`});
+ const seenLine="";
+ $("chAv").innerHTML=D?D.ms.filter(m=>m.claimed).slice(0,6).map(m=>av(m,26)).join(""):"";
  const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-80,st=L.scrollTop;
  L.innerHTML=rows.length?rows.join("")+seenLine:`<div class="empty">${q?"לא נמצאו הודעות":"עוד אין הודעות. תהיו הראשונים!"}</div>`;
  if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;else L.scrollTop=st;
