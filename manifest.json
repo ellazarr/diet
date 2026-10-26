@@ -1,0 +1,16 @@
+{
+  "name": "תחרות הדיאטה המשפחתית",
+  "short_name": "תחרות דיאטה",
+  "description": "תחרות הדיאטה המשפחתית: שקילות, דירוג, הימורים וצ'אט",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f4a3a",
+  "theme_color": "#0f4a3a",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

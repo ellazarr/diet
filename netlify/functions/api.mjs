@@ -2,6 +2,8 @@ import {getStore} from "@netlify/blobs";
 import crypto from "node:crypto";
 import {sendMail,reminderHtml} from "../../lib/mail.mjs";
 import {hebLabel} from "../../lib/heb.mjs";
+import {pushEach,vapidPublic,cleanPrefs,ALLOWED_HOST,DEFAULT_PREFS,notifyChatMsg} from "../../lib/push.mjs";
+import {deliverDue} from "../../lib/sched.mjs";
 export const deps={store:()=>getStore({name:"diet",consistency:"strong"})};
 export const config={path:"/api/*"};
 const R2=x=>Math.round(x*100)/100,rnd=()=>crypto.randomBytes(5).toString("hex");
@@ -12,7 +14,7 @@ const PHOTO=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]{1,40000}$/,COL=["#e07a5f",
 const PEOPLE=[["ima","אמא","#e07a5f",17],["elazar","אלעזר","#3d85c6",26.54],["yosi","יוסי","#2f9e6e",16],["rachel","רחלי","#a26bd4",15.4]];
 const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","ט״ו אלול",[1.11,.34,0,null]],["2026-09-04","כ״ב אלול",[.44,1.42,2.92,1.52],2,"החלטה יחידה בשביל לחסוך מלחמה"],["2026-09-11","כ״ט אלול",[2.33,.88,.58,1],0,"גם בשבת להיות עם 'יד על הדופק'..."],["2026-09-18","ז׳ תשרי",[0,.1,.7,0],2,"תשובה ותפילה וצדקה מעבירין את רוע הגזירה!!!"],["2026-09-25","י״ד תשרי",[null,.1,-.35,null],1,"הכנה טובה לפני, כדי לשחרר יותר בחגים"],["2026-10-02","כ״א תשרי",[null,-1.86,null,null]],["2026-10-16","ה׳ חשוון",[-1.33,.44,-1.29,null]]];
 const RX=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
-const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
+const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"audio/webm":2,"audio/ogg":2,"audio/mp4":2,"audio/mpeg":2,"audio/aac":2,"audio/x-m4a":2,"audio/wav":2,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
 const PATCH=[["2026-10-16","ima",-1.33],["2026-10-16","yosi",-1.29]];
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
@@ -53,6 +55,7 @@ export default async req=>{
   const r=await st.getWithMetadata("file:"+fid,{type:"arrayBuffer"});if(!r)return J({err:"לא נמצא"},404);
   const md=r.metadata||{},img=!!md.img;
   return new Response(r.data,{headers:{"content-type":md.type||"application/octet-stream","content-disposition":img?"inline":"attachment; filename*=UTF-8''"+encodeURIComponent(md.name||"file"),"x-content-type-options":"nosniff","cache-control":"private, max-age=86400"}})}
+ if(req.method==="GET"&&act==="pushkey")return J({key:await vapidPublic(st)});
  const pub=(await st.get("public",{type:"json"}))||SEED();
  const priv=(await st.get("priv",{type:"json"}))||{};let dirty=false;
  Object.entries(priv).forEach(([id,p])=>{if(migrate(p))dirty=true;if(mig3(pub,id,p))dirty=true});
@@ -88,9 +91,10 @@ export default async req=>{
   p.f=0;await save();return J({token:tok(b.id)})}
  const id=who(b.token);if(!id)return bad("יש להיכנס מחדש",401);const p=priv[id];
  const metaGet=async()=>(await st.get("chatmeta",{type:"json"}))||{typing:{},seen:{}};
+ const notifyChat=msg=>notifyChatMsg(st,pub,msg);
  const mkQ=(m,qid)=>{const o=qid?m.find(x=>x.id===qid):null;return o&&!o.del?{id:o.id,by:o.by,text:(o.text||"").slice(0,120),f:o.f?o.f.name:undefined}:undefined};
- if(act==="chat"){const meta=await metaGet(),now=Date.now();
-  return J({msgs:((await st.get("chat",{type:"json"}))||[]).slice(-150),typing:Object.entries(meta.typing||{}).filter(([k,v])=>k!==id&&now-v<6000).map(e=>e[0]),seen:meta.seen||{}})}
+ if(act==="chat"){try{await deliverDue(st)}catch(e){}const meta=await metaGet(),now=Date.now();
+  return J({msgs:((await st.get("chat",{type:"json"}))||[]).filter((x,i,arr)=>arr.findIndex(y=>y.id===x.id)===i).slice(b.all?-300:-150),typing:Object.entries(meta.typing||{}).filter(([k,v])=>k!==id&&now-v<6000).map(e=>e[0]),seen:meta.seen||{}})}
  if(act==="typing"){const meta=await metaGet();meta.typing=meta.typing||{};meta.typing[id]=Date.now();await st.setJSON("chatmeta",meta);return J({ok:1})}
  if(act==="seen"){const meta=await metaGet();meta.seen=meta.seen||{};meta.seen[id]=Math.max(meta.seen[id]||0,Math.min(Number(b.ts)||0,Date.now()));await st.setJSON("chatmeta",meta);return J({ok:1})}
  if(act==="edit"||act==="delmsg"||act==="pin"){
@@ -117,10 +121,32 @@ export default async req=>{
   const buf=Buffer.from(String(b.data||""),"base64");
   if(!buf.length||buf.length>4*1024*1024)return bad("הקובץ גדול מדי (עד 4MB)");
   const fid=crypto.randomBytes(16).toString("hex");
-  await st.set("file:"+fid,buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),{metadata:{type,name,img:FT[type]}});
+  await st.set("file:"+fid,buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),{metadata:{type,name,img:FT[type]>0}});
   const m=(await st.get("chat",{type:"json"}))||[];
-  m.push({id:rnd(),by:id,ts:Date.now(),q:mkQ(m,b.q),text:String(b.text||"").trim().slice(0,300),f:{id:fid,name,type,size:buf.length,img:!!FT[type]}});
-  await st.setJSON("chat",m.slice(-300));return J({ok:1})}
+  const nm1={id:rnd(),by:id,ts:Date.now(),q:mkQ(m,b.q),text:String(b.text||"").trim().slice(0,300),f:{id:fid,name,type,size:buf.length,img:FT[type]===1,aud:FT[type]===2,dur:Math.min(600,Math.max(0,Math.round(Number(b.dur)||0)))}};m.push(nm1);
+  await st.setJSON("chat",m.slice(-300));await notifyChat(nm1);return J({ok:1})}
+ if(act.startsWith("push")){
+  const ps=(await st.get("push",{type:"json"}))||{},e=ps[id];
+  if(act==="pushstate")return J({prefs:e?e.prefs:null,devices:e?e.subs.length:0,endpoints:e?e.subs.map(s=>s.sub.endpoint):[]});
+  if(act==="pushsub"){const sub=b.sub;
+   if(!sub||typeof sub.endpoint!=="string"||!ALLOWED_HOST.test(sub.endpoint)||!sub.keys||!sub.keys.p256dh||!sub.keys.auth)return bad("מנוי לא תקין");
+   const x=ps[id]=ps[id]||{subs:[],prefs:{...DEFAULT_PREFS}};
+   x.subs=x.subs.filter(s=>s.sub.endpoint!==sub.endpoint);x.subs.push({sub:{endpoint:sub.endpoint,keys:{p256dh:sub.keys.p256dh,auth:sub.keys.auth}},ts:Date.now()});x.subs=x.subs.slice(-5);
+   x.prefs=cleanPrefs(b.prefs,x.prefs);await st.setJSON("push",ps);return J({ok:1})}
+  if(!e)return bad("ההתראות לא הופעלו",404);
+  if(act==="pushprefs"){e.prefs=cleanPrefs(b.prefs,e.prefs);await st.setJSON("push",ps);return J({ok:1,prefs:e.prefs})}
+  if(act==="pushoff"){e.subs=e.subs.filter(s=>s.sub.endpoint!==b.endpoint);if(!e.subs.length)delete ps[id];await st.setJSON("push",ps);return J({ok:1})}
+  if(act==="pushtest"){const n=await pushEach(st,{kind:"test",only:[id],mk:()=>({important:true,payload:{title:"🔔 בדיקת התראות",body:"ההתראות עובדות במכשיר הזה!",tag:"test",url:"/"}})});return J({ok:1,sent:n})}}
+ if(act==="schedule"||act==="schedlist"||act==="schedcancel"){
+  const sch=(await st.get("chatsched",{type:"json"}))||[];
+  if(act==="schedlist")return J({list:sch.filter(x=>x.by===id).sort((x,y)=>x.at-y.at).map(x=>({id:x.id,at:x.at,text:x.text}))});
+  if(act==="schedcancel"){const n=sch.filter(x=>!(x.id===b.sid&&x.by===id));await st.setJSON("chatsched",n);return J({ok:1,removed:sch.length-n.length})}
+  const t=String(b.text||"").trim().slice(0,300),at=Number(b.at);
+  if(!t)return bad("הודעה ריקה");
+  if(!(at>Date.now()+20000)||at>Date.now()+30*864e5)return bad("אפשר לתזמן מ-30 שניות ועד 30 יום קדימה");
+  if(sch.filter(x=>x.by===id).length>=10)return bad("אפשר לתזמן עד 10 הודעות בו זמנית");
+  sch.push({id:rnd(),by:id,at,text:t,q:b.q?String(b.q).slice(0,40):undefined,created:Date.now()});
+  await st.setJSON("chatsched",sch);return J({ok:1,at})}
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
@@ -130,8 +156,8 @@ export default async req=>{
   await save();return J({ok:1})}
  if(act==="say"){
   const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
-  const m=(await st.get("chat",{type:"json"}))||[];m.push({id:rnd(),by:id,ts:Date.now(),text:t,q:mkQ(m,b.q)});
-  await st.setJSON("chat",m.slice(-300));return J({ok:1})}
+  const m=(await st.get("chat",{type:"json"}))||[];const nm0={id:rnd(),by:id,ts:Date.now(),text:t,q:mkQ(m,b.q)};m.push(nm0);
+  await st.setJSON("chat",m.slice(-300));await notifyChat(nm0);return J({ok:1})}
  if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,legacy:legacyW(pub,id,p),mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");

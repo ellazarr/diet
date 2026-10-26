@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0f4a3a">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>תחרות הדיאטה המשפחתית</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -407,6 +412,43 @@ button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);bo
 .ch-compose .send{width:44px;height:44px;border-radius:50%;padding:0;font-size:18px;background:var(--blue);flex:none;margin-bottom:2px}
 .ch-compose .send:disabled{background:var(--line)}
 .ch-typing{padding:0 18px 4px}
+
+dialog input[type=radio],dialog input[type=checkbox]{width:auto;margin-inline-end:8px}
+.ch-tabs{display:flex;gap:4px;padding:6px 10px;border-bottom:1px solid var(--line)}
+.ch-tabs button{flex:1;background:none;color:var(--muted);box-shadow:none;border-radius:12px;padding:6px 4px;font-size:13.5px}
+.ch-tabs button.on{background:var(--cbox);color:var(--ink);font-weight:700}
+.ch-tabs button:hover{transform:none;filter:none;background:var(--line)}
+.ch-panel{flex:1;overflow-y:auto;padding:10px 12px}
+.ch-panel[hidden]{display:none}
+.pn{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer}
+.pn>div{flex:1;min-width:0}.pn small{color:var(--muted)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.pimg{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:pointer}
+.pimg img{width:100%;height:100%;object-fit:cover}
+.pimg span{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:10.5px;padding:10px 4px 3px}
+.prow2{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--line)}
+.prow2 small{color:var(--muted)}
+button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-weight:700}
+.vm{display:flex;align-items:center;gap:8px;min-width:210px}
+.vm-play{width:34px;height:34px;border-radius:50%;padding:0;font-size:14px;flex:none}
+.vm-bar{flex:1;height:6px;background:color-mix(in srgb,var(--ink) 18%,transparent);border-radius:99px;overflow:hidden;cursor:pointer;min-width:70px}
+.vm-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+.vm-t{font-size:12px;color:var(--muted);min-width:34px;direction:ltr}
+.vm-sp{background:color-mix(in srgb,var(--ink) 12%,transparent);color:var(--ink);box-shadow:none;padding:1px 8px;font-size:12px}
+.ch-rec{flex:1;display:flex;align-items:center;gap:12px;background:var(--cbox);border-radius:26px;padding:6px 16px;min-height:48px}
+.ch-rec[hidden]{display:none}
+.rdot{width:12px;height:12px;border-radius:50%;background:#d93025;animation:rec 1s ease-in-out infinite}
+.rwave{display:flex;gap:3px;align-items:center;flex:1;height:24px}
+.rwave i{width:4px;background:var(--accent);border-radius:3px;animation:wave 1s ease-in-out infinite}
+.rwave i:nth-child(2n){animation-delay:.2s}.rwave i:nth-child(3n){animation-delay:.4s}
+@keyframes rec{50%{opacity:.25}}@keyframes wave{0%,100%{height:5px}50%{height:22px}}
+#chSchedChip{align-self:flex-start;margin-bottom:6px}
+#chSchedChip[hidden]{display:none}
+.sch-opts{display:grid;gap:8px;margin:10px 0}
+.sch-opts button{display:flex;justify-content:space-between;background:var(--bg);color:var(--ink);box-shadow:none;border:1px solid var(--line)}
+.sch-row{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:6px 0}
+.sch-row>div{flex:1;min-width:0}.sch-row small{color:var(--muted);display:block}
+.gm-seen .av{width:18px;height:18px;font-size:10px}
 </style>
 </head>
 <body>
@@ -462,22 +504,26 @@ button.chip.statb{background:color-mix(in srgb,var(--accent) 18%,transparent);bo
 <aside id="chat" aria-label="צ'אט המשפחה">
   <div id="rxPop" class="rxpop"></div>
   <div id="cmenu" class="cmenu"></div>
-  <div class="ch-h"><div class="ch-t"><b>💬 צ'אט המשפחה</b><div class="ch-av" id="chAv"></div><small id="chSub"></small></div><div class="ch-hb"><button class="ib" id="chSearchBtn" title="חיפוש בצ'אט">🔍</button><button class="ib" onclick="chatToggle(false)" title="סגירה">✕</button></div></div>
+  <div class="ch-h"><div class="ch-t"><b>💬 צ'אט המשפחה</b><div class="ch-av" id="chAv"></div><small id="chSub"></small></div><div class="ch-hb"><button class="ib" id="chBell" title="התראות לטלפון">🔔</button><button class="ib" id="chSearchBtn" title="חיפוש בצ'אט">🔍</button><button class="ib" onclick="chatToggle(false)" title="סגירה">✕</button></div></div>
+  <div class="ch-tabs" id="chTabs"><button class="on" data-t="chat">💬 צ'אט</button><button data-t="pins">📌 הצמדות</button><button data-t="files">🖼️ מדיה וקבצים</button></div>
   <div class="ch-search" id="chSearch" hidden><input id="chSearchIn" placeholder="חיפוש בצ'אט"><span id="chSearchCnt"></span></div>
   <div class="ch-pin" id="chPin" hidden></div>
   <div class="ch-b" id="chatList"></div>
+  <div class="ch-panel" id="chPanel" hidden></div>
   <button class="ch-down" id="chDown" hidden>מעבר לתחתית הדף ⬇</button>
   <div class="ch-typing" id="chTyping"></div>
   <div id="emoPick" class="emopick"></div>
   <div id="mentPop" class="mentpop"></div>
   <div class="ch-f2">
     <div class="ch-ctx" id="chCtx" hidden></div>
+    <button class="chip" id="chSchedChip" hidden></button>
     <div class="ch-fmt" id="chFmt" hidden><button class="ib" onclick="chatFmt('*')" title="מודגש"><b>B</b></button><button class="ib" onclick="chatFmt('_')" title="נטוי"><i>I</i></button><button class="ib" onclick="chatFmt('~')" title="קו חוצה"><s>S</s></button><button class="ib" onclick="chatFmt('`')" title="קוד">&lt;/&gt;</button></div>
     <div class="ch-compose">
       <div class="ch-box">
         <textarea id="chatIn" rows="1" maxlength="300" placeholder="כתבו הודעה (Enter לשליחה, Ctrl+Enter לשורה חדשה, @ לאזכור)"></textarea>
-        <div class="ch-tools"><button class="ib" id="chatFmtBtn" title="עיצוב טקסט">Aa</button><button class="ib" id="chatEmo" title="אימוג'ים">😊</button><button class="ib" id="chatAtt" title="צרף תמונה או קובץ">📎</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"></div>
+        <div class="ch-tools"><button class="ib" id="chatFmtBtn" title="עיצוב טקסט">Aa</button><button class="ib" id="chatEmo" title="אימוג'ים">😊</button><button class="ib" id="chatAtt" title="צרף תמונה או קובץ">📎</button><button class="ib" id="chatMic" title="הקלטת הודעה קולית">🎤</button><button class="ib" id="chatSched" title="תזמון הודעה">⏰</button><input type="file" id="chatFile" hidden accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip"></div>
       </div>
+      <div class="ch-rec" id="chRec" hidden><span class="rdot"></span><b id="recT">0:00</b><span class="rwave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><button class="ib" onclick="vrCancel()" title="ביטול">🗑️</button></div>
       <button id="chatSend" class="send" title="שליחה">➤</button>
     </div>
   </div>
@@ -614,9 +660,10 @@ function render(){
   chartStart();
   $("legend").innerHTML=P.map(m=>`<span><i style="background:${esc(m.c)}"></i>${esc(m.name)}</span>`).join("");
  }else{CHD=null;$("chart").innerHTML=`<div class="empty">הגרף יופיע אחרי העדכון הראשון</div>`;$("legend").innerHTML=""}
- $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${P.map(m=>`<th><div class="thav">${av(m,28)}<span>${esc(m.name)}</span></div></th>`).join("")}</tr></thead><tbody>`+
-  W.map((x,r)=>`<tr style="--i:${r}"><td>${esc(hl(x.id))}<br><small class="sub">${dm(x.id)}</small></td>${x.v.map((v,i)=>`<td>${v===null?"–":`<span class="${x.win.includes(i)?"win":""} ${v<0?"neg":""}" style="padding:3px 8px;display:inline-block">${fmt(v)}${x.win.includes(i)?" 👑":""}</span>`}</td>`).join("")}</tr>`).join("")+
-  `</tbody><tfoot><tr><td>סה״כ</td>${P.map(m=>`<td>${fmt(m.tot)}</td>`).join("")}</tr></tfoot>`;
+ const ord=famOrd(P);
+ $("tbl").innerHTML=`<thead><tr><th>שבוע</th>${ord.map(i=>P[i]).map(m=>`<th><div class="thav">${av(m,28)}<span>${esc(m.name)}</span></div></th>`).join("")}</tr></thead><tbody>`+
+  W.map((x,r)=>`<tr style="--i:${r}"><td>${esc(hl(x.id))}<br><small class="sub">${dm(x.id)}</small></td>${ord.map(i=>{const v=x.v[i];return `<td>${v===null?"–":`<span class="${x.win.includes(i)?"win":""} ${v<0?"neg":""}" style="padding:3px 8px;display:inline-block">${fmt(v)}${x.win.includes(i)?" 👑":""}</span>`}</td>`}).join("")}</tr>`).join("")+
+  `</tbody><tfoot><tr><td>סה״כ</td>${ord.map(i=>`<td>${fmt(P[i].tot)}</td>`).join("")}</tr></tfoot>`;
  /* סרטים נעים */
  const nm2=id=>(P.find(m=>m.id===id)||{}).name||"";
  const tick=(id,items,empty)=>{const el=$(id);if(!items.length){el.innerHTML=`<div class="empty">${empty}</div>`;return}
@@ -700,7 +747,7 @@ A.area=async()=>{
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
  const bw=betWeek();
- const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים גלויים לכולם.</div></div>`;
+ const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים גלויים לכולם.</div></div>`;
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
  const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
@@ -864,6 +911,9 @@ function spot(r,k){const P=D.ms,b=(BADGES[r]||[])[k];if(!b)return;const m=P[r],e
  el.innerHTML=`<div class="spot"><button class="close" onclick="$('spot').innerHTML=''">✕</button><div class="spot-e">${b[0]}</div><div><div class="spot-t">${esc(b[1])}</div><div class="spot-m">${av(m,32)} ${esc(m.name)}</div><div class="spot-d">${b[3]}</div></div></div>`;
  el.scrollIntoView({behavior:"smooth",block:"center"})}
 /* ליגת הנקודות */
+const FAM=["אמא","יעקב","אלעזר","יוסי","רחלי"];
+const famRank=m=>{const i=FAM.indexOf((m||{}).name);return i<0?99:i};
+const famOrd=P=>P.map((_,i)=>i).sort((a,b)=>famRank(P[a])-famRank(P[b])||a-b);
 const POINTS_FROM="2026-10-23";
 function points(P,W){
  const out=P.map(()=>({pts:0,r1:0,r2:0,r3:0,r0:0,bet:0}));
@@ -947,7 +997,7 @@ function betCountdown(){const el=$("betCd");if(!el)return;const ms=betDeadline(b
  el.textContent="נותרו "+(d?d+" ימים ו-":"")+h+" שעות"+(d?"":" ו-"+m+" דקות")}
 setInterval(betCountdown,30000);
 function predRender(P,W){
- const el=$("predCard"),bw=betWeek(),bets=PRD[bw]||{},cand=P.filter(m=>m.claimed),byId=id=>P.find(m=>m.id===id);
+ const el=$("predCard"),bw=betWeek(),bets=PRD[bw]||{},cand=P.filter(m=>m.claimed).sort((a,b)=>famRank(a)-famRank(b)),byId=id=>P.find(m=>m.id===id);
  const cnt={};Object.values(bets).forEach(g=>cnt[g]=(cnt[g]||0)+1);
  const total=Object.keys(bets).length,mx=Math.max(0,...Object.values(cnt)),me=chatTok(),mine=me?bets[me.id]:null;
  let h=`<div class="bets"><div class="bet-head"><div><div class="bet-t">מי ינצח בשבוע ${esc(hl(bw))}? <small>(${dm(bw)})</small></div><div class="bet-s">ניחוש נכון שווה נקודה אחת בליגה · מהמרים באזור האישי</div></div><div class="bet-dl">⏳ <span id="betCd"></span><small>נסגר ביום חמישי בחצות (00:00 ליל שישי)</small></div></div>`;
@@ -957,7 +1007,7 @@ function predRender(P,W){
  h+=`<div class="note">${total?total+" הימרו עד כה. ההימורים גלויים לכולם.":"עוד אף אחד לא המר. ההימורים יהיו גלויים לכולם."}</div>`;
  const lk=Object.keys(PRD).filter(k=>k<bw).sort().pop();
  if(lk){const lw=W.find(x=>x.id===lk),dn=!!(lw&&lw.done&&lw.win.length),wins=dn?lw.win.map(i=>P[i].id):[];
-  const rows=Object.entries(PRD[lk]).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=dn&&wins.includes(g);
+  const rows=Object.entries(PRD[lk]).sort((x,y)=>famRank(byId(x[0]))-famRank(byId(y[0]))).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=dn&&wins.includes(g);
    return `<div class="brow ${dn?(ok?"ok":"no"):""}">${av(a,34)}<b>${esc(a.name)}</b><span class="arr">←</span>${av(b,34)}<b>${esc(b.name)}</b><em>${dn?(ok?"✅ ניחוש נכון":"❌"):"⏳"}</em></div>`}).filter(Boolean).join("");
   if(rows)h+=`<div class="bet-sub">תוצאות שבוע ${esc(hl(lk))}${dn?" · המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":""}</div><div class="brows">${rows}</div>`}
  const pt=points(P,W),st=P.map(()=>0);Object.values(PRD).forEach(g=>Object.keys(g).forEach(u=>{const q=P.findIndex(m=>m.id===u);if(q>=0)st[q]++}));
@@ -991,7 +1041,7 @@ document.addEventListener("keydown",e=>{if(!TV.open)return;if(e.key==="Escape")t
 document.addEventListener("fullscreenchange",()=>{if(TV.open&&!document.fullscreenElement&&TV.fs)tvClose();TV.fs=!!document.fullscreenElement});
 
 /* ===== צ'אט בסגנון Google Chat ===== */
-const CH={open:false,msgs:[],typing:[],seen:{},err:null,stick:false,sig:"",reply:null,edit:null,q:"",unreadFrom:0,pinIdx:0,lastTyping:0,sentSeen:0,menuId:null,ment:null};let chTick=0;
+const CH={tab:"chat",ft:"all",sched:[],open:false,msgs:[],typing:[],seen:{},err:null,stick:false,sig:"",reply:null,edit:null,q:"",unreadFrom:0,pinIdx:0,lastTyping:0,sentSeen:0,menuId:null,ment:null};let chTick=0;
 const RXS=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const seen=()=>{try{return +localStorage.getItem("chatseen")||0}catch(e){return 0}};
 const setSeen=t=>{try{localStorage.setItem("chatseen",String(t))}catch(e){}};
@@ -1009,7 +1059,7 @@ function fmtText(t,hi){let h=esc(t);
 const brief=m=>esc((m.text||"").slice(0,80)||(m.f?"📎 "+m.f.name:""));
 function chatRender(){
  const c=chatTok(),L=$("chatList");
- $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=!c;
+ $("chatIn").disabled=$("chatSend").disabled=$("chatAtt").disabled=$("chatMic").disabled=$("chatSched").disabled=!c;
  $("chSub").textContent=D?D.ms.filter(m=>m.claimed).length+" משתתפים":"";
  if(!c){CH.sig="";L.innerHTML=`<div class="empty">כדי להשתתף בצ'אט צריך להיכנס.<br><br><button onclick="chatToggle(false);$('bMe').click()">כניסה לאזור האישי</button></div>`;return}
  const me=memOf(c.id),q=(CH.q||"").trim();
@@ -1030,10 +1080,10 @@ function chatRender(){
   if(m.del)bub=`<div class="gm-bub del"><div class="gm-del">🚫 ההודעה נמחקה</div></div>`;
   else{
    const qq=m.q?`<div class="gm-q" onclick="chatJump('${esc(m.q.id)}')"><b>${esc(memOf(m.q.by).name||"")}</b><span>${m.q.gone?"הודעה שנמחקה":(esc(m.q.text||"")||"📎 "+esc(m.q.f||""))}</span></div>`:"";
-   const fl=m.f?(m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"";
+   const fl=m.f?(m.f.aud?vmHtml(m):m.f.img?`<img class="cimg" src="/api/file/${esc(m.f.id)}" loading="lazy" alt="" onclick="window.open(this.src,'_blank')">`:`<a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a>`):"";
    const rx=Object.entries(m.r||{}).map(([e,ids])=>`<button class="rxc ${ids.includes(c.id)?"on":""}" title="${esc(ids.map(u=>memOf(u).name||"").join(", "))}" onclick="chatReact('${m.id}','${e}')">${e} ${ids.length}</button>`).join("");
    bub=`<div class="gm-bub ${m.f&&m.f.img&&!m.text&&!qq?"imgonly":""}" title="${hm(m.ts)}">${qq}${fl}${m.text?`<div class="gm-body">${fmtText(m.text,q)}</div>`:""}</div>`+(rx?`<div class="rx">${rx}</div>`:"")}
-  const head=cont?"":`<div class="gm-h">${mine?"":`<b>${esc(mem.name||"")}</b> `}<span class="gm-time">${hm(m.ts)}</span>${m.ed&&!m.del?` <span class="gm-ed">(נערך)</span>`:""}${m.pin?` <span title="הודעה מוצמדת">📌</span>`:""}</div>`;
+  const head=cont?"":`<div class="gm-h">${mine?"":`<b>${esc(mem.name||"")}</b> `}<span class="gm-time">${m.sched?"⏰ ":""}${hm(m.ts)}</span>${m.ed&&!m.del?` <span class="gm-ed">(נערך)</span>`:""}${m.pin?` <span title="הודעה מוצמדת">📌</span>`:""}</div>`;
   const mk=marks[m.id]?`<div class="gm-seen">${marks[m.id].map(u=>`<span title="נראה על ידי ${esc(memOf(u).name||"")}">${av(memOf(u),16)}</span>`).join("")}</div>`:"";
   const tools=m.del?"":`<div class="gm-tools"><button title="הוסף תגובה" onclick="rxOpen(event,'${m.id}')">☺</button><button title="השב בציטוט" onclick="chatReply('${m.id}')">↩</button><button title="עוד" onclick="chatMenu(event,'${m.id}')">⋮</button></div>`;
   return pre+`<div class="gm ${mine?"mine":""} ${cont?"cont":""} ${ment?"ment":""}" id="m_${esc(m.id)}"><div class="gm-av">${mine||cont?"":av(mem,34)}</div><div class="gm-b">${head}${bub}${mk}</div>${tools}</div>`});
@@ -1042,7 +1092,7 @@ function chatRender(){
  const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-80,st=L.scrollTop;
  L.innerHTML=rows.length?rows.join("")+seenLine:`<div class="empty">${q?"לא נמצאו הודעות":"עוד אין הודעות. תהיו הראשונים!"}</div>`;
  if(atBottom||CH.stick)L.scrollTop=L.scrollHeight;else L.scrollTop=st;
- CH.stick=false;chatScrollUi()}
+ CH.stick=false;chatScrollUi();vmRebind()}
 function chatScrollUi(){const L=$("chatList");$("chDown").hidden=L.scrollHeight-L.scrollTop-L.clientHeight<160}
 function chatPinBar(){const pins=CH.msgs.filter(m=>m.pin&&!m.del).sort((a,b)=>a.pin.ts-b.pin.ts),el=$("chPin");
  if(!pins.length){el.hidden=true;return}
@@ -1054,14 +1104,14 @@ function chatBadge(){const c=chatTok(),me=c?memOf(c.id):{},myRe=me.name?new RegE
  const un=c?CH.msgs.filter(m=>m.ts>seen()&&m.by!==c.id&&!m.del):[],at=un.some(m=>myRe&&m.text&&myRe.test(m.text)),b=$("chatBadge");
  b.hidden=!un.length||CH.open;b.textContent=(at?"@":"")+un.length;b.classList.toggle("at",at)}
 async function chatLoad(){const c=chatTok();if(!c){chatRender();return}
- const r=await api("chat",{token:c.t});
+ const r=await api("chat",{token:c.t,all:CH.tab!=="chat"});
  if(r.err){CH.err=r.err;if(/להיכנס/.test(r.err)){delete TOK[c.id];saveTok()}chatRender();return}
  CH.err=null;CH.msgs=r.msgs;CH.typing=r.typing||[];CH.seen=r.seen||{};
- chatRender();chatTypingRender();chatPinBar();
+ chatRender();chatTypingRender();chatPinBar();if(CH.tab!=="chat")chatPanelRender();
  if(CH.open&&CH.msgs.length){const lt=CH.msgs[CH.msgs.length-1].ts;setSeen(lt);if(lt>CH.sentSeen){CH.sentSeen=lt;api("seen",{token:c.t,ts:lt})}}
  chatBadge()}
 function chatToggle(o){CH.open=o===undefined?!CH.open:o;$("chat").classList.toggle("open",CH.open);
- if(CH.open){CH.unreadFrom=seen();CH.stick=true;CH.sig="";chatRender();chatLoad()}else{CH.unreadFrom=0;chatBadge()}}
+ if(CH.open){CH.unreadFrom=seen();CH.stick=true;CH.sig="";chatRender();chatLoad();schedCount()}else{CH.unreadFrom=0;chatBadge()}}
 /* פעולות על הודעות */
 function popPlace(pop,btn){const ch=$("chat"),cr=ch.getBoundingClientRect(),br=btn.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
  let left=br.right-cr.left-pw;left=Math.max(8,Math.min(left,cr.width-pw-8));
@@ -1150,6 +1200,108 @@ async function chatUpload(f){const c=chatTok();if(!c)return alert("יש להיכ
 $("chatBtn").onclick=()=>chatToggle();$("chatSend").onclick=chatSend;
 $("chatAtt").onclick=()=>$("chatFile").click();
 $("chatFile").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(f)await chatUpload(f)};
+
+/* ===== לשוניות: הצמדות, מדיה וקבצים ===== */
+const mmss=x=>Math.floor(x/60)+":"+String(Math.round(x%60)).padStart(2,"0");
+function chatTab(t){CH.tab=t;document.querySelectorAll("#chTabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+ const chat=t==="chat";$("chatList").hidden=!chat;$("chPanel").hidden=chat;$("chPin").style.display=chat?"":"none";$("chTyping").style.display=chat?"":"none";
+ document.querySelector(".ch-f2").hidden=!chat;if(!chat){$("chSearch").hidden=true;$("chDown").hidden=true}
+ if(chat){CH.sig="";chatRender()}else{chatLoad()}}
+function chatGoto(id){chatTab("chat");setTimeout(()=>chatJump(id),80)}
+function chatPanelRender(){const el=$("chPanel"),msgs=CH.msgs;
+ if(CH.tab==="pins"){const pins=msgs.filter(m=>m.pin&&!m.del).sort((a,b)=>b.pin.ts-a.pin.ts);
+  el.innerHTML=pins.length?pins.map(m=>`<div class="pn" onclick="chatGoto('${m.id}')">${av(memOf(m.by),34)}<div><b>${esc(memOf(m.by).name||"")}</b> <small>${esc(dayLbl(m.ts))} ${hm(m.ts)}</small><div>${brief(m)}</div></div><button class="ib" title="בטל הצמדה" onclick="event.stopPropagation();chatPin('${m.id}')">📌</button></div>`).join(""):`<div class="empty">אין הודעות מוצמדות.<br>אפשר להצמיד הודעה מהתפריט ⋮</div>`;return}
+ const F=msgs.filter(m=>m.f&&!m.del),kind=m=>m.f.aud?"aud":m.f.img?"img":"file",ft=CH.ft;
+ const chips=[["all","הכל"],["img","תמונות"],["aud","הקלטות"],["file","קבצים"]].map(([k,l])=>`<button class="chip ${ft===k?"on":""}" onclick="CH.ft='${k}';chatPanelRender()">${l} (${k==="all"?F.length:F.filter(m=>kind(m)===k).length})</button>`).join("");
+ const L=F.filter(m=>ft==="all"||kind(m)===ft).sort((a,b)=>b.ts-a.ts),imgs=L.filter(m=>kind(m)==="img"),rest=L.filter(m=>kind(m)!=="img");
+ el.innerHTML=`<div class="chips" style="margin:0 0 10px">${chips}</div>`+(!L.length?`<div class="empty">עוד אין פריטים</div>`:
+  (imgs.length?`<div class="pgrid">${imgs.map(m=>`<div class="pimg" onclick="chatGoto('${m.id}')"><img src="/api/file/${esc(m.f.id)}" loading="lazy" alt=""><span>${esc(memOf(m.by).name||"")} · ${esc(dayLbl(m.ts))}</span></div>`).join("")}</div>`:"")+
+  rest.map(m=>m.f.aud?`<div class="prow2">${vmHtml(m)}<small>${esc(memOf(m.by).name||"")} · ${esc(dayLbl(m.ts))} ${hm(m.ts)}</small></div>`:`<div class="prow2"><a class="cfile" href="/api/file/${esc(m.f.id)}" download="${esc(m.f.name)}">📎 ${esc(m.f.name)} <small>${fsize(m.f.size)}</small></a><small>${esc(memOf(m.by).name||"")} · ${esc(dayLbl(m.ts))}</small><button class="ib" title="קפוץ להודעה" onclick="chatGoto('${m.id}')">↗</button></div>`).join(""))}
+document.querySelectorAll("#chTabs button").forEach(b=>b.onclick=()=>chatTab(b.dataset.t));
+/* ===== הודעות קוליות ===== */
+function vmHtml(m){return `<div class="vm" data-src="/api/file/${esc(m.f.id)}" data-dur="${m.f.dur||0}"><button class="vm-play" onclick="vmToggle(this)">▶</button><div class="vm-bar" onclick="vmSeek(event,this)"><i></i></div><span class="vm-t">${mmss(m.f.dur||0)}</span><button class="vm-sp" onclick="vmSpeed(this)">1×</button></div>`}
+const VM={a:null,el:null,src:""};
+function vmStop(){if(VM.a)VM.a.pause();if(VM.el){const b=VM.el.querySelector(".vm-play");if(b)b.textContent="▶"}}
+function vmToggle(btn){const el=btn.closest(".vm");
+ if(VM.el===el&&VM.a&&!VM.a.paused){VM.a.pause();btn.textContent="▶";return}
+ if(VM.src!==el.dataset.src||!VM.a){vmStop();VM.src=el.dataset.src;VM.el=el;VM.a=new Audio(VM.src);VM.a.playbackRate=+(el.dataset.sp||1);
+  VM.a.ontimeupdate=()=>{const x=VM.el;if(!x)return;const d=VM.a.duration||+x.dataset.dur||1;x.querySelector(".vm-bar i").style.width=Math.min(100,VM.a.currentTime/d*100)+"%";x.querySelector(".vm-t").textContent=mmss(VM.a.currentTime)};
+  VM.a.onended=()=>{const x=VM.el;if(!x)return;x.querySelector(".vm-play").textContent="▶";x.querySelector(".vm-bar i").style.width="0";x.querySelector(".vm-t").textContent=mmss(+x.dataset.dur||0)}}
+ VM.el=el;VM.a.play().then(()=>btn.textContent="⏸").catch(()=>alert("לא ניתן להשמיע את ההקלטה בדפדפן הזה"))}
+function vmSeek(ev,bar){const el=bar.closest(".vm");if(VM.el!==el||!VM.a||!VM.a.duration)return;const r=bar.getBoundingClientRect(),f=(r.right-ev.clientX)/r.width;VM.a.currentTime=Math.max(0,Math.min(1,f))*VM.a.duration}
+function vmSpeed(b){const el=b.closest(".vm"),v=({1:1.5,1.5:2,2:1})[+(el.dataset.sp||1)];el.dataset.sp=v;b.textContent=v+"×";if(VM.el===el&&VM.a)VM.a.playbackRate=v}
+function vmRebind(){if(!VM.a||!VM.src)return;const el=[...document.querySelectorAll("#chatList .vm")].find(x=>x.dataset.src===VM.src);if(el){VM.el=el;el.querySelector(".vm-play").textContent=VM.a.paused?"▶":"⏸"}}
+const VR={rec:null,chunks:[],t0:0,iv:0,stream:null,mime:"",cancel:false};
+async function vrStart(){const c=chatTok();if(!c)return alert("יש להיכנס כדי לשלוח הקלטות");
+ if(!navigator.mediaDevices||!window.MediaRecorder)return alert("הדפדפן הזה לא תומך בהקלטה");
+ try{VR.stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){return alert("אין גישה למיקרופון. אפשר לאשר אותה בהגדרות הדפדפן.")}
+ const mt=["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/ogg;codecs=opus"].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||"";
+ VR.mime=mt;VR.chunks=[];VR.cancel=false;VR.rec=new MediaRecorder(VR.stream,mt?{mimeType:mt}:undefined);
+ VR.rec.ondataavailable=e=>{if(e.data&&e.data.size)VR.chunks.push(e.data)};VR.rec.onstop=vrDone;VR.rec.start();VR.t0=Date.now();
+ $("chRec").hidden=false;document.querySelector(".ch-box").hidden=true;$("chatSend").onclick=vrSend;
+ VR.iv=setInterval(()=>{const x=(Date.now()-VR.t0)/1000;$("recT").textContent=mmss(x);if(x>=180)vrSend()},250)}
+function vrUi(){clearInterval(VR.iv);$("chRec").hidden=true;document.querySelector(".ch-box").hidden=false;$("chatSend").onclick=chatSend}
+function vrStop(){if(VR.rec&&VR.rec.state!=="inactive")VR.rec.stop();vrUi()}
+function vrCancel(){VR.cancel=true;vrStop()}
+function vrSend(){VR.cancel=false;vrStop()}
+async function vrDone(){if(VR.stream)VR.stream.getTracks().forEach(t=>t.stop());if(VR.cancel||!VR.chunks.length)return;
+ const dur=(Date.now()-VR.t0)/1000;if(dur<.7)return toast("ההקלטה קצרה מדי");
+ const base=(VR.rec.mimeType||VR.mime||"audio/webm").split(";")[0],blob=new Blob(VR.chunks,{type:base});
+ if(blob.size>4*1048576)return alert("ההקלטה ארוכה מדי");
+ const c=chatTok();if(!c)return;$("chatMic").textContent="⏳";
+ const r=await api("upload",{token:c.t,name:"הקלטה."+(base.split("/")[1]||"webm"),type:base,data:b64(await blob.arrayBuffer()),dur:Math.round(dur),q:CH.reply?CH.reply.id:undefined});
+ $("chatMic").textContent="🎤";if(r.err)return alert(r.err);CH.reply=null;chatCtx();CH.stick=true;CH.sig="";chatLoad()}
+$("chatMic").onclick=vrStart;
+/* ===== תזמון הודעות ===== */
+const fdt=ts=>new Date(ts).toLocaleString("he-IL",{weekday:"short",day:"numeric",month:"numeric",hour:"2-digit",minute:"2-digit"});
+function atDay(off,h){const d=new Date();d.setDate(d.getDate()+off);d.setHours(h,0,0,0);return d.getTime()}
+function nextDow(dow,h){const d=new Date();d.setHours(h,0,0,0);let k=(dow-d.getDay()+7)%7;if(k===0&&d.getTime()<=Date.now()+60000)k=7;d.setDate(d.getDate()+k);return d.getTime()}
+function schedOpen(){const t=$("chatIn").value.trim();if(!chatTok())return;if(!t)return toast("כתבו קודם את ההודעה ואז לחצו על ⏰");
+ const now=Date.now(),opts=[["בעוד שעה",now+3600e3],["הערב ב-20:00",atDay(0,20)],["מחר בבוקר ב-08:00",atDay(1,8)],["מוצאי שבת ב-20:00",nextDow(6,20)],["ביום ראשון ב-08:00",nextDow(0,8)]].filter(o=>o[1]>now+60000);
+ const p=n=>String(n).padStart(2,"0"),d0=new Date(now+120000),min=`${d0.getFullYear()}-${p(d0.getMonth()+1)}-${p(d0.getDate())}T${p(d0.getHours())}:${p(d0.getMinutes())}`;
+ open(`<h3>⏰ תזמון הודעה</h3><div class="note" style="margin:0 0 6px">״${esc(t.slice(0,90))}${t.length>90?"…":""}״</div>
+ <div class="sch-opts">${opts.map(o=>`<button onclick="schedGo(${o[1]})"><span>${o[0]}</span><small>${esc(fdt(o[1]))}</small></button>`).join("")}</div>
+ <label>או לבחור זמן אחר<input type="datetime-local" id="sch_dt" min="${min}"></label><div class="msg" id="msg"></div>
+ <div class="actions"><button onclick="schedCustom()">תזמון</button><button class="sec" onclick="A.close()">ביטול</button></div>`)}
+function schedCustom(){const v=$("sch_dt").value;if(!v)return err("נא לבחור תאריך ושעה");schedGo(new Date(v).getTime())}
+async function schedGo(at){const c=chatTok(),i=$("chatIn"),t=i.value.trim();if(!c||!t)return;
+ const r=await api("schedule",{token:c.t,text:t,at,q:CH.reply?CH.reply.id:undefined});if(r.err)return err(r.err);
+ i.value="";autosize(i);CH.reply=null;CH.edit=null;chatCtx();A.close();toast("ההודעה תישלח "+fdt(at)+" ✓");schedCount()}
+async function schedCount(){const c=chatTok();if(!c)return;const r=await api("schedlist",{token:c.t});if(r.err)return;CH.sched=r.list||[];
+ const el=$("chSchedChip");el.hidden=!CH.sched.length;el.textContent="⏰ "+CH.sched.length+" "+(CH.sched.length===1?"הודעה מתוזמנת":"הודעות מתוזמנות")}
+function schedList(){open(`<h3>⏰ הודעות מתוזמנות</h3>`+(CH.sched.length?CH.sched.map(x=>`<div class="sch-row"><div><b>${esc(fdt(x.at))}</b><small>${esc(x.text.slice(0,120))}</small></div><button class="sec" onclick="schedCancel('${x.id}')">ביטול</button></div>`).join(""):`<div class="empty">אין הודעות מתוזמנות</div>`)+`<div class="actions"><button class="sec" onclick="A.close()">סגירה</button></div>`)}
+async function schedCancel(id){const c=chatTok();if(!c)return;const r=await api("schedcancel",{token:c.t,sid:id});if(r.err)return alert(r.err);await schedCount();schedList()}
+$("chatSched").onclick=schedOpen;$("chSchedChip").onclick=schedList;
+/* ===== התראות לטלפון ===== */
+const urlB64=x=>{const p="=".repeat((4-x.length%4)%4),r=atob((x+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from([...r].map(ch=>ch.charCodeAt(0)))};
+const pushSup=()=>"serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window;
+async function pushEndpoint(){try{const reg=await navigator.serviceWorker.getRegistration("/"),sub=reg&&await reg.pushManager.getSubscription();return sub?sub.endpoint:null}catch(e){return null}}
+const pushForm=()=>{const m=document.querySelector("input[name=pm]:checked");return{mode:m?m.value:"all",quiet:!!($("pq")&&$("pq").checked),weekly:!!($("pw")&&$("pw").checked)}};
+async function pushUi(){const c=chatTok();
+ if(!c)return open(`<h3>🔔 התראות לטלפון</h3><p>כדי להפעיל התראות צריך קודם להיכנס לאזור האישי.</p>`);
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=!!(navigator.standalone||(window.matchMedia&&matchMedia("(display-mode: standalone)").matches));let body;
+ if(!pushSup())body=`<p>הדפדפן הזה לא תומך בהתראות${ios&&!standalone?". באייפון צריך קודם להוסיף את האתר למסך הבית: כפתור השיתוף ואז ״הוסף למסך הבית״, לפתוח אותו משם, ולהפעיל התראות כאן.":"."}</p>`;
+ else{const [st,ep]=await Promise.all([api("pushstate",{token:c.t}),pushEndpoint()]),on=!!(ep&&st.endpoints&&st.endpoints.includes(ep)),pr=st.prefs||{mode:"all",quiet:true,weekly:true};
+  body=`<p class="sub">${on?"✅ ההתראות פעילות במכשיר הזה.":"ההתראות לא פעילות במכשיר הזה."}${st.devices?` מכשירים רשומים: ${st.devices}.`:""}</p>
+  <div class="box"><label><input type="radio" name="pm" value="all" ${pr.mode==="all"?"checked":""}> על כל הודעה בצ'אט</label><label><input type="radio" name="pm" value="mentions" ${pr.mode==="mentions"?"checked":""}> רק על אזכורים (@) ותגובות להודעות שלי</label>
+  <label><input type="checkbox" id="pq" ${pr.quiet?"checked":""}> שקט בשבת (שישי 14:00 עד מוצאי שבת 20:00)</label><label><input type="checkbox" id="pw" ${pr.weekly?"checked":""}> תזכורת שקילה בשישי בבוקר</label></div>
+  <div class="msg" id="msg"></div><div class="actions">${on?`<button onclick="pushSave()">שמירת הגדרות</button><button class="sec" onclick="pushTest()">התראה לדוגמה</button><button class="sec" onclick="pushOff()">כיבוי במכשיר הזה</button>`:`<button onclick="pushEnable()">הפעלת התראות במכשיר הזה</button>`}</div>`}
+ open(`<h3>🔔 התראות לטלפון</h3>${body}`)}
+async function pushEnable(){const c=chatTok();
+ try{const perm=await Notification.requestPermission();if(perm!=="granted")return err("לא ניתנה הרשאה להתראות. אפשר לאשר אותה בהגדרות הדפדפן של האתר.");
+  const reg=await navigator.serviceWorker.register("/sw.js");await navigator.serviceWorker.ready;
+  const k=await api("pushkey");if(k.err)return err(k.err);
+  const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlB64(k.key)});
+  const r=await api("pushsub",{token:c.t,sub:sub.toJSON(),prefs:pushForm()});if(r.err)return err(r.err);pushUi()}
+ catch(e){err("ההפעלה נכשלה: "+(e.message||e))}}
+async function pushSave(){const c=chatTok(),r=await api("pushprefs",{token:c.t,prefs:pushForm()});err(r.err||"✓ נשמר")}
+async function pushTest(){const c=chatTok(),r=await api("pushtest",{token:c.t});err(r.err||(r.sent?"✓ נשלחה התראה לדוגמה":"לא נמצא מכשיר פעיל"))}
+async function pushOff(){const c=chatTok();try{const reg=await navigator.serviceWorker.getRegistration("/"),sub=reg&&await reg.pushManager.getSubscription();
+  if(sub){const ep=sub.endpoint;await sub.unsubscribe();await api("pushoff",{token:c.t,endpoint:ep})}}catch(e){}pushUi()}
+$("chBell").onclick=pushUi;
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+if(location.hash==="#chat")setTimeout(()=>chatToggle(true),1500);
+window.addEventListener("hashchange",()=>{if(location.hash==="#chat")chatToggle(true)});
 setInterval(()=>{chTick++;if(CH.open||chTick%10===0)chatLoad()},3000);
 
 render();refresh();
