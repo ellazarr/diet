@@ -15,6 +15,7 @@ const PEOPLE=[["ima","אמא","#e07a5f",17],["elazar","אלעזר","#3d85c6",26.
 const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","ט״ו אלול",[1.11,.34,0,null]],["2026-09-04","כ״ב אלול",[.44,1.42,2.92,1.52],2,"החלטה יחידה בשביל לחסוך מלחמה"],["2026-09-11","כ״ט אלול",[2.33,.88,.58,1],0,"גם בשבת להיות עם 'יד על הדופק'..."],["2026-09-18","ז׳ תשרי",[0,.1,.7,0],2,"תשובה ותפילה וצדקה מעבירין את רוע הגזירה!!!"],["2026-09-25","י״ד תשרי",[null,.1,-.35,null],1,"הכנה טובה לפני, כדי לשחרר יותר בחגים"],["2026-10-02","כ״א תשרי",[null,-1.86,null,null]],["2026-10-16","ה׳ חשוון",[-1.33,.44,-1.29,null]]];
 const RX=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"audio/webm":2,"audio/ogg":2,"audio/mp4":2,"audio/mpeg":2,"audio/aac":2,"audio/x-m4a":2,"audio/wav":2,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
+const POINTS_FROM="2026-10-23";
 const PATCH=[["2026-10-16","ima",-1.33],["2026-10-16","yosi",-1.29]];
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
@@ -62,7 +63,14 @@ export default async req=>{
  PATCH.forEach(([wk,id,v])=>{const k=wk+"__"+id;if(pub.members[id]&&!pub.members[id].claimed&&!(k in pub.entries)){pub.entries[k]=v;dirty=true}});
  const save=()=>Promise.all([st.setJSON("public",pub),st.setJSON("priv",priv)]);
  const hasEnt=wk=>Object.keys(pub.entries).some(k=>k.startsWith(wk+"__"));
- if(act==="state"){if(dirty)await save();return J({...pub,preds:pub.preds||{}})}
+ const betAgg=()=>{const cnt={},ok={};
+  Object.entries(pub.preds||{}).forEach(([wk,g])=>{cnt[wk]={};Object.values(g).forEach(x=>{cnt[wk][x]=(cnt[wk][x]||0)+1});
+   const w=info(pub,wk),np=Object.keys(pub.entries).filter(k=>k.startsWith(wk+"__")&&pub.entries[k]!==null).length;
+   if(wk>=POINTS_FROM&&today()>=wk&&w.done&&w.win.length&&np>=2)Object.values({...g}).length&&Object.entries(g).forEach(([u,x])=>{if(w.win.includes(x))ok[u]=(ok[u]||0)+1})});
+  return{cnt,ok}};
+ if(act==="state"){if(dirty)await save();const{preds,poll,...rest}=pub,agg=betAgg(),td=today(),rev={};
+  Object.entries(preds||{}).forEach(([wk,g])=>{const w=info(pub,wk);if(closed(wk)||(td>=wk&&w.done&&w.win.length))rev[wk]=g});
+  return J({...rest,betcnt:agg.cnt,betok:agg.ok,betrev:rev})}
  if(req.method!=="POST")return J({err:"bad"},405);
  const b=await req.json().catch(()=>({}));
  let sec=await st.get("secret");if(!sec){sec=rnd()+rnd();await st.set("secret",sec)}
@@ -147,11 +155,12 @@ export default async req=>{
   if(sch.filter(x=>x.by===id).length>=10)return bad("אפשר לתזמן עד 10 הודעות בו זמנית");
   sch.push({id:rnd(),by:id,at,text:t,q:b.q?String(b.q).slice(0,40):undefined,created:Date.now()});
   await st.setJSON("chatsched",sch);return J({ok:1,at})}
+ if(act==="mybets")return J({mine:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]]))});
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
   const td=today(),addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
-  if(new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-6)<=td&&td<wk))return bad("ההימורים לשבוע הזה סגורים. אפשר להמר עד יום חמישי בחצות (00:00 ליל שישי)");
+  if(new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-7)<=td&&td<wk))return bad("ההימורים לשבוע הזה סגורים. אפשר להמר עד יום חמישי בחצות (00:00 ליל שישי)");
   pub.preds=pub.preds||{};(pub.preds[wk]=pub.preds[wk]||{})[id]=g;
   await save();return J({ok:1})}
  if(act==="say"){

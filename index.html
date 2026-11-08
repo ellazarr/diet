@@ -449,6 +449,52 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
 .sch-row{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:6px 0}
 .sch-row>div{flex:1;min-width:0}.sch-row small{color:var(--muted);display:block}
 .gm-seen .av{width:18px;height:18px;font-size:10px}
+
+.bc{cursor:pointer;user-select:none}
+.bc.closed{cursor:default;opacity:.85}
+.bc:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bc:active{transform:scale(.97)}
+.bc.pop{animation:popbc .7s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes popbc{0%{transform:scale(.92)}50%{transform:scale(1.07);box-shadow:0 0 0 6px color-mix(in srgb,var(--gold) 35%,transparent)}100%{transform:scale(1)}}
+.bconf{text-align:center}
+.bconf .av{margin:4px auto 6px;width:96px;height:96px;border-width:4px;border-color:var(--gold);box-shadow:0 8px 22px rgba(184,138,46,.4)}
+.bconf h3{font-size:28px;margin:8px 0 2px}
+.bconf .sub{color:var(--muted);margin-bottom:6px}
+
+.bet-who{background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:12px;padding:6px 14px;font-size:13.5px}
+.bet-who.off{background:color-mix(in srgb,var(--gold) 14%,transparent);border-color:var(--gold)}
+.bres{background:var(--bg);border:1px solid var(--gold);border-radius:16px;padding:12px 14px;display:grid;gap:10px}
+.bres-w{display:flex;gap:12px;align-items:center}
+.bres-w .av{border-color:var(--gold)}
+.bres-t{font-family:"Frank Ruhl Libre",serif;font-size:22px;font-weight:900}
+.stack .ph{width:28px;height:28px;border-radius:50%;border:2px solid var(--card);margin-inline-start:-8px;background:var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+
+.poll{margin:-52px 0 22px;position:relative;background:linear-gradient(135deg,#08172c,#10325a 55%,#08172c);color:#fff;border-radius:22px;padding:18px 20px 14px;box-shadow:0 18px 40px rgba(5,20,45,.45);overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.poll[hidden]{display:none}
+.poll:not([hidden])+#weekly{margin-top:0}
+.poll::after{content:"";position:absolute;top:0;bottom:0;width:90px;left:-140px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.13),transparent);animation:psheen 6s ease-in-out infinite}
+@keyframes psheen{0%,55%{left:-140px}100%{left:115%}}
+.pl-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.pl-tag{display:inline-flex;align-items:center;gap:8px;background:#d8232a;color:#fff;font-weight:800;font-size:14px;border-radius:6px;padding:2px 12px}
+.pl-tag i{width:9px;height:9px;border-radius:50%;background:#fff;animation:rec 1s ease-in-out infinite}
+.pl-t{font-family:"Frank Ruhl Libre",serif;font-size:clamp(24px,5vw,36px);font-weight:900;line-height:1.1;margin-top:6px}
+.pl-s{color:#a9c4e6;font-size:15px}
+.pl-cnt{min-width:170px;text-align:end;font-size:13px;color:#a9c4e6}
+.pl-cnt b{display:block;color:#fff;font-size:15px;margin-bottom:4px}
+.pl-prog{height:7px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
+.pl-prog i{display:block;height:100%;background:linear-gradient(90deg,#f5b100,#ffd75e);border-radius:99px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.pl-row{display:grid;grid-template-columns:34px 48px 100px 1fr 82px;gap:10px;align-items:center;padding:7px 0;border-top:1px solid rgba(255,255,255,.09);animation:rise .6s both;animation-delay:calc(var(--i,0)*90ms)}
+.pl-rk{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-weight:800}
+.pl-row.lead .pl-rk{background:#f5b100;color:#1b1400}
+.pl-row .av{width:46px;height:46px;border-color:var(--c);font-size:24px}
+.pl-nm{font-size:19px;font-weight:800}
+.pl-bar{height:26px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden}
+.pl-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 70%,#fff));border-radius:6px;transition:width 1.6s cubic-bezier(.2,.8,.2,1);position:relative}
+.pl-row.lead .pl-bar i{box-shadow:0 0 14px color-mix(in srgb,var(--c) 70%,transparent)}
+.pl-v{font-family:"Frank Ruhl Libre",serif;font-size:30px;font-weight:900;direction:ltr;text-align:start}
+.pl-lead{font-size:11.5px;color:#ffd75e;font-weight:700;display:block;margin-top:-2px}
+.pl-foot{margin-top:8px;font-size:12px;color:#8fb0d8;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){.pl-row{grid-template-columns:28px 40px 1fr 64px}.pl-bar{grid-column:1/-1;order:5}.pl-row .av{width:38px;height:38px}}
 </style>
 </head>
 <body>
@@ -464,6 +510,7 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
 </header>
 <main class="wrap">
   <div id="notice"></div>
+  <section class="poll" id="poll" hidden></section>
   <div class="card reveal" id="weekly"></div>
   <section class="stats" id="stats"></section>
   <div id="pending"></div>
@@ -493,7 +540,7 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
    <li><b>פרטיות:</b> המשקלים נשמרים באזור האישי בלבד ומוגנים בסיסמה. לכולם מוצגים רק אחוזים.</li>
    <li><b>המנצח השבועי:</b> מי שירד הכי הרבה אחוזים מבין מי שעדכנו באותו שבוע. כל עוד לא כולם עדכנו מופיע ״לעת עתה מוביל״.</li>
    <li><b>ליגת הנקודות:</b> בכל שבוע הנקודות לפי הדירוג: מקום ראשון <b>4</b> נקודות, מקום שני <b>3</b>, מקום שלישי <b>2</b>, והאחרון <b>0</b> (האחרון מקבל 0 כשיש לפחות 4 משתתפים באותו שבוע). מקום רביעי ומעלה שאינו אחרון מקבל נקודה אחת. שוויון נותן לשניהם אותו מספר נקודות. <b>הליגה מתחילה מהשבוע של י״ב חשוון (23.10)</b>, ושבוע שרק משתתף אחד עדכן בו לא נותן נקודות לאף אחד.</li>
-   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה (בשבוע שבו עדכנו לפחות שניים). ההימורים גלויים לכולם באתר.</li>
+   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה (בשבוע שבו עדכנו לפחות שניים). <b>ההימורים אנונימיים עד שהשבוע נסגר:</b> עד אז רואים רק כמה הימרו על כל משתתף. אחרי שהשבוע נסגר (כשכולם עדכנו, או מיום ראשון) מתגלה מי הימר על מי, גם אם לא נקבע מנצח.</li>
    <li><b>משפט מוטיבציה ובדיחה:</b> מי שניצח בשבוע מקבל אפשרות לכתוב משפט מוטיבציה, ומי שירד הכי מעט מקבל אפשרות לכתוב בדיחה. האפשרות נפתחת אחרי שהשבוע נסגר.</li>
    <li><b>סגירת שבוע:</b> שבוע נסגר כשכל המשתתפים עדכנו, או מיום ראשון שאחריו, גם אם לא כולם עדכנו.</li>
    <li><b>היסטוריה ועריכה:</b> באזור האישי רואים את כל השקילות ואפשר לערוך או למחוק אותן בכל עת. האחוזים והנקודות מתעדכנים לבד.</li>
@@ -538,7 +585,7 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const COLORS=["#e07a5f","#3d85c6","#2f9e6e","#a26bd4","#e0a030","#d6559a","#3aa7b5","#7a8f3a"];
 const EMOS=["🦁","🐯","🐻","🦊","🐼","🦉","🐬","🦄","🌟","🚀","🍀","🏆"];
 const PHOTO_RE=/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/;
-let MEM=[],WK=[],ENT=[],D=null,PRD={},BADGES=[];
+let MEM=[],WK=[],ENT=[],D=null,BETCNT={},BETOK={},BETREV={},MYB={},BADGES=[];
 const round2=x=>Math.round(x*100)/100,fmt=x=>(x<0?"−":"")+Math.abs(x).toFixed(2)+"%";
 const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 function friday(d){let x=5-d.getDay();if(x>3)x-=7;if(x<-3)x+=7;const r=new Date(d);r.setDate(r.getDate()+x);return r}
@@ -674,6 +721,7 @@ function render(){
  tick("tkQuotes",say("quote","💡"),"עדיין אין משפטי מנצחים");
  tick("tkJokes",say("joke","😄"),"עדיין אין בדיחות");
  renderExtras(P,W,RW,cnt);
+ renderPoll(P,W);
  if(CH.open)chatRender();
  countUp();
 }
@@ -686,7 +734,7 @@ async function api(a,b){try{const r=await fetch("/api/"+a,{method:b?"POST":"GET"
 async function refresh(){const s=await api("state");
  if(s.err){$("notice").innerHTML=`<div class="card" style="margin-top:14px">${esc(s.err)}</div>`;return}
  $("notice").innerHTML="";
- const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;PRD=s.preds||{};
+ const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;BETCNT=s.betcnt||{};BETOK=s.betok||{};BETREV=s.betrev||{};
  MEM=Object.entries(s.members).map(([id,d])=>({id,data:()=>d}));
  WK=Object.entries(s.weeks).map(([id,d])=>({id,data:()=>d}));
  ENT=Object.entries(s.entries).map(([k,pct])=>{const[wk,m]=k.split("__");return{data:()=>({wk,m,pct})}});
@@ -747,7 +795,7 @@ A.area=async()=>{
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
  const bw=betWeek();
- const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים גלויים לכולם.</div></div>`;
+ const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
  const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
@@ -773,8 +821,8 @@ A.area=async()=>{
  <label>סיסמה חדשה (ריק = ללא שינוי)<input id="s_p" type="password"></label>
  <div class="msg" id="msg2"></div><div class="actions"><button onclick="A.save()">שמירת הגדרות</button><button class="sec" onclick="A.save(1)">שמירה ושליחת מייל לדוגמה</button><button class="sec" onclick="A.out()">יציאה</button></div></details>`)};
 A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);
- const g=(D.ms.find(x=>x.id===$("pr_g").value)||{}).name||"";await refresh();A.flash="🎲 ההימור נשמר ("+g+") וכבר מופיע באתר, בקטגוריית הימורי השבוע";A.area()};
-A.out=()=>{delete TOK[cur];saveTok();A.close()};
+ const g=(D.ms.find(x=>x.id===$("pr_g").value)||{}).name||"";MYB[wk]=$("pr_g").value;await refresh();A.flash="🎲 ההימור נשמר ("+g+") וכבר מופיע באתר, בקטגוריית הימורי השבוע";A.area()};
+A.out=()=>{delete TOK[cur];saveTok();MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws)};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
  const r=await api("week",{token:TOK[cur],wk:ymd(dt),label:hl(ymd(dt)),skip:!!skip,weight:$("w_k").value});
@@ -923,8 +971,7 @@ function points(P,W){
   a.forEach(([v,i])=>{const rank=1+a.filter(z=>z[0]>v).length;let p;
    if(a.length>=4&&mx>mn&&v===mn)p=0;else p=rank===1?4:rank===2?3:rank===3?2:1;
    out[i].pts+=p;if(p===0)out[i].r0++;else if(rank===1)out[i].r1++;else if(rank===2)out[i].r2++;else if(rank===3)out[i].r3++})});
- Object.entries(PRD).forEach(([wk,g])=>{const w=W.find(x=>x.id===wk);if(!w||!w.done||wk<POINTS_FROM||w.v.filter(x=>x!==null).length<2)return;
-  const win=w.win.map(i=>P[i].id);Object.entries(g).forEach(([uid,guess])=>{const q=P.findIndex(m=>m.id===uid);if(q>=0&&win.includes(guess)){out[q].bet++;out[q].pts++}})});
+ P.forEach((m,q)=>{const k=BETOK[m.id]||0;out[q].bet=k;out[q].pts+=k});
  return out}
 function leagueRender(P,W,cnt){const el=$("league");
  if(!P.length){el.innerHTML=`<div class="empty">הליגה תתחיל אחרי השקילות הראשונות</div>`;return}
@@ -996,24 +1043,75 @@ function betCountdown(){const el=$("betCd");if(!el)return;const ms=betDeadline(b
  const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
  el.textContent="נותרו "+(d?d+" ימים ו-":"")+h+" שעות"+(d?"":" ו-"+m+" דקות")}
 setInterval(betCountdown,30000);
+function betSwitch(){const c=chatTok();if(c){delete TOK[c.id];saveTok()}MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws);$("bMe").click()}
+let myId="";
+async function loadMyBets(){const c=chatTok();myId=c?c.id:"";if(!c){MYB={};if(D)predRender(D.ms,D.ws);return}
+ const r=await api("mybets",{token:c.t});MYB=r.mine||{};if(D)predRender(D.ms,D.ws)}
+function updateWho(){const c=chatTok(),t=c&&D?"👤 "+(memOf(c.id).name||"האזור האישי")+" · מחובר":"👤 האזור האישי";const b=$("bMe");if(b.textContent!==t)b.textContent=t}
+setInterval(()=>{updateWho();const c=chatTok(),id=c?c.id:"";if(id!==myId)loadMyBets()},1500);
+function betPick(id){
+ const m=D.ms.find(x=>x.id===id);if(!m||!m.claimed)return;const bw=betWeek();
+ if(betDeadline(bw)-Date.now()<=0)return open(`<h3>ההימורים נסגרו</h3><p>ההימורים לשבוע ${esc(hl(bw))} נסגרו ביום חמישי בחצות.</p><div class="actions"><button onclick="A.close()">סגירה</button></div>`);
+ const c=chatTok();
+ if(!c)return open(`<div class="bconf">${av(m,84)}<h3>כדי להמר צריך להיכנס</h3><p>בחרתם ב${esc(m.name)}. היכנסו קודם לאזור האישי ואז לחצו שוב על הריבוע.</p><div class="actions" style="justify-content:center"><button onclick="A.close();$('bMe').click()">כניסה לאזור האישי</button><button class="sec" onclick="A.close()">ביטול</button></div></div>`);
+ const me=memOf(c.id),cur=MYB[bw];
+ open(`<div class="bconf">${av(m,96)}<h3>בחרת ב${esc(m.name)}</h3>
+  <div class="sub">ההימור של ${esc(me.name||"")} על המנצח בשבוע ${esc(hl(bw))} (${dm(bw)})</div>
+  ${cur===id?`<div class="note">כבר המרת על ${esc(m.name)}.</div>`:cur?`<div class="note">ההימור הקודם שלך היה על ${esc(memOf(cur).name||"")}. האישור יחליף אותו.</div>`:""}
+  <div class="note">ההימור אנונימי עד שהשבוע נסגר: עד אז רואים רק כמה הימרו על כל משתתף. אפשר לשנות עד יום חמישי בחצות (00:00 ליל שישי).</div>
+  <div class="note"><a href="#" onclick="betSwitch();return false">לא ${esc(me.name||"")}? החלפת משתמש</a></div>
+  <div class="msg" id="msg"></div>
+  <div class="actions" style="justify-content:center"><button id="betOk" onclick="betConfirm('${esc(m.id)}')">אישור</button><button class="sec" onclick="A.close()">ביטול</button></div></div>`)}
+async function betConfirm(id){const c=chatTok();if(!c)return;const ok=$("betOk");ok.disabled=true;
+ const r=await api("predict",{token:c.t,wk:betWeek(),guess:id});
+ if(r.err){ok.disabled=false;return err(r.err)}
+ MYB[betWeek()]=id;await refresh();predRender(D.ms,D.ws);A.close();toast("🎲 ההימור שלך נשמר: "+(memOf(id).name||""));
+ const el=document.querySelector('.bc[data-id="'+id+'"]');if(el){el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop")}}
 function predRender(P,W){
- const el=$("predCard"),bw=betWeek(),bets=PRD[bw]||{},cand=P.filter(m=>m.claimed).sort((a,b)=>famRank(a)-famRank(b)),byId=id=>P.find(m=>m.id===id);
- const cnt={};Object.values(bets).forEach(g=>cnt[g]=(cnt[g]||0)+1);
- const total=Object.keys(bets).length,mx=Math.max(0,...Object.values(cnt)),me=chatTok(),mine=me?bets[me.id]:null;
- let h=`<div class="bets"><div class="bet-head"><div><div class="bet-t">מי ינצח בשבוע ${esc(hl(bw))}? <small>(${dm(bw)})</small></div><div class="bet-s">ניחוש נכון שווה נקודה אחת בליגה · מהמרים באזור האישי</div></div><div class="bet-dl">⏳ <span id="betCd"></span><small>נסגר ביום חמישי בחצות (00:00 ליל שישי)</small></div></div>`;
+ const el=$("predCard"),bw=betWeek(),cnt=BETCNT[bw]||{},cand=P.filter(m=>m.claimed).sort((a,b)=>famRank(a)-famRank(b)),byId=id=>P.find(m=>m.id===id);
+ const sum=o=>Object.values(o).reduce((x,y)=>x+y,0),total=sum(cnt),mx=Math.max(0,...Object.values(cnt)),c=chatTok(),mine=c?MYB[bw]:null,closedNow=betDeadline(bw)-Date.now()<=0;
+ let h=`<div class="bets"><div class="bet-head"><div><div class="bet-t">מי ינצח בשבוע ${esc(hl(bw))}? <small>(${dm(bw)})</small></div><div class="bet-s">${closedNow?"ההימורים לשבוע הזה נסגרו":"לחצו על המשתתף שאתם חושבים שינצח · ניחוש נכון שווה נקודה אחת בליגה"}</div></div><div class="bet-dl">⏳ <span id="betCd"></span><small>נסגר ביום חמישי בחצות (00:00 ליל שישי)</small></div></div>`;
+ h+=c&&D?`<div class="bet-who">🔒 מחובר כ${esc(memOf(c.id).name||"")} · ההימור נשמר מהחשבון האישי שלך, והוא אנונימי עד שהשבוע נסגר</div>`:`<div class="bet-who off">כדי להמר צריך להתחבר לאזור האישי</div>`;
  if(!cand.length)h+=`<div class="empty">ההימורים ייפתחו כשיצטרפו משתתפים</div>`;
- else h+=`<div class="bet-grid">${cand.map((m,k)=>{const n=cnt[m.id]||0,who=Object.entries(bets).filter(e=>e[1]===m.id).map(e=>byId(e[0])).filter(Boolean),lead=n&&n===mx;
-  return `<div class="bc ${lead?"lead":""} ${mine===m.id?"mine":""}" style="--c:${esc(m.c)};--i:${k}">${lead?`<span class="bc-crown">👑</span>`:""}${mine===m.id?`<span class="bc-me">ההימור שלך</span>`:""}${av(m,72)}<b>${esc(m.name)}</b><div class="bc-n">${n?n+" "+(n===1?"הימור":"הימורים"):"אין הימורים"}</div><div class="bc-bar"><i style="width:${total?Math.round(n/total*100):0}%"></i></div><div class="stack">${who.map(u=>`<span title="${esc(u.name)}">${av(u,28)}</span>`).join("")}</div></div>`}).join("")}</div>`;
- h+=`<div class="note">${total?total+" הימרו עד כה. ההימורים גלויים לכולם.":"עוד אף אחד לא המר. ההימורים יהיו גלויים לכולם."}</div>`;
- const lk=Object.keys(PRD).filter(k=>k<bw).sort().pop();
- if(lk){const lw=W.find(x=>x.id===lk),dn=!!(lw&&lw.done&&lw.win.length),wins=dn?lw.win.map(i=>P[i].id):[];
-  const rows=Object.entries(PRD[lk]).sort((x,y)=>famRank(byId(x[0]))-famRank(byId(y[0]))).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=dn&&wins.includes(g);
-   return `<div class="brow ${dn?(ok?"ok":"no"):""}">${av(a,34)}<b>${esc(a.name)}</b><span class="arr">←</span>${av(b,34)}<b>${esc(b.name)}</b><em>${dn?(ok?"✅ ניחוש נכון":"❌"):"⏳"}</em></div>`}).filter(Boolean).join("");
-  if(rows)h+=`<div class="bet-sub">תוצאות שבוע ${esc(hl(lk))}${dn?" · המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":""}</div><div class="brows">${rows}</div>`}
- const pt=points(P,W),st=P.map(()=>0);Object.values(PRD).forEach(g=>Object.keys(g).forEach(u=>{const q=P.findIndex(m=>m.id===u);if(q>=0)st[q]++}));
- const bb=P.map((m,q)=>({m,n:st[q],ok:pt[q].bet})).filter(z=>z.n>0).sort((a,b)=>b.ok-a.ok||a.n-b.n);
- if(bb.length)h+=`<div class="bet-sub">🏆 המנחשים המובילים</div><div class="bboard">${bb.map(z=>`<div class="bb">${av(z.m,36)}<b>${esc(z.m.name)}</b><span class="sub">${z.ok} נכונות מתוך ${z.n}</span><em>${z.ok}</em></div>`).join("")}</div>`;
+ else h+=`<div class="bet-grid">${cand.map((m,k)=>{const n=cnt[m.id]||0,lead=n&&n===mx;
+  return `<div class="bc ${lead?"lead":""} ${mine===m.id?"mine":""} ${closedNow?"closed":""}" data-id="${esc(m.id)}" role="button" tabindex="0" aria-label="המרה על ${esc(m.name)}" onclick="betPick('${esc(m.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();betPick('${esc(m.id)}')}" style="--c:${esc(m.c)};--i:${k}">${lead?`<span class="bc-crown">👑</span>`:""}${mine===m.id?`<span class="bc-me">ההימור שלך</span>`:""}${av(m,72)}<b>${esc(m.name)}</b><div class="bc-n">${n?n+" "+(n===1?"הימור":"הימורים"):"אין הימורים"}</div><div class="bc-bar"><i style="width:${total?Math.round(n/total*100):0}%"></i></div><div class="stack">${Array.from({length:Math.min(n,8)},()=>`<span class="ph" title="מי הימר יתגלה כשיהיה מנצח">?</span>`).join("")}</div></div>`}).join("")}</div>`;
+ h+=`<div class="note">${total?total+" הימרו עד כה. ":"עוד אף אחד לא המר. "}רואים כמה הימרו על כל משתתף, ומי הימר על מי יתגלה כשהשבוע ייסגר (כשכולם עדכנו או מיום ראשון).${closedNow?"":" אפשר לשנות את ההימור עד שהוא נסגר."}</div>`;
+ const lk=Object.keys(BETCNT).filter(k=>k<bw).sort().pop(),lr=Object.keys(BETREV).filter(k=>k<bw).sort().pop();
+ if(lk&&lk!==lr){const cc=BETCNT[lk]||{};if(sum(cc))h+=`<div class="bet-sub">שבוע ${esc(hl(lk))}</div><div class="note">מי הימר על מי יתגלה כשהשבוע ייסגר (כשכולם עדכנו או מיום ראשון). עד אז רואים רק כמה הימרו על כל משתתף:</div><div class="chips">${Object.entries(cc).sort((x,y)=>y[1]-x[1]).map(([id,n])=>{const m=byId(id);return m?`<span class="chip">${esc(m.name)}: ${n}</span>`:""}).join("")}</div>`}
+ if(lr){const rv=BETREV[lr],lw=W.find(x=>x.id===lr),wins=lw?lw.win.map(i=>P[i].id):[];
+  const rows=Object.entries(rv).sort((x,y)=>famRank(byId(x[0]))-famRank(byId(y[0]))).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=wins.includes(g);
+   return `<div class="brow ${wins.length?(ok?"ok":"no"):""}">${av(a,34)}<b>${esc(a.name)}</b><span class="arr">←</span>${av(b,34)}<b>${esc(b.name)}</b><em>${wins.length?(ok?"✅ ניחוש נכון":"❌"):""}</em></div>`}).filter(Boolean).join("");
+  h+=`<div class="bet-sub">הימורי שבוע ${esc(hl(lr))} · ${wins.length?"המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":"לא נקבע מנצח לשבוע הזה"}</div><div class="brows">${rows}</div>`}
+ const st={};Object.values(BETREV).forEach(g=>Object.keys(g).forEach(u=>{st[u]=(st[u]||0)+1}));
+ const bb=P.map(m=>({m,n:st[m.id]||0,ok:BETOK[m.id]||0})).filter(z=>z.n>0||z.ok>0).sort((a,b)=>b.ok-a.ok||a.n-b.n);
+ if(bb.length)h+=`<div class="bet-sub">🏆 המנחשים המובילים</div><div class="bboard">${bb.map(z=>`<div class="bb">${av(z.m,36)}<b>${esc(z.m.name)}</b><span class="sub">${z.ok} נכונות מתוך ${Math.max(z.n,z.ok)}</span><em>${z.ok}</em></div>`).join("")}</div>`;
  el.innerHTML=h+"</div>";betCountdown()}
+function pollHtml(P,pl,final){
+ const rows=Object.entries(pl.items).map(([id,v])=>({m:P.find(x=>x.id===id),v:+v})).filter(r=>r.m).sort((a,b)=>b.v-a.v),mx=Math.max(1,...rows.map(r=>r.v));
+ const cn=(v,suf)=>final?`${v.toFixed(1)}${suf}`:`<span class="cnt" data-to="${v}" data-dec="1" data-suf="${suf}" data-pre="">${v.toFixed(1)}${suf}</span>`;
+ return `<div class="pl-head"><div><span class="pl-tag"><i></i>מדגם</span><div class="pl-t">${esc(pl.title||"מדגם השבוע")}</div>${pl.sub?`<div class="pl-s">${esc(pl.sub)}</div>`:""}</div>${pl.ct?`<div class="pl-cnt"><b>${esc(pl.ct)}</b><div class="pl-prog"><i data-w="${pl.counted}" style="width:${final?pl.counted:0}%"></i></div></div>`:""}</div>`
+  +rows.map((r,i)=>`<div class="pl-row ${i===0?"lead":""}" style="--c:${esc(r.m.c)};--i:${i}"><div class="pl-rk">${i+1}</div>${av(r.m,46)}<div><div class="pl-nm">${esc(r.m.name)}</div>${i===0?`<span class="pl-lead">מוביל במדגם</span>`:""}</div><div class="pl-bar"><i data-w="${Math.round(r.v/mx*100)}" style="width:${final?Math.round(r.v/mx*100):0}%"></i></div><div class="pl-v">${cn(r.v,"%")}</div></div>`).join("")
+  +`<div class="pl-foot"><span>המדגם מחושב אוטומטית מהימורי המשפחה ואינו תוצאה רשמית. התוצאות האמיתיות לפי השקילות של כולם.</span><span>מתעדכן בזמן אמת · ${esc(hm(pl.ts||Date.now()))}</span></div>`}
+function pollModel(P,W){
+ const cl=P.filter(m=>m.claimed);if(cl.length<2)return null;
+ const td=ilToday(),bw=betWeek(),sum=o=>Object.values(o).reduce((x,y)=>x+y,0);
+ let wk=null,phase="";
+ const closedKeys=Object.keys(BETCNT).filter(k=>k<=td&&sum(BETCNT[k]||{})>0&&!closedW(k)&&!(W.find(x=>x.id===k)||{}).done).sort();
+ if(closedKeys.length){wk=closedKeys.pop();phase="count"}
+ else if(sum(BETCNT[bw]||{})>0){wk=bw;phase="bet"}
+ if(!wk)return null;
+ const cc=BETCNT[wk]||{},tot=sum(cc),items={};
+ cl.forEach(m=>{items[m.id]=Math.round((cc[m.id]||0)/tot*1000)/10});
+ let counted,ct,title,sub;
+ if(phase==="bet"){counted=Math.round(tot/cl.length*100);ct="הימרו "+Math.min(100,counted)+"% מהמשתתפים";title="מדגם: מי ינצח השבוע?";sub="לפי הימורי המשפחה · מתעדכן בזמן אמת"}
+ else{const w=W.find(x=>x.id===wk),upd=cl.filter(m=>w&&w.has[P.indexOf(m)]).length;counted=Math.round(upd/cl.length*100);ct="נספרו "+counted+"% מהשקילות";title="מדגם השבוע: מי ינצח?";sub="לפי הימורי המשפחה · ספירת השקילות נמשכת"}
+ return{wk,phase,title,sub,counted:Math.min(100,counted),ct,items,ts:Date.now()}}
+function renderPoll(P,W){const el=$("poll"),pl=pollModel(P,W);
+ if(!pl){el.hidden=true;el.innerHTML="";return}
+ const sig=JSON.stringify([pl.wk,pl.phase,pl.items,pl.counted,P.map(m=>m.id+(m.av||"")+(m.photo?m.photo.length:0))]);
+ if(el.dataset.sig===sig&&!el.hidden)return;el.dataset.sig=sig;
+ el.hidden=false;el.innerHTML=pollHtml(P,pl,false);
+ setTimeout(()=>el.querySelectorAll(".pl-bar i,.pl-prog i").forEach(e=>e.style.width=e.dataset.w+"%"),250)}
 function renderExtras(P,W,RW,cnt){familyRender(P,cnt);leagueRender(P,W,cnt);raceSetup(P,RW);predRender(P,W)}
 /* מצב תצוגה */
 const TV={open:false,i:0,t:0};
@@ -1302,10 +1400,11 @@ $("chBell").onclick=pushUi;
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 if(location.hash==="#chat")setTimeout(()=>chatToggle(true),1500);
 window.addEventListener("hashchange",()=>{if(location.hash==="#chat")chatToggle(true)});
-setInterval(()=>{chTick++;if(CH.open||chTick%10===0)chatLoad()},3000);
+setInterval(()=>{if(document.hidden)return;chTick++;if(CH.open||chTick%18===0)chatLoad()},5000);
 
 render();refresh();
-setInterval(()=>{if(!$("dlg").open)refresh()},20000);
+setInterval(()=>{if(!document.hidden&&!$("dlg").open)refresh()},60000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!$("dlg").open)refresh()});
 </script>
 </body>
 </html>
