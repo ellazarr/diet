@@ -495,6 +495,19 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
 .pl-lead{font-size:11.5px;color:#ffd75e;font-weight:700;display:block;margin-top:-2px}
 .pl-foot{margin-top:8px;font-size:12px;color:#8fb0d8;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 @media(max-width:560px){.pl-row{grid-template-columns:28px 40px 1fr 64px}.pl-bar{grid-column:1/-1;order:5}.pl-row .av{width:38px;height:38px}}
+
+button.danger{background:linear-gradient(180deg,#d4574a,#b03a2e)}
+h2[id],#weekly{scroll-margin-top:14px}
+.rail{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:30;width:46px;max-height:calc(100vh - 24px);overflow-x:hidden;overflow-y:auto;scrollbar-width:none;background:color-mix(in srgb,var(--card) 92%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);border-right:0;border-radius:16px 0 0 16px;padding:6px 0;transition:width .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;box-shadow:-4px 6px 18px rgba(0,0,0,.12)}
+.rail::-webkit-scrollbar{display:none}
+.rail:hover,.rail:focus-within,.rail.open{width:214px;box-shadow:-8px 10px 28px rgba(0,0,0,.24)}
+.rail a{display:flex;align-items:center;gap:10px;padding:7px 9px;color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .15s}
+.rail a:hover{background:var(--line)}
+.rail a.on{background:color-mix(in srgb,var(--gold) 24%,transparent);font-weight:700}
+.rail .ic{width:28px;text-align:center;font-size:19px;flex:none}
+.rail .lb{font-size:14.5px;opacity:0;transition:opacity .2s}
+.rail:hover .lb,.rail:focus-within .lb,.rail.open .lb{opacity:1}
+@media (max-width:640px){.rail{width:40px}.rail .ic{width:24px;font-size:17px}}
 </style>
 </head>
 <body>
@@ -514,25 +527,25 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
   <div class="card reveal" id="weekly"></div>
   <section class="stats" id="stats"></section>
   <div id="pending"></div>
-  <h2 class="reveal">🎲 הימורי השבוע</h2>
+  <h2 class="reveal" id="s-bets">🎲 הימורי השבוע</h2>
   <div class="card reveal" id="predCard"></div>
-  <h2 class="reveal">🏅 ליגת הנקודות</h2>
+  <h2 class="reveal" id="s-league">🏅 ליגת הנקודות</h2>
   <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1<br>הליגה מתחילה מהשבוע של י״ב חשוון (23.10). שבוע שרק משתתף אחד עדכן בו לא נותן נקודות.</div></div>
-  <h2 class="reveal">🏆 טבלת המובילים</h2>
+  <h2 class="reveal" id="s-lb">🏆 טבלת המובילים</h2>
   <div class="lb" id="lb"></div>
-  <h2 class="reveal">🗓️ כל השבועות</h2>
+  <h2 class="reveal" id="s-weeks">🗓️ כל השבועות</h2>
   <div class="card tw reveal"><table id="tbl"></table></div>
-  <h2 class="reveal">🔥 סטטיסטיקות</h2>
+  <h2 class="reveal" id="s-stats">🔥 סטטיסטיקות</h2>
   <div id="spot"></div>
   <div class="ticker reveal" id="tkFacts"></div>
-  <h2 class="reveal">💬 מילות המנצחים והבדיחות</h2>
+  <h2 class="reveal" id="s-words">💬 מילות המנצחים והבדיחות</h2>
   <div class="ticker reveal" id="tkQuotes"></div>
   <div class="ticker rev reveal" id="tkJokes" style="margin-top:12px"></div>
-  <h2 class="reveal">📈 המסע של כולנו</h2>
+  <h2 class="reveal" id="s-chart">📈 המסע של כולנו</h2>
   <div class="card chart reveal" id="chartCard"><div id="chart"></div><div class="legend" id="legend"></div></div>
-  <h2 class="reveal">🏁 מרוץ השבועות</h2>
+  <h2 class="reveal" id="s-race">🏁 מרוץ השבועות</h2>
   <div class="card reveal" id="raceCard"><div class="race-head"><button id="raceBtn" aria-label="נגן">▶</button><input id="raceRange" type="range" min="0" max="0" value="0"><b id="raceLbl"></b></div><div id="raceBars"></div></div>
-  <h2 class="reveal">🎯 היעד המשפחתי</h2>
+  <h2 class="reveal" id="s-family">🎯 היעד המשפחתי</h2>
   <div class="card reveal" id="family"></div>
   <h2 class="reveal" id="rulesH">📜 חוקי התחרות</h2>
   <div class="card reveal rules" id="rules"><ol>
@@ -547,6 +560,7 @@ button.chip.on{background:color-mix(in srgb,var(--gold) 38%,transparent);font-we
    <li><b>תאריכים:</b> כל התאריכים באתר מחושבים אוטומטית לפי הלוח העברי.</li>
   </ol></div>
 </main>
+<nav class="rail" id="rail" aria-label="ניווט בין קטגוריות"></nav>
 <button id="chatBtn" aria-label="צ'אט המשפחה">💬 צ'אט<i id="chatBadge" hidden></i></button>
 <aside id="chat" aria-label="צ'אט המשפחה">
   <div id="rxPop" class="rxpop"></div>
@@ -795,7 +809,7 @@ A.area=async()=>{
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
  const bw=betWeek();
- const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div><div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
+ const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div>${(p.mypreds||{})[bw]?`<div class="actions"><button class="sec" onclick="A.predDel('${bw}')">🗑️ ביטול ההימור</button></div>`:""}<div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
  const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
@@ -822,6 +836,7 @@ A.area=async()=>{
  <div class="msg" id="msg2"></div><div class="actions"><button onclick="A.save()">שמירת הגדרות</button><button class="sec" onclick="A.save(1)">שמירה ושליחת מייל לדוגמה</button><button class="sec" onclick="A.out()">יציאה</button></div></details>`)};
 A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);
  const g=(D.ms.find(x=>x.id===$("pr_g").value)||{}).name||"";MYB[wk]=$("pr_g").value;await refresh();A.flash="🎲 ההימור נשמר ("+g+") וכבר מופיע באתר, בקטגוריית הימורי השבוע";A.area()};
+A.predDel=async wk=>{if(!confirm("לבטל את ההימור?"))return;const r=await api("unpredict",{token:TOK[cur],wk});if(r.err)return alert(r.err);delete MYB[wk];await refresh();A.flash="🗑️ ההימור בוטל";A.area()};
 A.out=()=>{delete TOK[cur];saveTok();MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws)};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
@@ -1055,6 +1070,7 @@ function betPick(id){
  const c=chatTok();
  if(!c)return open(`<div class="bconf">${av(m,84)}<h3>כדי להמר צריך להיכנס</h3><p>בחרתם ב${esc(m.name)}. היכנסו קודם לאזור האישי ואז לחצו שוב על הריבוע.</p><div class="actions" style="justify-content:center"><button onclick="A.close();$('bMe').click()">כניסה לאזור האישי</button><button class="sec" onclick="A.close()">ביטול</button></div></div>`);
  const me=memOf(c.id),cur=MYB[bw];
+ if(cur===id)return open(`<div class="bconf">${av(m,96)}<h3>ביטול ההימור</h3><div class="sub">${esc(me.name||"")} המרת על ${esc(m.name)} בשבוע ${esc(hl(bw))}</div><div class="note">לבטל את ההימור? אפשר להמר שוב עד יום חמישי בחצות.</div><div class="msg" id="msg"></div><div class="actions" style="justify-content:center"><button id="betDel" class="danger" onclick="betCancel()">כן, לבטל את ההימור</button><button class="sec" onclick="A.close()">להשאיר את ההימור</button></div></div>`);
  open(`<div class="bconf">${av(m,96)}<h3>בחרת ב${esc(m.name)}</h3>
   <div class="sub">ההימור של ${esc(me.name||"")} על המנצח בשבוע ${esc(hl(bw))} (${dm(bw)})</div>
   ${cur===id?`<div class="note">כבר המרת על ${esc(m.name)}.</div>`:cur?`<div class="note">ההימור הקודם שלך היה על ${esc(memOf(cur).name||"")}. האישור יחליף אותו.</div>`:""}
@@ -1062,6 +1078,10 @@ function betPick(id){
   <div class="note"><a href="#" onclick="betSwitch();return false">לא ${esc(me.name||"")}? החלפת משתמש</a></div>
   <div class="msg" id="msg"></div>
   <div class="actions" style="justify-content:center"><button id="betOk" onclick="betConfirm('${esc(m.id)}')">אישור</button><button class="sec" onclick="A.close()">ביטול</button></div></div>`)}
+async function betCancel(){const c=chatTok();if(!c)return;const ok=$("betDel");if(ok)ok.disabled=true;
+ const r=await api("unpredict",{token:c.t,wk:betWeek()});
+ if(r.err){if(ok)ok.disabled=false;return err(r.err)}
+ delete MYB[betWeek()];await refresh();predRender(D.ms,D.ws);A.close();toast("🗑️ ההימור בוטל")}
 async function betConfirm(id){const c=chatTok();if(!c)return;const ok=$("betOk");ok.disabled=true;
  const r=await api("predict",{token:c.t,wk:betWeek(),guess:id});
  if(r.err){ok.disabled=false;return err(r.err)}
@@ -1402,6 +1422,16 @@ if(location.hash==="#chat")setTimeout(()=>chatToggle(true),1500);
 window.addEventListener("hashchange",()=>{if(location.hash==="#chat")chatToggle(true)});
 setInterval(()=>{if(document.hidden)return;chTick++;if(CH.open||chTick%18===0)chatLoad()},5000);
 
+
+/* ===== סרגל ניווט צדדי ===== */
+const RAIL=[["weekly","👑","מנצח השבוע"],["s-bets","🎲","הימורי השבוע"],["s-league","🏅","ליגת הנקודות"],["s-lb","🏆","טבלת המובילים"],["s-weeks","🗓️","כל השבועות"],["s-stats","🔥","סטטיסטיקות"],["s-words","💬","משפטים ובדיחות"],["s-chart","📈","המסע של כולנו"],["s-race","🏁","מרוץ השבועות"],["s-family","🎯","היעד המשפחתי"],["rulesH","📜","חוקי התחרות"]];
+function railJump(id){const el=document.getElementById(id);if(!el)return;const de=document.documentElement,old=de.style.scrollBehavior;de.style.scrollBehavior="auto";el.scrollIntoView({block:"start"});de.style.scrollBehavior=old}
+{const nav=$("rail");nav.innerHTML=RAIL.filter(r=>$(r[0])).map(r=>`<a href="#${r[0]}" data-t="${r[0]}" title="${r[2]}"><span class="ic">${r[1]}</span><span class="lb">${r[2]}</span></a>`).join("");
+ const touch=!!(window.matchMedia&&matchMedia("(hover: none)").matches);
+ nav.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();if(touch&&!nav.classList.contains("open")){nav.classList.add("open");return}railJump(a.dataset.t);nav.classList.remove("open")});
+ document.addEventListener("click",e=>{if(!nav.contains(e.target))nav.classList.remove("open")});
+ let tk=0;const mark=()=>{tk=0;let cur=null;RAIL.forEach(r=>{const el=$(r[0]);if(el&&el.getBoundingClientRect().top<=140)cur=r[0]});nav.querySelectorAll("a").forEach(a=>a.classList.toggle("on",a.dataset.t===cur))};
+ addEventListener("scroll",()=>{if(!tk)tk=requestAnimationFrame(mark)},{passive:true});mark()}
 render();refresh();
 setInterval(()=>{if(!document.hidden&&!$("dlg").open)refresh()},60000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!$("dlg").open)refresh()});

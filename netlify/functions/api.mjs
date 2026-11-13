@@ -156,6 +156,11 @@ export default async req=>{
   sch.push({id:rnd(),by:id,at,text:t,q:b.q?String(b.q).slice(0,40):undefined,created:Date.now()});
   await st.setJSON("chatsched",sch);return J({ok:1,at})}
  if(act==="mybets")return J({mine:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]]))});
+ if(act==="unpredict"){
+  const wk=String(b.wk),td=today(),addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
+  if(!/^\d{4}-\d\d-\d\d$/.test(wk)||new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-7)<=td&&td<wk))return bad("אי אפשר לבטל: ההימורים לשבוע הזה סגורים");
+  if(pub.preds&&pub.preds[wk]&&pub.preds[wk][id]){delete pub.preds[wk][id];if(!Object.keys(pub.preds[wk]).length)delete pub.preds[wk];await save()}
+  return J({ok:1})}
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
