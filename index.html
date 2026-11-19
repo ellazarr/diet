@@ -508,6 +508,38 @@ h2[id],#weekly{scroll-margin-top:14px}
 .rail .lb{font-size:14.5px;opacity:0;transition:opacity .2s}
 .rail:hover .lb,.rail:focus-within .lb,.rail.open .lb{opacity:1}
 @media (max-width:640px){.rail{width:40px}.rail .ic{width:24px;font-size:17px}}
+
+.g3{display:grid;grid-template-columns:1fr 1.4fr 1.2fr;gap:6px}
+.dw{border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:4px 0 8px}
+.dw-k{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}.dw-k label{margin:0}
+.dw [hidden]{display:none}
+.fam-ribbon{margin:16px auto 0;display:grid;gap:8px;max-width:780px}
+.fam-ribbon[hidden]{display:none}
+.fr-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#ffe08a,#e6c778);color:#2a1d00;border-radius:18px;padding:10px 18px;text-align:right;cursor:pointer;animation:pop .6s cubic-bezier(.2,.9,.3,1.2),glowg 3s ease-in-out infinite;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.fr-card .fr-e{font-size:34px;animation:bob 2.2s ease-in-out infinite}
+.fr-card b{font-family:"Frank Ruhl Libre",serif;font-size:clamp(17px,3.6vw,23px);font-weight:900;display:block;line-height:1.25}
+.fr-card small{opacity:.8}
+@keyframes glowg{0%,100%{box-shadow:0 8px 24px rgba(0,0,0,.25)}50%{box-shadow:0 8px 34px rgba(255,215,94,.7)}}
+.fr-soon{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-size:14px}
+.fr-chip{background:rgba(255,255,255,.14);border:1px solid rgba(230,199,120,.65);border-radius:99px;padding:3px 14px;cursor:pointer;transition:transform .2s,background .2s}
+.fr-chip:hover{background:rgba(255,255,255,.26);transform:translateY(-2px)}
+.famcard{padding:26px 10px 14px;overflow:hidden}
+.tree-wrap{position:relative;overflow-x:auto;overflow-y:hidden;direction:ltr}
+#tree{position:relative;transform-origin:0 0}
+.fm-lines{position:absolute;inset:0;pointer-events:none}
+.fm-lines path{stroke:var(--gold);stroke-width:2.2;fill:none;opacity:.75;stroke-linecap:round;stroke-linejoin:round}
+.fm-card{--gc:#b88a2e;position:absolute;width:160px;height:96px;box-sizing:border-box;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--gc);border-radius:16px;padding:0 8px;text-align:center;cursor:pointer;direction:rtl;transition:transform .25s,box-shadow .25s;box-shadow:0 6px 16px rgba(20,40,30,.1)}
+.fm-card:hover,.fm-card:focus-visible{transform:translateY(-5px);box-shadow:0 14px 28px rgba(20,40,30,.2);outline:none}
+.fm-card.g1{--gc:#2f9e6e}.fm-card.g2{--gc:#3d85c6}.fm-card.g3{--gc:#a26bd4}
+.fm-av{position:absolute;top:-22px;left:50%;margin-left:-22px;width:44px;height:44px;border-radius:50%;border:3px solid var(--gc);background:var(--bg);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;font-family:"Frank Ruhl Libre",serif;color:var(--gc)}
+.fm-av img{width:100%;height:100%;object-fit:cover}
+.fm-n{display:block;font-family:"Frank Ruhl Libre",serif;font-size:17px;font-weight:700;margin-top:28px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fm-d{display:block;font-size:12px;color:var(--muted);margin-top:2px;min-height:16px}
+.fm-card.dead{filter:grayscale(.55);opacity:.92}
+.fm-card.today{box-shadow:0 0 0 3px var(--gold),0 0 26px rgba(184,138,46,.6);animation:glow 2.6s ease-in-out infinite}
+.fm-b{position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#2a1d00;font-size:11px;font-weight:700;border-radius:99px;padding:1px 10px;white-space:nowrap}
+.fm-ring{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--card);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;z-index:2;box-shadow:0 3px 8px rgba(0,0,0,.18)}
+#s-tree .sec{margin-inline-start:auto;font-size:13px;padding:4px 14px}
 </style>
 </head>
 <body>
@@ -519,6 +551,7 @@ h2[id],#weekly{scroll-margin-top:14px}
     <p>כל שבוע שוקלים · מי ירד הכי הרבה אחוזים?</p>
     <div class="badges"><span class="week-badge" id="badge" hidden></span><span class="week-badge" id="next"></span></div>
     <div class="hbtns"><button id="bAdd">➕ הוספת משתמש</button><button id="bMe">👤 האזור האישי</button><button id="bTv">📺 מצב תצוגה</button><button id="bRules">📜 חוקי התחרות</button></div>
+    <div class="fam-ribbon" id="famRibbon" hidden></div>
   </div>
 </header>
 <main class="wrap">
@@ -559,6 +592,8 @@ h2[id],#weekly{scroll-margin-top:14px}
    <li><b>היסטוריה ועריכה:</b> באזור האישי רואים את כל השקילות ואפשר לערוך או למחוק אותן בכל עת. האחוזים והנקודות מתעדכנים לבד.</li>
    <li><b>תאריכים:</b> כל התאריכים באתר מחושבים אוטומטית לפי הלוח העברי.</li>
   </ol></div>
+  <h2 class="reveal" id="s-tree">👪 עץ המשפחה <button class="sec" id="famMgr" hidden onclick="famAdmin()">✏️ ניהול</button></h2>
+  <div class="card reveal famcard"><div class="tree-wrap" id="treeWrap"><div id="tree"></div></div></div>
 </main>
 <nav class="rail" id="rail" aria-label="ניווט בין קטגוריות"></nav>
 <button id="chatBtn" aria-label="צ'אט המשפחה">💬 צ'אט<i id="chatBadge" hidden></i></button>
@@ -736,6 +771,7 @@ function render(){
  tick("tkJokes",say("joke","😄"),"עדיין אין בדיחות");
  renderExtras(P,W,RW,cnt);
  renderPoll(P,W);
+ renderFamily();renderRibbon();
  if(CH.open)chatRender();
  countUp();
 }
@@ -748,7 +784,7 @@ async function api(a,b){try{const r=await fetch("/api/"+a,{method:b?"POST":"GET"
 async function refresh(){const s=await api("state");
  if(s.err){$("notice").innerHTML=`<div class="card" style="margin-top:14px">${esc(s.err)}</div>`;return}
  $("notice").innerHTML="";
- const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;BETCNT=s.betcnt||{};BETOK=s.betok||{};BETREV=s.betrev||{};
+ const sig=JSON.stringify(s);if(sig===A.sig)return;A.sig=sig;BETCNT=s.betcnt||{};BETOK=s.betok||{};BETREV=s.betrev||{};FAM_L=s.family||[];
  MEM=Object.entries(s.members).map(([id,d])=>({id,data:()=>d}));
  WK=Object.entries(s.weeks).map(([id,d])=>({id,data:()=>d}));
  ENT=Object.entries(s.entries).map(([k,pct])=>{const[wk,m]=k.split("__");return{data:()=>({wk,m,pct})}});
@@ -808,6 +844,8 @@ A.area=async()=>{
   if(iw.low.includes(mi)&&!iw.joke)unlock+=`<div class="box">😄 בשבוע ${L} התור שלך לכתוב בדיחה לכולם:<textarea id="j_${iw.id}" rows="2" maxlength="140"></textarea><div class="actions"><button onclick="A.post('joke','${iw.id}')">פרסום</button></div></div>`});
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
+ IS_ADMIN=!!p.admin;
+ const famBox=p.admin?`<div class="box"><b>👪 עץ המשפחה (למנהל האתר בלבד)</b><div class="note">הוספת בני משפחה עם ימי הולדת וימי נישואין. הם מופיעים בעץ המשפחה בתחתית האתר, והאתר מאחל מזל טוב לקראת האירועים ובמהלכם.</div><div class="actions"><button onclick="famAdmin()">ניהול עץ המשפחה</button></div></div>`:"";
  const bw=betWeek();
  const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div>${(p.mypreds||{})[bw]?`<div class="actions"><button class="sec" onclick="A.predDel('${bw}')">🗑️ ביטול ההימור</button></div>`:""}<div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
@@ -824,6 +862,7 @@ A.area=async()=>{
  <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>המשקל שלך השבוע (ק״ג)<input id="w_k" type="number" step="0.1" inputmode="decimal"></label></div>
  <div class="msg" id="msg"></div><div class="actions"><button onclick="A.week(0)">עדכון</button><button class="sec" onclick="A.week(1)">דילגתי השבוע</button></div>
  <div class="note">מספיק לכתוב את המשקל. האתר מחשב כמה ירדת ומעדכן את העמוד הראשי באחוזים. הקילוגרמים נשארים כאן.</div></div>
+ ${famBox}
  ${histHtml}
  <details class="box"><summary><b>הגדרות</b></summary>
  <label>שם<input id="s_n" value="${esc(m.name)}" maxlength="20"></label><label>סמל</label>${emoRow()}
@@ -1061,7 +1100,7 @@ setInterval(betCountdown,30000);
 function betSwitch(){const c=chatTok();if(c){delete TOK[c.id];saveTok()}MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws);$("bMe").click()}
 let myId="";
 async function loadMyBets(){const c=chatTok();myId=c?c.id:"";if(!c){MYB={};if(D)predRender(D.ms,D.ws);return}
- const r=await api("mybets",{token:c.t});MYB=r.mine||{};if(D)predRender(D.ms,D.ws)}
+ const r=await api("mybets",{token:c.t});MYB=r.mine||{};IS_ADMIN=!!r.admin;if(D){predRender(D.ms,D.ws);$("famMgr").hidden=!IS_ADMIN}}
 function updateWho(){const c=chatTok(),t=c&&D?"👤 "+(memOf(c.id).name||"האזור האישי")+" · מחובר":"👤 האזור האישי";const b=$("bMe");if(b.textContent!==t)b.textContent=t}
 setInterval(()=>{updateWho();const c=chatTok(),id=c?c.id:"";if(id!==myId)loadMyBets()},1500);
 function betPick(id){
@@ -1423,8 +1462,137 @@ window.addEventListener("hashchange",()=>{if(location.hash==="#chat")chatToggle(
 setInterval(()=>{if(document.hidden)return;chTick++;if(CH.open||chTick%18===0)chatLoad()},5000);
 
 
+
+/* ===== עץ משפחה, ימי הולדת וימי נישואין ===== */
+let FAM_L=[],IS_ADMIN=false,famPhotoData=null,famRm=false;
+const HEBM=["תשרי","חשוון","כסלו","טבת","שבט","אדר","אדר א׳","אדר ב׳","ניסן","אייר","סיוון","תמוז","אב","אלול"];
+const hebF=new Intl.DateTimeFormat("he-u-ca-hebrew",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
+const hebParts=d=>{const p=hebF.formatToParts(d);return{d:+p.find(x=>x.type==="day").value,m:p.find(x=>x.type==="month").value,y:+p.find(x=>x.type==="year").value}};
+const DAYMS=864e5,utcNoon=x=>new Date(x+"T12:00:00Z"),isoOf=d=>d.toISOString().slice(0,10);
+const monthMatch=(em,m)=>em===m||(em==="אדר"&&m==="אדר ב׳")||(em==="אדר ב׳"&&m==="אדר")||(em==="אדר א׳"&&m==="אדר");
+function nextOcc(ev,today){today=today||ilToday();const t0=utcNoon(today);
+ if(ev.k==="g"){const[y,m,d]=ev.date.split("-").map(Number),y0=t0.getUTCFullYear();
+  for(let k=0;k<2;k++){let dt=new Date(Date.UTC(y0+k,m-1,d,12));if(m===2&&d===29&&dt.getUTCMonth()!==1)dt=new Date(Date.UTC(y0+k,1,28,12));if(dt>=t0)return{date:isoOf(dt),days:Math.round((dt-t0)/DAYMS),n:dt.getUTCFullYear()-y}}return null}
+ if(ev.k==="h"){for(const dd of(ev.d===30?[30,29]:[ev.d])){for(let i=0;i<400;i++){const dt=new Date(t0.getTime()+i*DAYMS),hp=hebParts(dt);if(hp.d===dd&&monthMatch(ev.m,hp.m))return{date:isoOf(dt),days:i,n:ev.y?hp.y-ev.y:null}}}}
+ return null}
+function famEvents(today){const out=[],seen={};
+ FAM_L.forEach(p=>{
+  if(p.birth&&!p.dead){const o=nextOcc(p.birth,today);if(o)out.push({t:"b",p,o,key:"b"+p.id})}
+  if(p.anniv&&p.spouse){const q=FAM_L.find(x=>x.id===p.spouse),k="a"+[p.id,p.spouse].sort().join("-");
+   if(q&&!p.dead&&!q.dead&&!seen[k]){seen[k]=1;const o=nextOcc(p.anniv,today);if(o)out.push({t:"a",p,q,o,key:k})}}});
+ return out.sort((a,b)=>a.o.days-b.o.days)}
+const famInit=p=>esc((p.name||"?")[0]);
+const famName=p=>esc(p.name)+(p.dead?(p.gender==="f"?" ע״ה":" ז״ל"):"");
+const famBirthTxt=p=>{const b=p.birth;if(!b)return"";if(b.k==="h")return gem(b.d)+" "+b.m;const[y,m,d]=b.date.split("-");return d+"."+m+"."+y};
+const famAvHtml=(p,sz)=>`<div class="av" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.5)}px;--c:#b88a2e">${p.photoId?`<img src="/api/file/${esc(p.photoId)}" alt="">`:famInit(p)}</div>`;
+function renderRibbon(){const el=$("famRibbon");
+ const ev=famEvents().filter(e=>e.o.days<=7);
+ if(!ev.length){el.hidden=true;el.innerHTML="";return}
+ const td=ev.filter(e=>e.o.days===0),soon=ev.filter(e=>e.o.days>0);
+ const nm=e=>e.t==="b"?esc(e.p.name):esc(e.p.name)+" ו"+esc(e.q.name);
+ const greet=e=>e.t==="b"?`מזל טוב ל${nm(e)} ליום ההולדת${e.o.n>0?" ה-"+e.o.n:""}! עד מאה ועשרים שנה`:`מזל טוב ל${nm(e)} ליום הנישואין${e.o.n>0?" ה-"+e.o.n:""}! שתזכו לנחת, לשמחה ולשנים טובות`;
+ const when=e=>e.o.days===1?"מחר":"בעוד "+e.o.days+" ימים";
+ const key=e=>e.p.id;
+ el.hidden=false;
+ el.innerHTML=td.map(e=>`<div class="fr-card" onclick="famOpen('${esc(key(e))}')"><span class="fr-e">${e.t==="b"?"🎉":"💍"}</span><div><b>${greet(e)}</b><small>${esc(hl(e.o.date))} · היום</small></div></div>`).join("")
+  +(soon.length?`<div class="fr-soon"><span>🎈 לקראת:</span>${soon.map(e=>`<span class="fr-chip" onclick="famOpen('${esc(key(e))}')">${e.t==="b"?"🎂 יום הולדת ל":"💍 יום נישואין ל"}${nm(e)} · ${when(e)}</span>`).join("")}<span>מזל טוב מראש!</span></div>`:"");
+ if(td.length)try{const k="famconf"+ilToday();if(!localStorage.getItem(k)){localStorage.setItem(k,"1");confetti()}}catch(x){}}
+/* פריסת העץ */
+function famLayout(F){
+ const CW=160,CH=96,SPG=20,GAPX=24,ROWH=170,TOP=30;
+ const byId=Object.fromEntries(F.map(p=>[p.id,p]));
+ const ord=p=>{const b=p.birth;if(!b)return 1e9;if(b.k==="g")return +b.date.slice(0,4)+(+b.date.slice(5,7))/12;return b.y?b.y-3760:1e9};
+ const unitOf={},units=[];
+ F.forEach(p=>{if(unitOf[p.id])return;const sp=p.spouse&&byId[p.spouse];let mem=[p];if(sp&&!unitOf[sp.id])mem=[p,sp];
+  if(mem.length===2&&mem[1].gender==="m"&&mem[0].gender!=="m")mem.reverse();
+  const u={mem,kids:[],parent:null};units.push(u);mem.forEach(m=>unitOf[m.id]=u)});
+ units.forEach(u=>{for(const m of u.mem){const pu=(m.father&&unitOf[m.father])||(m.mother&&unitOf[m.mother]);if(pu&&pu!==u){u.parent=pu;u.anchor=u.mem.indexOf(m);break}}});
+ units.forEach(u=>{let x=u,n=0;while(x.parent&&n<60){x=x.parent;n++}if(n>=60){u.parent=null}});
+ units.forEach(u=>{if(u.parent)u.parent.kids.push(u)});
+ units.forEach(u=>u.kids.sort((a,b)=>Math.min(...a.mem.map(ord))-Math.min(...b.mem.map(ord))));
+ const uw=u=>u.mem.length*CW+(u.mem.length-1)*SPG;
+ let maxD=0;
+ const measure=(u,d)=>{u.depth=d;maxD=Math.max(maxD,d);u.kids.forEach(k=>measure(k,d+1));u.kw=u.kids.reduce((s,k)=>s+k.sw,0)+Math.max(0,u.kids.length-1)*GAPX;u.sw=Math.max(uw(u),u.kw)};
+ const place=(u,x0)=>{
+  if(u.kids.length){let cx=x0+(u.sw-u.kw)/2;u.kids.forEach(k=>{place(k,cx);cx+=k.sw+GAPX});
+   const f=u.kids[0],l=u.kids[u.kids.length-1],mid=((f.x+uw(f)/2)+(l.x+uw(l)/2))/2;u.x=mid-uw(u)/2}
+  else u.x=x0+(u.sw-uw(u))/2};
+ const roots=units.filter(u=>!u.parent);
+ let cur=0;roots.forEach(r=>{measure(r,0);place(r,cur);cur+=r.sw+GAPX*2});
+ const W=Math.max(CW,cur-GAPX*2),H=(maxD+1)*ROWH+TOP;
+ const flip=(x,w)=>W-(x+w),nodes=[],links=[],rings=[];
+ units.forEach(u=>{
+  u.mem.forEach((m,i)=>{const x=u.x+i*(CW+SPG);nodes.push({p:m,left:flip(x,CW),top:u.depth*ROWH+TOP,depth:u.depth})});
+  const top=u.depth*ROWH+TOP,uc=W-(u.x+uw(u)/2);
+  if(u.mem.length===2)rings.push({x:W-(u.x+CW+SPG/2)-15,y:top+CH/2-15,a:u.mem[0]});
+  if(u.kids.length){const y1=top+CH,ym=y1+(ROWH-CH)/2,xs=u.kids.map(k=>W-(k.x+(k.anchor||0)*(CW+SPG)+CW/2));
+   const xl=Math.min(uc,...xs),xr=Math.max(uc,...xs);
+   links.push(`M${uc} ${y1}V${ym}`,`M${xl} ${ym}H${xr}`);
+   u.kids.forEach((k,i)=>links.push(`M${xs[i]} ${ym}V${k.depth*ROWH+TOP}`))}});
+ return{nodes,links,rings,W,H}}
+function renderFamily(){const el=$("tree"),wrap=$("treeWrap");$("famMgr").hidden=!IS_ADMIN;
+ if(!FAM_L.length){el.style.cssText="";wrap.style.height="auto";el.innerHTML=`<div class="empty">עץ המשפחה עוד לא הוגדר${IS_ADMIN?". אפשר להוסיף בני משפחה דרך כפתור הניהול.":"."}</div>`;return}
+ const L=famLayout(FAM_L),evs=famEvents(),bd={};evs.forEach(e=>{if(e.t==="b")bd[e.p.id]=e.o});
+ const an={};evs.forEach(e=>{if(e.t==="a"){an[e.p.id]=e.o;an[e.q.id]=e.o}});
+ const cards=L.nodes.map(n=>{const p=n.p,o=bd[p.id],td=o&&o.days===0,soon=o&&o.days>0&&o.days<=7;
+  return `<div class="fm-card g${n.depth%4} ${p.dead?"dead":""} ${td?"today":""}" style="left:${n.left}px;top:${n.top}px" tabindex="0" role="button" aria-label="${esc(p.name)}" onclick="famOpen('${esc(p.id)}')" onkeydown="if(event.key==='Enter')famOpen('${esc(p.id)}')"><div class="fm-av">${p.photoId?`<img src="/api/file/${esc(p.photoId)}" alt="">`:famInit(p)}</div><b class="fm-n">${famName(p)}</b><small class="fm-d">${p.birth?"🎂 "+esc(famBirthTxt(p)):"&nbsp;"}</small>${td?`<span class="fm-b">🎉 היום!</span>`:soon?`<span class="fm-b">בעוד ${o.days} ימים</span>`:""}</div>`}).join("");
+ const rings=L.rings.map(r=>{const a=r.a,sp=FAM_L.find(x=>x.id===a.spouse),o=an[a.id];
+  const tip=a.anniv?"נישואין: "+(a.anniv.k==="h"?gem(a.anniv.d)+" "+a.anniv.m:a.anniv.date.split("-").reverse().join(".")):"";
+  return `<div class="fm-ring" style="left:${r.x}px;top:${r.y}px" title="${esc(tip)}">${o&&o.days===0?"🎉":"💍"}</div>`}).join("");
+ el.innerHTML=`<svg class="fm-lines" width="${L.W}" height="${L.H}">${L.links.map(d=>`<path d="${d}"/>`).join("")}</svg>${cards}${rings}`;
+ const cw=wrap.clientWidth,sc=cw?Math.max(.5,Math.min(1,(cw-6)/L.W)):1;
+ el.style.width=L.W+"px";el.style.height=L.H+"px";el.style.transform=`scale(${sc})`;wrap.style.height=Math.round((L.H+12)*sc)+"px";
+ if(sc<1)wrap.scrollLeft=0;else wrap.scrollLeft=wrap.scrollWidth}
+let famRz=0;addEventListener("resize",()=>{clearTimeout(famRz);famRz=setTimeout(()=>{if(FAM_L.length)renderFamily()},250)});
+function famOpen(id){const p=FAM_L.find(x=>x.id===id);if(!p)return;
+ const nm=i=>{const x=FAM_L.find(y=>y.id===i);return x?esc(x.name):""};
+ const evs=famEvents(),b=evs.find(e=>e.key==="b"+id),sp=p.spouse?FAM_L.find(x=>x.id===p.spouse):null,an=sp?evs.find(e=>e.key==="a"+[p.id,p.spouse].sort().join("-")):null;
+ const kids=FAM_L.filter(x=>x.father===id||x.mother===id);
+ const dstr=iso=>new Date(iso+"T12:00:00Z").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
+ const when=o=>o.days===0?"היום! 🎉":o.days===1?"מחר":"בעוד "+o.days+" ימים";
+ const bl=p.birth?(p.birth.k==="h"?`${gem(p.birth.d)} ${p.birth.m}${p.birth.y?" "+p.birth.y:""}`:`${p.birth.date.split("-").reverse().join(".")} (${hl(p.birth.date)})`):"";
+ const al=p.anniv?(p.anniv.k==="h"?`${gem(p.anniv.d)} ${p.anniv.m}${p.anniv.y?" "+p.anniv.y:""}`:`${p.anniv.date.split("-").reverse().join(".")} (${hl(p.anniv.date)})`):"";
+ open(`<div class="bconf">${famAvHtml(p,96)}<h3>${famName(p)}</h3>
+  ${p.birth?`<div class="sub">🎂 תאריך לידה: ${esc(bl)}</div>`:""}
+  ${b?`<div class="note">יום ההולדת הבא: ${esc(dstr(b.o.date))} · ${when(b.o)}${b.o.n>0?" · יהיו "+b.o.n:""}</div>`:""}
+  ${sp?`<div class="sub">💍 בן/בת זוג: ${esc(sp.name)}${al?" · נישואין: "+esc(al):""}</div>`:""}
+  ${an?`<div class="note">יום הנישואין הבא: ${esc(dstr(an.o.date))} · ${when(an.o)}${an.o.n>0?" · "+an.o.n+" שנים":""}</div>`:""}
+  ${(p.father||p.mother)?`<div class="sub">הורים: ${[nm(p.father),nm(p.mother)].filter(Boolean).join(" ו")}</div>`:""}
+  ${kids.length?`<div class="sub">ילדים: ${kids.map(k=>esc(k.name)).join(", ")}</div>`:""}
+  <div class="actions" style="justify-content:center">${IS_ADMIN?`<button onclick="famForm('${esc(id)}')">✏️ עריכה</button>`:""}<button class="sec" onclick="A.close()">סגירה</button></div></div>`)}
+/* ניהול (רק מנהל האתר) */
+function famAdmin(){
+ const rows=FAM_L.map(p=>`<div class="sch-row"><div><b>${famName(p)}</b><small>${p.birth?"🎂 "+esc(famBirthTxt(p)):"ללא תאריך לידה"}${p.spouse?" · 💍 "+esc((FAM_L.find(x=>x.id===p.spouse)||{}).name||""):""}</small></div><button class="sec" onclick="famForm('${esc(p.id)}')">✏️</button><button class="sec" onclick="famDel('${esc(p.id)}')">🗑️</button></div>`).join("")||`<div class="empty">עוד לא נוספו בני משפחה</div>`;
+ open(`<h3>👪 ניהול עץ המשפחה</h3><div class="note" style="margin:0 0 8px">כל אחד מקבל כרטיס בעץ. אפשר לציין הורים ובן/בת זוג כדי שהעץ יתחבר, ותאריכי לידה ונישואין (עבריים או לועזיים) כדי שהאתר יאחל מזל טוב.</div>${rows}<div class="actions"><button onclick="famForm()">➕ הוספת בן משפחה</button><button class="sec" onclick="A.close()">סגירה</button></div>`)}
+function dateWidget(pfx,d){const k=d?d.k:"n",days=Array.from({length:30},(_,i)=>`<option value="${i+1}" ${d&&d.k==="h"&&d.d===i+1?"selected":""}>${gem(i+1)}</option>`).join(""),ms=HEBM.map(m=>`<option ${d&&d.k==="h"&&d.m===m?"selected":""}>${m}</option>`).join("");
+ return `<div class="dw" id="${pfx}"><div class="dw-k">${[["n","לא ידוע"],["h","לוח עברי"],["g","לוח לועזי"]].map(([v,l])=>`<label><input type="radio" name="${pfx}k" value="${v}" ${k===v?"checked":""} onchange="famDw('${pfx}')"> ${l}</label>`).join("")}</div>
+ <div class="dw-h g3" ${k==="h"?"":"hidden"}><select id="${pfx}d">${days}</select><select id="${pfx}m">${ms}</select><input id="${pfx}y" type="number" min="3000" max="6000" placeholder="שנה (לא חובה)" value="${d&&d.k==="h"&&d.y?d.y:""}"></div>
+ <div class="dw-g" ${k==="g"?"":"hidden"}><input id="${pfx}g" type="date" value="${d&&d.k==="g"?d.date:""}"></div></div>`}
+function famDw(pfx){const k=document.querySelector(`input[name=${pfx}k]:checked`).value;document.querySelector(`#${pfx} .dw-h`).hidden=k!=="h";document.querySelector(`#${pfx} .dw-g`).hidden=k!=="g"}
+function dwRead(pfx){const k=document.querySelector(`input[name=${pfx}k]:checked`).value;if(k==="h")return{k:"h",d:+$(pfx+"d").value,m:$(pfx+"m").value,y:$(pfx+"y").value};if(k==="g"&&$(pfx+"g").value)return{k:"g",date:$(pfx+"g").value};return null}
+function famPh(inp){const f=inp.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const s0=Math.min(im.width,im.height);c.getContext("2d").drawImage(im,(im.width-s0)/2,(im.height-s0)/2,s0,s0,0,0,96,96);famPhotoData=c.toDataURL("image/jpeg",.7);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)}
+function famForm(id){const p=id?FAM_L.find(x=>x.id===id)||{}:{};famPhotoData=null;famRm=false;
+ const opts=cur0=>`<option value="">—</option>`+FAM_L.filter(x=>x.id!==p.id).map(x=>`<option value="${esc(x.id)}" ${cur0===x.id?"selected":""}>${esc(x.name)}</option>`).join("");
+ open(`<h3>${id?"עריכת בן משפחה":"הוספת בן משפחה"}</h3>
+ <label>שם<input id="f_n" maxlength="40" value="${esc(p.name||"")}"></label>
+ <div class="g2"><label>מין (לצורך ז״ל / ע״ה)<select id="f_g"><option value="">לא צוין</option><option value="m" ${p.gender==="m"?"selected":""}>זכר</option><option value="f" ${p.gender==="f"?"selected":""}>נקבה</option></select></label>
+ <label style="display:flex;align-items:flex-end;gap:6px"><input type="checkbox" id="f_x" ${p.dead?"checked":""}> נפטר/ת (ז״ל / ע״ה)</label></div>
+ <label>תמונה (לא חובה)<input type="file" accept="image/*" onchange="famPh(this)"></label>${p.photoId?`<label style="display:flex;gap:6px;align-items:center"><input type="checkbox" onchange="famRm=this.checked"> הסרת התמונה הקיימת</label>`:""}
+ <label>תאריך לידה</label>${dateWidget("fb",p.birth)}
+ <div class="g2"><label>אבא<select id="f_f">${opts(p.father)}</select></label><label>אמא<select id="f_mo">${opts(p.mother)}</select></label></div>
+ <label>בן/בת זוג<select id="f_s">${opts(p.spouse)}</select></label>
+ <label>תאריך נישואין (כשיש בן/בת זוג)</label>${dateWidget("fa",p.anniv)}
+ <div class="msg" id="msg"></div><div class="actions"><button id="f_ok" onclick="famSave('${esc(id||"")}')">שמירה</button><button class="sec" onclick="famAdmin()">חזרה לרשימה</button></div>`)}
+async function famSave(id){const c=chatTok();if(!c)return;const name=$("f_n").value.trim();if(!name)return err("נא למלא שם");
+ const ok=$("f_ok");ok.disabled=true;
+ const r=await api("famsave",{token:c.t,p:{id:id||undefined,name,gender:$("f_g").value,dead:$("f_x").checked,birth:dwRead("fb"),father:$("f_f").value,mother:$("f_mo").value,spouse:$("f_s").value,anniv:dwRead("fa"),photo:famPhotoData||undefined,rmPhoto:famRm}});
+ if(r.err){ok.disabled=false;return err(r.err)}
+ A.sig="";await refresh();famAdmin()}
+async function famDel(id){const p=FAM_L.find(x=>x.id===id);if(!p||!confirm("למחוק את "+p.name+" מעץ המשפחה?"))return;const c=chatTok();if(!c)return;
+ const r=await api("famdel",{token:c.t,id});if(r.err)return alert(r.err);A.sig="";await refresh();famAdmin()}
+
 /* ===== סרגל ניווט צדדי ===== */
-const RAIL=[["weekly","👑","מנצח השבוע"],["s-bets","🎲","הימורי השבוע"],["s-league","🏅","ליגת הנקודות"],["s-lb","🏆","טבלת המובילים"],["s-weeks","🗓️","כל השבועות"],["s-stats","🔥","סטטיסטיקות"],["s-words","💬","משפטים ובדיחות"],["s-chart","📈","המסע של כולנו"],["s-race","🏁","מרוץ השבועות"],["s-family","🎯","היעד המשפחתי"],["rulesH","📜","חוקי התחרות"]];
+const RAIL=[["weekly","👑","מנצח השבוע"],["s-bets","🎲","הימורי השבוע"],["s-league","🏅","ליגת הנקודות"],["s-lb","🏆","טבלת המובילים"],["s-weeks","🗓️","כל השבועות"],["s-stats","🔥","סטטיסטיקות"],["s-words","💬","משפטים ובדיחות"],["s-chart","📈","המסע של כולנו"],["s-race","🏁","מרוץ השבועות"],["s-family","🎯","היעד המשפחתי"],["rulesH","📜","חוקי התחרות"],["s-tree","👪","עץ המשפחה"]];
 function railJump(id){const el=document.getElementById(id);if(!el)return;const de=document.documentElement,old=de.style.scrollBehavior;de.style.scrollBehavior="auto";el.scrollIntoView({block:"start"});de.style.scrollBehavior=old}
 {const nav=$("rail");nav.innerHTML=RAIL.filter(r=>$(r[0])).map(r=>`<a href="#${r[0]}" data-t="${r[0]}" title="${r[2]}"><span class="ic">${r[1]}</span><span class="lb">${r[2]}</span></a>`).join("");
  const touch=!!(window.matchMedia&&matchMedia("(hover: none)").matches);

@@ -16,6 +16,13 @@ const HIST=[["2026-08-21","ח׳ אלול",[null,2.94,3.15,null]],["2026-08-28","
 const RX=["👏", "👍", "❤️", "😂", "🔥", "💪", "🎉", "😮", "😢", "🙏", "💯", "🤩", "😍", "👌", "🏆", "🌟"];
 const FT={"image/jpeg":1,"image/png":1,"image/webp":1,"image/gif":1,"audio/webm":2,"audio/ogg":2,"audio/mp4":2,"audio/mpeg":2,"audio/aac":2,"audio/x-m4a":2,"audio/wav":2,"application/pdf":0,"text/plain":0,"application/zip":0,"application/msword":0,"application/vnd.openxmlformats-officedocument.wordprocessingml.document":0,"application/vnd.ms-excel":0,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":0};
 const POINTS_FROM="2026-10-23";
+const ADMINS=String((typeof process!=="undefined"&&process.env&&process.env.ADMIN_IDS)||"elazar").split(",").map(x=>x.trim()).filter(Boolean);
+const HEB_M=["תשרי","חשוון","כסלו","טבת","שבט","אדר","אדר א׳","אדר ב׳","ניסן","אייר","סיוון","תמוז","אב","אלול"];
+const cleanDate=d=>{if(!d)return null;
+ if(d.k==="h"){const dd=Math.round(Number(d.d)),m=String(d.m||""),y=d.y===""||d.y==null?null:Math.round(Number(d.y));
+  if(!(dd>=1&&dd<=30)||!HEB_M.includes(m))return null;return{k:"h",d:dd,m,y:y&&y>=3000&&y<=6000?y:null}}
+ if(d.k==="g"){const s=String(d.date||"");if(!/^\d{4}-\d\d-\d\d$/.test(s)||isNaN(new Date(s+"T12:00:00Z").getTime()))return null;return{k:"g",date:s}}
+ return null};
 const PATCH=[["2026-10-16","ima",-1.33],["2026-10-16","yosi",-1.29]];
 const SEED=()=>{const p={members:{},weeks:{},entries:{}};PEOPLE.forEach(([id,name,c,g])=>p.members[id]={name,c,goalPct:g,claimed:false});
  HIST.forEach(([wk,label,v,q,t])=>{p.weeks[wk]={label};if(t)p.weeks[wk].quote={by:PEOPLE[q][0],text:t};v.forEach((x,i)=>{if(x!==null)p.entries[wk+"__"+PEOPLE[i][0]]=x})});return p};
@@ -155,7 +162,34 @@ export default async req=>{
   if(sch.filter(x=>x.by===id).length>=10)return bad("אפשר לתזמן עד 10 הודעות בו זמנית");
   sch.push({id:rnd(),by:id,at,text:t,q:b.q?String(b.q).slice(0,40):undefined,created:Date.now()});
   await st.setJSON("chatsched",sch);return J({ok:1,at})}
- if(act==="mybets")return J({mine:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]]))});
+ if(act==="famsave"||act==="famdel"){
+  if(!ADMINS.includes(id))return bad("רק מנהל האתר יכול לערוך את עץ המשפחה",403);
+  const fam=pub.family=pub.family||[];
+  if(act==="famdel"){const x=fam.find(p=>p.id===b.id);if(!x)return bad("לא נמצא",404);
+   if(x.photoId){try{await st.delete("file:"+x.photoId)}catch(e){}}
+   pub.family=fam.filter(p=>p.id!==b.id);
+   pub.family.forEach(p=>{if(p.father===b.id)delete p.father;if(p.mother===b.id)delete p.mother;if(p.spouse===b.id){delete p.spouse;delete p.anniv}});
+   await save();return J({ok:1})}
+  const q=b.p||{},name=String(q.name||"").trim().slice(0,40);if(!name)return bad("נא למלא שם");
+  let me=q.id?fam.find(p=>p.id===q.id):null;
+  if(!me){if(fam.length>=120)return bad("אפשר עד 120 בני משפחה");me={id:"f"+rnd()};fam.push(me)}
+  const ref=v=>{v=String(v||"");return v&&v!==me.id&&fam.some(p=>p.id===v)?v:undefined};
+  me.name=name;me.gender=q.gender==="m"||q.gender==="f"?q.gender:"";me.dead=!!q.dead;me.birth=cleanDate(q.birth)||undefined;
+  me.father=ref(q.father);me.mother=ref(q.mother);
+  const oldSp=me.spouse,newSp=ref(q.spouse);
+  if(oldSp&&oldSp!==newSp){const o=fam.find(p=>p.id===oldSp);if(o&&o.spouse===me.id){delete o.spouse;delete o.anniv}}
+  me.spouse=newSp;me.anniv=newSp?(cleanDate(q.anniv)||undefined):undefined;
+  if(newSp){const o=fam.find(p=>p.id===newSp);
+   if(o.spouse&&o.spouse!==me.id){const o2=fam.find(p=>p.id===o.spouse);if(o2&&o2.spouse===o.id){delete o2.spouse;delete o2.anniv}}
+   o.spouse=me.id;o.anniv=me.anniv}
+  if(q.photo&&PHOTO.test(q.photo)){const buf=Buffer.from(q.photo.split(",")[1],"base64");
+   if(me.photoId){try{await st.delete("file:"+me.photoId)}catch(e){}}
+   const fid=crypto.randomBytes(16).toString("hex");
+   await st.set("file:"+fid,buf.buffer.slice(buf.byteOffset,buf.byteOffset+buf.byteLength),{metadata:{type:"image/jpeg",name:"p.jpg",img:true}});me.photoId=fid}
+  else if(q.rmPhoto&&me.photoId){try{await st.delete("file:"+me.photoId)}catch(e){}delete me.photoId}
+  Object.keys(me).forEach(k=>me[k]===undefined&&delete me[k]);
+  await save();return J({ok:1,id:me.id})}
+ if(act==="mybets")return J({admin:ADMINS.includes(id),mine:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]]))});
  if(act==="unpredict"){
   const wk=String(b.wk),td=today(),addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-7)<=td&&td<wk))return bad("אי אפשר לבטל: ההימורים לשבוע הזה סגורים");
@@ -172,7 +206,7 @@ export default async req=>{
   const t=String(b.text||"").trim().slice(0,300);if(!t)return bad("הודעה ריקה");
   const m=(await st.get("chat",{type:"json"}))||[];const nm0={id:rnd(),by:id,ts:Date.now(),text:t,q:mkQ(m,b.q)};m.push(nm0);
   await st.setJSON("chat",m.slice(-300));await notifyChat(nm0);return J({ok:1})}
- if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,legacy:legacyW(pub,id,p),mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
+ if(act==="me")return J({start:p.start,goal:p.goal,kg:cw(p),hist:p.hist,legacy:legacyW(pub,id,p),admin:ADMINS.includes(id),mypreds:Object.fromEntries(Object.entries(pub.preds||{}).filter(([k,v])=>v[id]).map(([k,v])=>[k,v[id]])),email:p.email||"",remind:!!p.remind});
  if(act==="week"){
   const wk=String(b.wk);if(!/^\d{4}-\d\d-\d\d$/.test(wk))return bad("תאריך לא תקין");
   if(b.skip)p.hist[wk]=null;
