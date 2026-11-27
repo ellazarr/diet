@@ -540,6 +540,38 @@ h2[id],#weekly{scroll-margin-top:14px}
 .fm-b{position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#2a1d00;font-size:11px;font-weight:700;border-radius:99px;padding:1px 10px;white-space:nowrap}
 .fm-ring{position:absolute;width:30px;height:30px;border-radius:50%;background:var(--card);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;z-index:2;box-shadow:0 3px 8px rgba(0,0,0,.18)}
 #s-tree .sec{margin-inline-start:auto;font-size:13px;padding:4px 14px}
+
+.fm-card{width:200px;height:118px}
+.fm-av{top:-28px;margin-left:-28px;width:56px;height:56px;font-size:26px}
+.fm-n{font-size:20px;margin-top:34px;white-space:normal;line-height:1.15;max-height:2.3em;overflow:hidden}
+.fm-d{font-size:14px;margin-top:3px}
+.fm-b{font-size:12.5px;bottom:-12px}
+.fm-ring{width:34px;height:34px;font-size:18px}
+.fm-gen{position:absolute;font-family:"Frank Ruhl Libre",serif;font-size:15px;color:var(--gold);font-weight:700;writing-mode:vertical-rl;letter-spacing:1px;opacity:.9}
+.fmbtns{margin-inline-start:auto;display:flex;gap:6px}.fmbtns .sec{font-size:13px;padding:4px 12px}
+.pvimg{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);display:block;margin:6px 0}
+.crw{position:relative;width:240px;height:240px;margin:8px auto;border-radius:12px;overflow:hidden;touch-action:none;cursor:grab;background:var(--bg)}
+.crw canvas{display:block}
+.crg{position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 400px rgba(0,0,0,.5);pointer-events:none;border:2px solid #fff}
+#crop{max-width:320px}
+.fr-soon b{color:#ffe08a}
+.fr-soon{margin-top:2px}
+
+.tiles{margin:-52px 0 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;position:relative;z-index:1}
+#tiles~.poll,#tiles~#weekly{margin-top:0}
+.tile{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;background:var(--card);color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:18px;padding:12px 8px 10px;box-shadow:0 8px 22px rgba(20,40,30,.1);position:relative;animation:rise .6s both;animation-delay:calc(var(--i,0)*70ms)}
+.tile:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(20,40,30,.2);filter:none}
+.tile.first{border-color:var(--gold);border-top-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 28%,transparent),0 8px 22px rgba(20,40,30,.1)}
+.tile.paused{opacity:.75}
+.tile .av{width:54px;height:54px;border-color:var(--c)}
+.t-rk{position:absolute;top:6px;inset-inline-start:8px;font-size:18px}
+.t-n{font-family:"Frank Ruhl Libre",serif;font-size:19px}
+.t-v{font-size:15px;font-weight:700;color:var(--accent)}
+.t-l{font-size:13px;color:var(--muted)}
+.t-bar{width:84%;height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:2px}
+.t-bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width 1.4s}
+.t-b{font-size:14px;min-height:20px;letter-spacing:2px}
+@media(max-width:640px){.tiles{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.tile{min-width:148px;scroll-snap-align:start}}
 </style>
 </head>
 <body>
@@ -556,6 +588,7 @@ h2[id],#weekly{scroll-margin-top:14px}
 </header>
 <main class="wrap">
   <div id="notice"></div>
+  <section class="tiles" id="tiles" aria-label="התקדמות כל המשתתפים"></section>
   <section class="poll" id="poll" hidden></section>
   <div class="card reveal" id="weekly"></div>
   <section class="stats" id="stats"></section>
@@ -564,9 +597,7 @@ h2[id],#weekly{scroll-margin-top:14px}
   <div class="card reveal" id="predCard"></div>
   <h2 class="reveal" id="s-league">🏅 ליגת הנקודות</h2>
   <div class="card reveal" id="leagueCard"><div id="league"></div><div class="note" style="margin-top:10px">🥇 מקום ראשון 4 נקודות · 🥈 שני 3 · 🥉 שלישי 2 · אחרון (מ-4 משתתפים) 0 · 🎲 ניחוש נכון +1<br>הליגה מתחילה מהשבוע של י״ב חשוון (23.10). שבוע שרק משתתף אחד עדכן בו לא נותן נקודות.</div></div>
-  <h2 class="reveal" id="s-lb">🏆 טבלת המובילים</h2>
-  <div class="lb" id="lb"></div>
-  <h2 class="reveal" id="s-weeks">🗓️ כל השבועות</h2>
+  <h2 class="reveal" id="s-weeks">🗓️ כל השבועות <span class="fmbtns"><button class="sec" onclick="exportXlsx()" title="ייצוא כל האחוזים לאקסל (בלי משקלים)">📥 ייצוא לאקסל</button></span></h2>
   <div class="card tw reveal"><table id="tbl"></table></div>
   <h2 class="reveal" id="s-stats">🔥 סטטיסטיקות</h2>
   <div id="spot"></div>
@@ -586,14 +617,16 @@ h2[id],#weekly{scroll-margin-top:14px}
    <li><b>פרטיות:</b> המשקלים נשמרים באזור האישי בלבד ומוגנים בסיסמה. לכולם מוצגים רק אחוזים.</li>
    <li><b>המנצח השבועי:</b> מי שירד הכי הרבה אחוזים מבין מי שעדכנו באותו שבוע. כל עוד לא כולם עדכנו מופיע ״לעת עתה מוביל״.</li>
    <li><b>ליגת הנקודות:</b> בכל שבוע הנקודות לפי הדירוג: מקום ראשון <b>4</b> נקודות, מקום שני <b>3</b>, מקום שלישי <b>2</b>, והאחרון <b>0</b> (האחרון מקבל 0 כשיש לפחות 4 משתתפים באותו שבוע). מקום רביעי ומעלה שאינו אחרון מקבל נקודה אחת. שוויון נותן לשניהם אותו מספר נקודות. <b>הליגה מתחילה מהשבוע של י״ב חשוון (23.10)</b>, ושבוע שרק משתתף אחד עדכן בו לא נותן נקודות לאף אחד.</li>
-   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה (בשבוע שבו עדכנו לפחות שניים). <b>ההימורים אנונימיים עד שהשבוע נסגר:</b> עד אז רואים רק כמה הימרו על כל משתתף. אחרי שהשבוע נסגר (כשכולם עדכנו, או מיום ראשון) מתגלה מי הימר על מי, גם אם לא נקבע מנצח.</li>
+   <li><b>הימורים:</b> כל אחד יכול להמר מי ינצח השבוע, באזור האישי, <b>עד יום חמישי בחצות (00:00 ליל שישי)</b>. מי שניחש נכון מקבל <b>נקודה אחת</b> בליגה (בשבוע שבו עדכנו לפחות שניים). <b>ההימורים אנונימיים עד שהם נסגרים:</b> עד אז רואים רק כמה הימרו על כל משתתף. ב-00:00 ליל שישי, כשכבר אי אפשר להמר, מתגלה מי הימר על מי.</li>
    <li><b>משפט מוטיבציה ובדיחה:</b> מי שניצח בשבוע מקבל אפשרות לכתוב משפט מוטיבציה, ומי שירד הכי מעט מקבל אפשרות לכתוב בדיחה. האפשרות נפתחת אחרי שהשבוע נסגר.</li>
    <li><b>סגירת שבוע:</b> שבוע נסגר כשכל המשתתפים עדכנו, או מיום ראשון שאחריו, גם אם לא כולם עדכנו.</li>
    <li><b>היסטוריה ועריכה:</b> באזור האישי רואים את כל השקילות ואפשר לערוך או למחוק אותן בכל עת. האחוזים והנקודות מתעדכנים לבד.</li>
    <li><b>תאריכים:</b> כל התאריכים באתר מחושבים אוטומטית לפי הלוח העברי.</li>
   </ol></div>
-  <h2 class="reveal" id="s-tree">👪 עץ המשפחה <button class="sec" id="famMgr" hidden onclick="famAdmin()">✏️ ניהול</button></h2>
+  <h2 class="reveal" id="s-tree">👪 עץ המשפחה <span class="fmbtns"><button class="sec" onclick="famZoom(-1)" title="הקטנה">➖</button><button class="sec" onclick="famZoom(1)" title="הגדלה">➕</button><button class="sec" id="famMgr" hidden onclick="famAdmin()">✏️ עריכה</button></span></h2>
   <div class="card reveal famcard"><div class="tree-wrap" id="treeWrap"><div id="tree"></div></div></div>
+  <h2 class="reveal" id="s-gallery">📸 גלריה משפחתית</h2>
+  <div class="card reveal" id="galCard"><div class="note" style="margin:0 0 10px">הגלריה המשפחתית של משפחת דיסלדורף. ההתחברות בחשבון גוגל מתבצעת בתוך הגלריה.</div><div class="actions" style="margin:0 0 10px"><a class="btn" href="https://duseldorp-family.web.app/" target="_blank" rel="noopener">פתיחה במסך מלא ↗</a></div><iframe id="galFrame" title="גלריה משפחתית" loading="lazy" allow="clipboard-write; fullscreen" src="https://duseldorp-family.web.app/" style="width:100%;height:620px;border:1px solid var(--line);border-radius:14px;background:var(--bg)"></iframe></div>
 </main>
 <nav class="rail" id="rail" aria-label="ניווט בין קטגוריות"></nav>
 <button id="chatBtn" aria-label="צ'אט המשפחה">💬 צ'אט<i id="chatBadge" hidden></i></button>
@@ -626,6 +659,7 @@ h2[id],#weekly{scroll-margin-top:14px}
 </aside>
 <div id="toast"></div>
 <div id="tv"><button class="tvx" onclick="event.stopPropagation();tvClose()">✕</button><div id="tvBody"></div><div id="tvDots"></div><div id="tvProgW"><div id="tvProg"></div></div></div>
+<dialog id="crop"><h3>התאמת התמונה</h3><div class="crw" id="crW"><canvas id="crC" width="240" height="240"></canvas><div class="crg"></div></div><label>זום<input id="crZ" type="range" min="1" max="4" step="0.01" value="1"></label><div class="note">גררו את התמונה כדי למקם אותה, והזיזו את הסליידר (או גלגלת העכבר) כדי להגדיל.</div><div class="actions"><button id="crOk">אישור</button><button class="sec" id="crNo">ביטול</button></div></dialog>
 <dialog id="dlg"><div id="dbody"></div></dialog>
 
 <script>
@@ -663,7 +697,7 @@ function derive(){
   const a=w.v.map((x,i)=>[x,i]).filter(z=>z[0]!==null);w.win=[];w.low=[];
   if(a.length>=1){const mx=Math.max(...a.map(z=>z[0])),mn=Math.min(...a.map(z=>z[0]));
    w.win=a.filter(z=>z[0]===mx).map(z=>z[1]);w.low=a.length<2||mx===mn?[]:a.filter(z=>z[0]===mn).map(z=>z[1])}
-  const cl=ms.map((m,i)=>m.claimed?i:-1).filter(i=>i>=0);
+  const cl=ms.map((m,i)=>m.claimed&&!isPaused(m)?i:-1).filter(i=>i>=0);
   w.done=!w.virtual&&(closedW(w.id)||(cl.length>0&&cl.every(i=>w.has[i])));
   w.wait=cl.filter(i=>!w.has[i]);
  });
@@ -710,6 +744,7 @@ function facts(P,W){
 /* ===== תצוגה ראשית ===== */
 function render(){
  D=derive();const P=D.ms,W=D.ws,n=W.length,RW=W.filter(w=>!w.virtual);
+ {const cl=P.filter(m=>m.claimed);FAMMODE=cl.length>1&&cl.every(m=>treeKey(m)<1e9)}
  {const t=new Date();t.setDate(t.getDate()+((5-t.getDay()+7)%7));$("next").textContent="📅 השקילה הקרובה: שישי, "+hl(ymd(t))+" ("+dm(ymd(t))+")"}
  $("badge").hidden=!RW.length;if(RW.length)$("badge").textContent="עודכן עד שבוע: "+hl(RW[RW.length-1].id);
  const lastW=[...W.keys()].reverse().find(i=>W[i].win.length);
@@ -722,15 +757,7 @@ function render(){
   [best.v>-99?cnt(best.v,2,"%"):"–","שבוע שיא"+(best.v>-99?" · "+esc(P[best.i].name):"")],
   [top?P.filter((_,i)=>wins[i]===top).map(m=>esc(m.name)).join(", "):"–","הכי הרבה ניצחונות"]
  ].map((s,i)=>`<div class="stat" style="--i:${i}"><b${String(s[0]).includes("class=\"cnt\"")?"":" class=\"t\""}>${s[0]}</b><span>${s[1]}</span></div>`).join(""):"";
- const medals=["🥇","🥈","🥉"],BG=badges(P,W);BADGES=BG;
- $("lb").innerHTML=P.length?P.map((m,r)=>{
-  const g=m.goalPct,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0;
-  return `<div class="row ${r===0?"first":""}" style="--i:${r}">${av(m)}<div><div class="name" onclick="memStats(${r})">${medals[r]||"🎖️"} ${esc(m.name)}</div>
-  <div class="sub">${g?`יעד ${g.toFixed(2)}% · נותרו ${Math.max(0,g-m.tot).toFixed(2)}%`:"טרם הוגדר יעד"}${m.claimed?"":" · ממתין/ה להצטרפות"}</div>
-  <div class="chips"><button class="chip statb" onclick="memStats(${r})">📊 סטטיסטיקות</button>${(BG[r]||[]).map((b,k)=>`<button class="chip" onclick="spot(${r},${k})">${b[0]} ${esc(b[1])}</button>`).join("")}</div>
-  <div class="bar"><i style="width:0;background-color:${esc(m.c)}" data-w="${prog}"></i></div></div>
-  <div class="pct" style="color:${esc(m.c)}">${cnt(m.tot,2,"%")}</div></div>`}).join(""):`<div class="card empty">עדיין אין משתתפים. לחצו על ״הוספת משתמש״</div>`;
- setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),200);
+ const BG=badges(P,W);BADGES=BG;renderTiles(P,cnt);
  {const cw=W[n-1],pw=lastW!==undefined?W[lastW]:null;
   const chg=v=>v>0?"ירד "+v.toFixed(2)+"%":v<0?"עלה "+Math.abs(v).toFixed(2)+"%":"ללא שינוי";
   const top2=w=>Math.max(...w.v.filter(x=>x!==null)),nm=w=>w.win.map(i=>esc(P[i].name)).join(" ו");
@@ -795,7 +822,6 @@ const err=t=>{const e=$("msg");if(e)e.textContent=t};
 const memOf=id=>D.ms.find(m=>m.id===id)||{};
 const emoRow=()=>`<div class="emo">${EMOS.map(e=>`<button type="button" class="${e===emo?"on":""}" onclick="A.emo('${e}',this)">${e}</button>`).join("")}</div>`;
 A.emo=(e,b)=>{emo=e;b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b))};
-A.photo=inp=>{const f=inp.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const s=Math.min(im.width,im.height);c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,96,96);photo=c.toDataURL("image/jpeg",.7);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)};
 
 /* ===== הוספת משתמש ===== */
 $("bAdd").onclick=()=>{
@@ -845,9 +871,11 @@ A.area=async()=>{
  const rows=D.ws.filter(x=>!x.virtual).map(x=>({id:x.id,h:x.id in A.hist,w:A.hist[x.id],pct:x.v[mi],has:x.has[mi]})).filter(r=>r.h||r.has).reverse();
  A.pcts=Object.fromEntries(rows.map(r=>[r.id,r.pct]));
  IS_ADMIN=!!p.admin;
- const famBox=p.admin?`<div class="box"><b>👪 עץ המשפחה (למנהל האתר בלבד)</b><div class="note">הוספת בני משפחה עם ימי הולדת וימי נישואין. הם מופיעים בעץ המשפחה בתחתית האתר, והאתר מאחל מזל טוב לקראת האירועים ובמהלכם.</div><div class="actions"><button onclick="famAdmin()">ניהול עץ המשפחה</button></div></div>`:"";
+ const me0=memOf(cur),pz=isPaused(me0);
+ const pauseBox=`<div class="box"><b>⏸ השהיית ההשתתפות שלי</b><div class="note">${pz?"אתה מושהה"+(me0.pause<"9999"?" עד "+esc(dm(me0.pause)):" עד שתחזור")+". לא מהמרים עליך, ולא מחכים לעדכון שלך.":"אם אתה יוצא לתקופה: לא יהמרו עליך ולא יחכו לעדכון השקילה שלך."}</div>${pz?`<div class="actions"><button onclick="A.pause(null)">▶ חזרה לתחרות</button></div>`:`<div class="g2"><select id="ps_d"><option value="7">שבוע</option><option value="14">שבועיים</option><option value="30">חודש</option><option value="90">3 חודשים</option><option value="forever">עד שאחזור</option><option value="date">עד תאריך…</option></select><input type="date" id="ps_x"></div><div class="actions"><button onclick="A.pause('go')">⏸ השהיה</button></div>`}</div>`;
+ const famBox=true?`<div class="box"><b>👪 עץ המשפחה (כולם יכולים לערוך)</b><div class="note">הוספת בני משפחה עם ימי הולדת וימי נישואין. הם מופיעים בעץ המשפחה בתחתית האתר, והאתר מאחל מזל טוב לקראת האירועים ובמהלכם.</div><div class="actions"><button onclick="famAdmin()">ניהול עץ המשפחה</button></div></div>`:"";
  const bw=betWeek();
- const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div>${(p.mypreds||{})[bw]?`<div class="actions"><button class="sec" onclick="A.predDel('${bw}')">🗑️ ביטול ההימור</button></div>`:""}<div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
+ const predBox=`<div class="box"><b>🎲 הימור: מי ינצח בשבוע ${esc(hl(bw))}?</b><div class="g2"><select id="pr_g">${D.ms.filter(x=>x.claimed&&!isPaused(x)).sort((a,b)=>famRank(a)-famRank(b)).map(x=>`<option value="${esc(x.id)}" ${(p.mypreds||{})[bw]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button onclick="A.pred('${bw}')">שמירת הימור</button></div>${(p.mypreds||{})[bw]?`<div class="actions"><button class="sec" onclick="A.predDel('${bw}')">🗑️ ביטול ההימור</button></div>`:""}<div class="note">אפשר להמר ולשנות עד יום חמישי בחצות (00:00 ליל שישי). ניחוש נכון שווה נקודה, וההימורים אנונימיים: אף אחד לא רואה מי הימר על מי.</div></div>`;
  const legN=p.legacy&&p.legacy.w?Object.keys(p.legacy.w).length:0;
  const legNote=legN?`<div class="note" style="margin:6px 0 8px">שבועות מלפני ההצטרפות מוצגים עם משקל מחושב (≈) לפי האחוזים${p.legacy.start?`, ולפני השקילה הראשונה בגיליון: ≈${p.legacy.start} ק״ג`:""}. כדי לתקן שבוע, כתבו את המשקל האמיתי שלו בטופס העדכון, בתאריך השקילה.</div>`:"";
  const histHtml=`<div class="box"><b>📜 ההיסטוריה שלי</b>${legNote}${rows.length?rows.map(r=>`<div class="hrow"><div><b>${esc(hl(r.id))}</b><small class="sub"> ${dm(r.id)}</small></div><div>${r.h?(r.w===null?"דילגת":r.w+" ק״ג"):((p.legacy&&p.legacy.w&&p.legacy.w[r.id]!=null)?"≈"+p.legacy.w[r.id]+" ק״ג <small class=\"sub\">מחושב</small>":"לפני ההצטרפות")}</div><div class="${r.pct<0?"neg":""}">${r.pct===null?"–":fmt(r.pct)}</div><div><button class="sec" onclick="A.${r.h?"edit":"editp"}('${r.id}')">✏️</button> <button class="sec" onclick="A.${r.h?"del":"delp"}('${r.id}')">🗑️</button></div></div>`).join(""):`<div class="note">עוד אין שקילות</div>`}</div>`;
@@ -862,11 +890,12 @@ A.area=async()=>{
  <div class="g2"><label>תאריך שקילה<input id="w_d" type="date" value="${fr}"></label><label>המשקל שלך השבוע (ק״ג)<input id="w_k" type="number" step="0.1" inputmode="decimal"></label></div>
  <div class="msg" id="msg"></div><div class="actions"><button onclick="A.week(0)">עדכון</button><button class="sec" onclick="A.week(1)">דילגתי השבוע</button></div>
  <div class="note">מספיק לכתוב את המשקל. האתר מחשב כמה ירדת ומעדכן את העמוד הראשי באחוזים. הקילוגרמים נשארים כאן.</div></div>
+ ${pauseBox}
  ${famBox}
  ${histHtml}
  <details class="box"><summary><b>הגדרות</b></summary>
  <label>שם<input id="s_n" value="${esc(m.name)}" maxlength="20"></label><label>סמל</label>${emoRow()}
- <label>תמונת פרופיל<input type="file" accept="image/*" onchange="A.photo(this)"></label>
+ <label>תמונת פרופיל<input type="file" accept="image/*" onchange="A.photo(this)"></label><img id="ph_prev" class="pvimg" hidden alt="">${m.photo?`<button class="sec" type="button" onclick="A.rePhoto()">✂️ התאמת התמונה הנוכחית</button>`:""}
  ${m.photo?`<button class="sec" type="button" onclick="A.rmPh(this)">🗑️ הסר את תמונת הפרופיל</button>`:""}
  <div class="g2"><label>משקל התחלתי<input id="s_s" type="number" step="0.1" value="${p.start}"></label><label>משקל יעד<input id="s_g" type="number" step="0.1" value="${p.goal}"></label></div>
  <label>מייל לתזכורת שבועית (נשמר פרטי)<input id="s_e" type="email" value="${esc(p.email||"")}"></label>
@@ -876,6 +905,10 @@ A.area=async()=>{
 A.pred=async wk=>{const r=await api("predict",{token:TOK[cur],wk,guess:$("pr_g").value});if(r.err)return alert(r.err);
  const g=(D.ms.find(x=>x.id===$("pr_g").value)||{}).name||"";MYB[wk]=$("pr_g").value;await refresh();A.flash="🎲 ההימור נשמר ("+g+") וכבר מופיע באתר, בקטגוריית הימורי השבוע";A.area()};
 A.predDel=async wk=>{if(!confirm("לבטל את ההימור?"))return;const r=await api("unpredict",{token:TOK[cur],wk});if(r.err)return alert(r.err);delete MYB[wk];await refresh();A.flash="🗑️ ההימור בוטל";A.area()};
+A.pause=async v=>{let until=null;
+ if(v==="go"){const k=$("ps_d").value;until=k==="forever"?"9999-12-31":k==="date"?$("ps_x").value:addD(ilToday(),+k);if(!until)return alert("נא לבחור תאריך")}
+ const r=await api("pause",{token:TOK[cur],until});if(r.err)return alert(r.err);
+ A.sig="";await refresh();A.flash=until?"⏸ ההשתתפות שלך הושהתה":"▶ חזרת לתחרות";A.area()};
 A.out=()=>{delete TOK[cur];saveTok();MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws)};
 A.week=async skip=>{
  const dt=friday(new Date($("w_d").value+"T12:00:00"));
@@ -1013,8 +1046,12 @@ function spot(r,k){const P=D.ms,b=(BADGES[r]||[])[k];if(!b)return;const m=P[r],e
  el.innerHTML=`<div class="spot"><button class="close" onclick="$('spot').innerHTML=''">✕</button><div class="spot-e">${b[0]}</div><div><div class="spot-t">${esc(b[1])}</div><div class="spot-m">${av(m,32)} ${esc(m.name)}</div><div class="spot-d">${b[3]}</div></div></div>`;
  el.scrollIntoView({behavior:"smooth",block:"center"})}
 /* ליגת הנקודות */
-const FAM=["אמא","יעקב","אלעזר","יוסי","רחלי"];
-const famRank=m=>{const i=FAM.indexOf((m||{}).name);return i<0?99:i};
+const FAM=["אמא","יעקב","אלעזר","יוסי","דוד","רחלי"];
+let FAMMODE=false;
+function ordKey(p){const b=p&&p.birth;if(!b)return 1e9;if(b.k==="g"){const[y,m,d]=b.date.split("-").map(Number);return y+(m-1)/12+d/372}
+ if(!b.y)return 1e9;const i=HEBM.indexOf(b.m),yy=i<4?b.y-3761+.7+i*.08:b.y-3760+(i-4)*.08;return yy+b.d/4000}
+const treeKey=m=>{const p=FAM_L.find(x=>x.name===(m||{}).name);return p?ordKey(p):1e9};
+const famRank=m=>{if(FAMMODE)return treeKey(m);const i=FAM.indexOf((m||{}).name);return i<0?99:i};
 const famOrd=P=>P.map((_,i)=>i).sort((a,b)=>famRank(P[a])-famRank(P[b])||a-b);
 const POINTS_FROM="2026-10-23";
 function points(P,W){
@@ -1088,6 +1125,22 @@ if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{
 /* תחזיות */
 const ilToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Jerusalem"}).format(new Date());
 const addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
+const isPaused=m=>!!(m&&m.pause&&ilToday()<=m.pause);
+function renderTiles(P,cnt){const el=$("tiles");
+ if(!P.length){el.innerHTML="";return}
+ const medals=["🥇","🥈","🥉"];
+ el.innerHTML=P.map((m,r)=>{const g=m.goalPct||0,left=g?Math.max(0,g-m.tot):null,prog=g?Math.max(0,Math.min(100,m.tot/g*100)):0,bd=(BADGES[r]||[]).slice(0,4).map(b=>b[0]).join("");
+  return `<button class="tile ${r===0?"first":""} ${isPaused(m)?"paused":""}" style="--c:${esc(m.c)};--i:${r}" onclick="tileOpen(${r})" aria-label="${esc(m.name)}: פרטים וסטטיסטיקות">
+   <span class="t-rk">${medals[r]||r+1}</span>${av(m,54)}<b class="t-n">${esc(m.name)}</b>
+   <span class="t-v">ירד ${cnt(m.tot,2,"%")}</span>
+   <span class="t-l">${g?(left>0?"נותרו "+left.toFixed(2)+"%":"הושג היעד 🎯"):"טרם הוגדר יעד"}</span>
+   <span class="t-bar"><i style="width:${prog}%"></i></span>
+   <span class="t-b">${isPaused(m)?"⏸ מושהה":esc(bd)}</span></button>`}).join("")}
+function tileOpen(r){const P=D.ms,m=P[r];if(!m)return;const f=memberFacts(P,D.ws,r),bd=BADGES[r]||[];
+ open(`<div class="bconf">${av(m,84)}<h3>${esc(m.name)}</h3><div class="sub">${m.goalPct?`יעד ${m.goalPct.toFixed(2)}% · ירד ${m.tot.toFixed(2)}%`:`ירד ${m.tot.toFixed(2)}%`}${isPaused(m)?" · ⏸ מושהה":""}</div></div>
+  <div class="mgrid">${f.map(x=>`<div class="mstat"><em>${x[0]}</em><b>${x[1]}</b><span>${x[2]}</span></div>`).join("")}</div>
+  ${bd.length?`<div class="bet-sub" style="margin-top:12px">הישגים</div><div class="mgrid">${bd.map(b=>`<div class="mstat"><em>${b[0]}</em><b>${esc(b[1])}</b><span>${b[3]}</span></div>`).join("")}</div>`:""}
+  <div class="actions" style="justify-content:center"><button class="sec" onclick="A.close()">סגירה</button></div>`)}
 function betWeek(){const td=ilToday(),dow=new Date(td+"T12:00:00Z").getUTCDay();let k=(5-dow+7)%7;if(k===0)k=7;return addD(td,k)}
 function betDeadline(bw){const U=Date.UTC(+bw.slice(0,4),+bw.slice(5,7)-1,+bw.slice(8,10));let h=3;
  try{const p=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",timeZoneName:"shortOffset"}).formatToParts(new Date(U)).find(x=>x.type==="timeZoneName"),m=/GMT([+-]\d+)/.exec(p.value);if(m)h=+m[1]}catch(e){}
@@ -1100,7 +1153,7 @@ setInterval(betCountdown,30000);
 function betSwitch(){const c=chatTok();if(c){delete TOK[c.id];saveTok()}MYB={};A.close();updateWho();if(D)predRender(D.ms,D.ws);$("bMe").click()}
 let myId="";
 async function loadMyBets(){const c=chatTok();myId=c?c.id:"";if(!c){MYB={};if(D)predRender(D.ms,D.ws);return}
- const r=await api("mybets",{token:c.t});MYB=r.mine||{};IS_ADMIN=!!r.admin;if(D){predRender(D.ms,D.ws);$("famMgr").hidden=!IS_ADMIN}}
+ const r=await api("mybets",{token:c.t});MYB=r.mine||{};IS_ADMIN=!!r.admin;if(D){predRender(D.ms,D.ws);$("famMgr").hidden=!chatTok()}}
 function updateWho(){const c=chatTok(),t=c&&D?"👤 "+(memOf(c.id).name||"האזור האישי")+" · מחובר":"👤 האזור האישי";const b=$("bMe");if(b.textContent!==t)b.textContent=t}
 setInterval(()=>{updateWho();const c=chatTok(),id=c?c.id:"";if(id!==myId)loadMyBets()},1500);
 function betPick(id){
@@ -1113,7 +1166,7 @@ function betPick(id){
  open(`<div class="bconf">${av(m,96)}<h3>בחרת ב${esc(m.name)}</h3>
   <div class="sub">ההימור של ${esc(me.name||"")} על המנצח בשבוע ${esc(hl(bw))} (${dm(bw)})</div>
   ${cur===id?`<div class="note">כבר המרת על ${esc(m.name)}.</div>`:cur?`<div class="note">ההימור הקודם שלך היה על ${esc(memOf(cur).name||"")}. האישור יחליף אותו.</div>`:""}
-  <div class="note">ההימור אנונימי עד שהשבוע נסגר: עד אז רואים רק כמה הימרו על כל משתתף. אפשר לשנות עד יום חמישי בחצות (00:00 ליל שישי).</div>
+  <div class="note">ההימור אנונימי עד סגירת ההימורים (00:00 ליל שישי): עד אז רואים רק כמה הימרו על כל משתתף. אפשר לשנות עד יום חמישי בחצות (00:00 ליל שישי).</div>
   <div class="note"><a href="#" onclick="betSwitch();return false">לא ${esc(me.name||"")}? החלפת משתמש</a></div>
   <div class="msg" id="msg"></div>
   <div class="actions" style="justify-content:center"><button id="betOk" onclick="betConfirm('${esc(m.id)}')">אישור</button><button class="sec" onclick="A.close()">ביטול</button></div></div>`)}
@@ -1127,20 +1180,20 @@ async function betConfirm(id){const c=chatTok();if(!c)return;const ok=$("betOk")
  MYB[betWeek()]=id;await refresh();predRender(D.ms,D.ws);A.close();toast("🎲 ההימור שלך נשמר: "+(memOf(id).name||""));
  const el=document.querySelector('.bc[data-id="'+id+'"]');if(el){el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop")}}
 function predRender(P,W){
- const el=$("predCard"),bw=betWeek(),cnt=BETCNT[bw]||{},cand=P.filter(m=>m.claimed).sort((a,b)=>famRank(a)-famRank(b)),byId=id=>P.find(m=>m.id===id);
+ const el=$("predCard"),bw=betWeek(),cnt=BETCNT[bw]||{},cand=P.filter(m=>m.claimed&&!isPaused(m)).sort((a,b)=>famRank(a)-famRank(b)),byId=id=>P.find(m=>m.id===id);
  const sum=o=>Object.values(o).reduce((x,y)=>x+y,0),total=sum(cnt),mx=Math.max(0,...Object.values(cnt)),c=chatTok(),mine=c?MYB[bw]:null,closedNow=betDeadline(bw)-Date.now()<=0;
  let h=`<div class="bets"><div class="bet-head"><div><div class="bet-t">מי ינצח בשבוע ${esc(hl(bw))}? <small>(${dm(bw)})</small></div><div class="bet-s">${closedNow?"ההימורים לשבוע הזה נסגרו":"לחצו על המשתתף שאתם חושבים שינצח · ניחוש נכון שווה נקודה אחת בליגה"}</div></div><div class="bet-dl">⏳ <span id="betCd"></span><small>נסגר ביום חמישי בחצות (00:00 ליל שישי)</small></div></div>`;
- h+=c&&D?`<div class="bet-who">🔒 מחובר כ${esc(memOf(c.id).name||"")} · ההימור נשמר מהחשבון האישי שלך, והוא אנונימי עד שהשבוע נסגר</div>`:`<div class="bet-who off">כדי להמר צריך להתחבר לאזור האישי</div>`;
+ h+=c&&D?`<div class="bet-who">🔒 מחובר כ${esc(memOf(c.id).name||"")} · ההימור נשמר מהחשבון האישי שלך, והוא אנונימי עד סגירת ההימורים</div>`:`<div class="bet-who off">כדי להמר צריך להתחבר לאזור האישי</div>`;
  if(!cand.length)h+=`<div class="empty">ההימורים ייפתחו כשיצטרפו משתתפים</div>`;
  else h+=`<div class="bet-grid">${cand.map((m,k)=>{const n=cnt[m.id]||0,lead=n&&n===mx;
-  return `<div class="bc ${lead?"lead":""} ${mine===m.id?"mine":""} ${closedNow?"closed":""}" data-id="${esc(m.id)}" role="button" tabindex="0" aria-label="המרה על ${esc(m.name)}" onclick="betPick('${esc(m.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();betPick('${esc(m.id)}')}" style="--c:${esc(m.c)};--i:${k}">${lead?`<span class="bc-crown">👑</span>`:""}${mine===m.id?`<span class="bc-me">ההימור שלך</span>`:""}${av(m,72)}<b>${esc(m.name)}</b><div class="bc-n">${n?n+" "+(n===1?"הימור":"הימורים"):"אין הימורים"}</div><div class="bc-bar"><i style="width:${total?Math.round(n/total*100):0}%"></i></div><div class="stack">${Array.from({length:Math.min(n,8)},()=>`<span class="ph" title="מי הימר יתגלה כשיהיה מנצח">?</span>`).join("")}</div></div>`}).join("")}</div>`;
- h+=`<div class="note">${total?total+" הימרו עד כה. ":"עוד אף אחד לא המר. "}רואים כמה הימרו על כל משתתף, ומי הימר על מי יתגלה כשהשבוע ייסגר (כשכולם עדכנו או מיום ראשון).${closedNow?"":" אפשר לשנות את ההימור עד שהוא נסגר."}</div>`;
+  return `<div class="bc ${lead?"lead":""} ${mine===m.id?"mine":""} ${closedNow?"closed":""}" data-id="${esc(m.id)}" role="button" tabindex="0" aria-label="המרה על ${esc(m.name)}" onclick="betPick('${esc(m.id)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();betPick('${esc(m.id)}')}" style="--c:${esc(m.c)};--i:${k}">${lead?`<span class="bc-crown">👑</span>`:""}${mine===m.id?`<span class="bc-me">ההימור שלך</span>`:""}${av(m,72)}<b>${esc(m.name)}</b><div class="bc-n">${n?n+" "+(n===1?"הימור":"הימורים"):"אין הימורים"}</div><div class="bc-bar"><i style="width:${total?Math.round(n/total*100):0}%"></i></div><div class="stack">${Array.from({length:Math.min(n,8)},()=>`<span class="ph" title="מי הימר יתגלה כשההימורים נסגרים">?</span>`).join("")}</div></div>`}).join("")}</div>`;
+ h+=`<div class="note">${total?total+" הימרו עד כה. ":"עוד אף אחד לא המר. "}רואים כמה הימרו על כל משתתף, ומי הימר על מי יתגלה ב-00:00 ליל שישי, כשההימורים נסגרים.${closedNow?"":" אפשר לשנות את ההימור עד שהוא נסגר."}</div>`;
  const lk=Object.keys(BETCNT).filter(k=>k<bw).sort().pop(),lr=Object.keys(BETREV).filter(k=>k<bw).sort().pop();
- if(lk&&lk!==lr){const cc=BETCNT[lk]||{};if(sum(cc))h+=`<div class="bet-sub">שבוע ${esc(hl(lk))}</div><div class="note">מי הימר על מי יתגלה כשהשבוע ייסגר (כשכולם עדכנו או מיום ראשון). עד אז רואים רק כמה הימרו על כל משתתף:</div><div class="chips">${Object.entries(cc).sort((x,y)=>y[1]-x[1]).map(([id,n])=>{const m=byId(id);return m?`<span class="chip">${esc(m.name)}: ${n}</span>`:""}).join("")}</div>`}
- if(lr){const rv=BETREV[lr],lw=W.find(x=>x.id===lr),wins=lw?lw.win.map(i=>P[i].id):[];
+ if(lk&&lk!==lr){const cc=BETCNT[lk]||{};if(sum(cc))h+=`<div class="bet-sub">שבוע ${esc(hl(lk))}</div><div class="note">מי הימר על מי יתגלה ב-00:00 ליל שישי, כשההימורים נסגרים. עד אז רואים רק כמה הימרו על כל משתתף:</div><div class="chips">${Object.entries(cc).sort((x,y)=>y[1]-x[1]).map(([id,n])=>{const m=byId(id);return m?`<span class="chip">${esc(m.name)}: ${n}</span>`:""}).join("")}</div>`}
+ if(lr){const rv=BETREV[lr],lw=W.find(x=>x.id===lr),wins=lw&&lw.done?lw.win.map(i=>P[i].id):[],fin=!!(lw&&lw.done)||closedW(lr);
   const rows=Object.entries(rv).sort((x,y)=>famRank(byId(x[0]))-famRank(byId(y[0]))).map(([u,g])=>{const a=byId(u),b=byId(g);if(!a||!b)return"";const ok=wins.includes(g);
    return `<div class="brow ${wins.length?(ok?"ok":"no"):""}">${av(a,34)}<b>${esc(a.name)}</b><span class="arr">←</span>${av(b,34)}<b>${esc(b.name)}</b><em>${wins.length?(ok?"✅ ניחוש נכון":"❌"):""}</em></div>`}).filter(Boolean).join("");
-  h+=`<div class="bet-sub">הימורי שבוע ${esc(hl(lr))} · ${wins.length?"המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":"לא נקבע מנצח לשבוע הזה"}</div><div class="brows">${rows}</div>`}
+  h+=`<div class="bet-sub">הימורי שבוע ${esc(hl(lr))} · ${wins.length?"המנצח: "+wins.map(id=>esc(byId(id).name)).join(" ו")+" 👑":fin?"לא נקבע מנצח לשבוע הזה":"ממתינים לתוצאות השקילות"}</div><div class="brows">${rows}</div>`}
  const st={};Object.values(BETREV).forEach(g=>Object.keys(g).forEach(u=>{st[u]=(st[u]||0)+1}));
  const bb=P.map(m=>({m,n:st[m.id]||0,ok:BETOK[m.id]||0})).filter(z=>z.n>0||z.ok>0).sort((a,b)=>b.ok-a.ok||a.n-b.n);
  if(bb.length)h+=`<div class="bet-sub">🏆 המנחשים המובילים</div><div class="bboard">${bb.map(z=>`<div class="bb">${av(z.m,36)}<b>${esc(z.m.name)}</b><span class="sub">${z.ok} נכונות מתוך ${Math.max(z.n,z.ok)}</span><em>${z.ok}</em></div>`).join("")}</div>`;
@@ -1152,7 +1205,7 @@ function pollHtml(P,pl,final){
   +rows.map((r,i)=>`<div class="pl-row ${i===0?"lead":""}" style="--c:${esc(r.m.c)};--i:${i}"><div class="pl-rk">${i+1}</div>${av(r.m,46)}<div><div class="pl-nm">${esc(r.m.name)}</div>${i===0?`<span class="pl-lead">מוביל במדגם</span>`:""}</div><div class="pl-bar"><i data-w="${Math.round(r.v/mx*100)}" style="width:${final?Math.round(r.v/mx*100):0}%"></i></div><div class="pl-v">${cn(r.v,"%")}</div></div>`).join("")
   +`<div class="pl-foot"><span>המדגם מחושב אוטומטית מהימורי המשפחה ואינו תוצאה רשמית. התוצאות האמיתיות לפי השקילות של כולם.</span><span>מתעדכן בזמן אמת · ${esc(hm(pl.ts||Date.now()))}</span></div>`}
 function pollModel(P,W){
- const cl=P.filter(m=>m.claimed);if(cl.length<2)return null;
+ const cl=P.filter(m=>m.claimed&&!isPaused(m));if(cl.length<2)return null;
  const td=ilToday(),bw=betWeek(),sum=o=>Object.values(o).reduce((x,y)=>x+y,0);
  let wk=null,phase="";
  const closedKeys=Object.keys(BETCNT).filter(k=>k<=td&&sum(BETCNT[k]||{})>0&&!closedW(k)&&!(W.find(x=>x.id===k)||{}).done).sort();
@@ -1485,23 +1538,48 @@ const famInit=p=>esc((p.name||"?")[0]);
 const famName=p=>esc(p.name)+(p.dead?(p.gender==="f"?" ע״ה":" ז״ל"):"");
 const famBirthTxt=p=>{const b=p.birth;if(!b)return"";if(b.k==="h")return gem(b.d)+" "+b.m;const[y,m,d]=b.date.split("-");return d+"."+m+"."+y};
 const famAvHtml=(p,sz)=>`<div class="av" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.5)}px;--c:#b88a2e">${p.photoId?`<img src="/api/file/${esc(p.photoId)}" alt="">`:famInit(p)}</div>`;
-function renderRibbon(){const el=$("famRibbon");
- const ev=famEvents().filter(e=>e.o.days<=7);
+function famWeekEvents(today){
+ today=today||ilToday();const t0=utcNoon(today),dow=t0.getUTCDay(),ws=new Date(t0.getTime()-dow*DAYMS),out=[],bg={};
+ const getBG=p=>{if(p.id in bg)return bg[p.id];let r=null;const b=p.birth;
+  if(b){if(b.k==="g")r=b.date;else if(b.y&&hebParts(t0).y-b.y<=1){for(let i=0;i<=75;i++){const dt=new Date(t0.getTime()-i*DAYMS),hp=hebParts(dt);if(hp.d===b.d&&hp.y===b.y&&monthMatch(b.m,hp.m)){r=isoOf(dt);break}}}}
+  return bg[p.id]=r};
+ for(let i=0;i<14;i++){const dt=new Date(ws.getTime()+i*DAYMS),iso=isoOf(dt),hp=hebParts(dt),[gy,gm,gd]=iso.split("-").map(Number),leap=gy%4===0&&(gy%100!==0||gy%400===0);
+  const hit=ev=>ev.k==="g"?(()=>{const[,m,d]=ev.date.split("-").map(Number);return m===gm&&(d===gd||(m===2&&d===29&&gd===28&&!leap))})():(ev.d===hp.d&&monthMatch(ev.m,hp.m));
+  const yrs=ev=>ev.k==="g"?gy-Number(ev.date.slice(0,4)):ev.y?hp.y-ev.y:null;
+  FAM_L.forEach(p=>{
+   if(p.birth&&!p.dead){
+    const n=yrs(p.birth);if(hit(p.birth)&&n!==0)out.push({t:"b",p,iso,i,n});
+    const mt=p.gender==="m"?13:p.gender==="f"?12:0;
+    if(mt){let hb=p.birth.k==="h"?p.birth:null;if(!hb){const q=hebParts(utcNoon(p.birth.date));hb={d:q.d,m:q.m,y:q.y}}
+     if(hb.y&&hp.y===hb.y+mt&&hb.d===hp.d&&monthMatch(hb.m,hp.m))out.push({t:"bm",p,iso,i,n:mt})}
+    if(p.gender==="m"){const g=getBG(p);if(g&&Math.round((dt-utcNoon(g))/DAYMS)===7)out.push({t:"br",p,iso,i})}}
+   if(p.anniv&&p.spouse){const q=FAM_L.find(x=>x.id===p.spouse);if(q&&!p.dead&&!q.dead&&p.id<q.id&&hit(p.anniv)&&yrs(p.anniv)!==0)out.push({t:"a",p,q,iso,i,n:yrs(p.anniv)})}})}
+ const bm=new Set(out.filter(e=>e.t==="bm").map(e=>e.p.id+e.iso));
+ return{out:out.filter(e=>!(e.t==="b"&&bm.has(e.p.id+e.iso))),todayIdx:dow}}
+function renderRibbon(){const el=$("famRibbon"),R=famWeekEvents(),ti=R.todayIdx,ev=R.out;
  if(!ev.length){el.hidden=true;el.innerHTML="";return}
- const td=ev.filter(e=>e.o.days===0),soon=ev.filter(e=>e.o.days>0);
- const nm=e=>e.t==="b"?esc(e.p.name):esc(e.p.name)+" ו"+esc(e.q.name);
- const greet=e=>e.t==="b"?`מזל טוב ל${nm(e)} ליום ההולדת${e.o.n>0?" ה-"+e.o.n:""}! עד מאה ועשרים שנה`:`מזל טוב ל${nm(e)} ליום הנישואין${e.o.n>0?" ה-"+e.o.n:""}! שתזכו לנחת, לשמחה ולשנים טובות`;
- const when=e=>e.o.days===1?"מחר":"בעוד "+e.o.days+" ימים";
- const key=e=>e.p.id;
+ const nm=e=>e.t==="a"?esc(e.p.name)+" ו"+esc(e.q.name):esc(e.p.name),rnd=n=>n>0&&n%10===0;
+ const greet=e=>({
+  b:`מזל טוב ל${nm(e)} ליום ההולדת${e.n>0?" ה-"+e.n:""}${rnd(e.n)?" (יום הולדת עגול!)":""}${(e.n===13&&e.p.gender==="m")?" (גיל בר מצווה)":(e.n===12&&e.p.gender==="f")?" (גיל בת מצווה)":""}! עד מאה ועשרים שנה`,
+  a:`מזל טוב ל${nm(e)} ליום הנישואין${e.n>0?" ה-"+e.n:""}${rnd(e.n)||e.n===25||e.n===50?" (יום נישואין עגול!)":""}! שתזכו לנחת, לשמחה ולשנים טובות`,
+  br:`מזל טוב לברית המילה של ${nm(e)}! שיגדל לתורה, לחופה ולמעשים טובים`,
+  bm:`מזל טוב ל${nm(e)} ל${e.p.gender==="f"?"בת מצווה":"בר מצווה"}! שתזכו לנחת ולשמחה`})[e.t];
+ const ico=e=>({b:"🎂",a:"💍",br:"👶",bm:e.p.gender==="f"?"🎀":"📖"})[e.t];
+ const lab=e=>({b:"יום הולדת",a:"יום נישואין",br:"ברית",bm:e.p.gender==="f"?"בת מצווה":"בר מצווה"})[e.t];
+ const day=e=>new Date(e.iso+"T12:00:00Z").toLocaleDateString("he-IL",{weekday:"long",timeZone:"UTC"});
+ const chips=a=>a.map(e=>`<span class="fr-chip" onclick="famOpen('${esc(e.p.id)}')">${ico(e)} ${lab(e)} ${e.t==="a"?"ל":"ל"}${nm(e)} · ${day(e)} ${esc(hl(e.iso))}</span>`).join("");
+ const td=ev.filter(e=>e.i===ti),before=ev.filter(e=>e.i<ti),later=ev.filter(e=>e.i>ti&&e.i<7),next=ev.filter(e=>e.i>=7);
+ const row=(t,a)=>a.length?`<div class="fr-soon"><b>${t}</b>${chips(a)}</div>`:"";
  el.hidden=false;
- el.innerHTML=td.map(e=>`<div class="fr-card" onclick="famOpen('${esc(key(e))}')"><span class="fr-e">${e.t==="b"?"🎉":"💍"}</span><div><b>${greet(e)}</b><small>${esc(hl(e.o.date))} · היום</small></div></div>`).join("")
-  +(soon.length?`<div class="fr-soon"><span>🎈 לקראת:</span>${soon.map(e=>`<span class="fr-chip" onclick="famOpen('${esc(key(e))}')">${e.t==="b"?"🎂 יום הולדת ל":"💍 יום נישואין ל"}${nm(e)} · ${when(e)}</span>`).join("")}<span>מזל טוב מראש!</span></div>`:"");
+ el.innerHTML=td.map(e=>`<div class="fr-card" onclick="famOpen('${esc(e.p.id)}')"><span class="fr-e">${ico(e)}</span><div><b>${greet(e)}</b><small>${esc(hl(e.iso))} · היום</small></div></div>`).join("")
+  +row("השבוע היה:",before)+row("בהמשך השבוע:",later)+row("בשבוע הבא יהיה:",next)
+  +(before.length||later.length||next.length?`<div class="fr-soon">מזל טוב לכל החוגגים!</div>`:"");
  if(td.length)try{const k="famconf"+ilToday();if(!localStorage.getItem(k)){localStorage.setItem(k,"1");confetti()}}catch(x){}}
 /* פריסת העץ */
 function famLayout(F){
- const CW=160,CH=96,SPG=20,GAPX=24,ROWH=170,TOP=30;
+ const CW=200,CH=118,SPG=28,GAPX=32,ROWH=210,TOP=46,GUT=70;
  const byId=Object.fromEntries(F.map(p=>[p.id,p]));
- const ord=p=>{const b=p.birth;if(!b)return 1e9;if(b.k==="g")return +b.date.slice(0,4)+(+b.date.slice(5,7))/12;return b.y?b.y-3760:1e9};
+ const ord=ordKey;
  const unitOf={},units=[];
  F.forEach(p=>{if(unitOf[p.id])return;const sp=p.spouse&&byId[p.spouse];let mem=[p];if(sp&&!unitOf[sp.id])mem=[p,sp];
   if(mem.length===2&&mem[1].gender==="m"&&mem[0].gender!=="m")mem.reverse();
@@ -1520,18 +1598,18 @@ function famLayout(F){
  const roots=units.filter(u=>!u.parent);
  let cur=0;roots.forEach(r=>{measure(r,0);place(r,cur);cur+=r.sw+GAPX*2});
  const W=Math.max(CW,cur-GAPX*2),H=(maxD+1)*ROWH+TOP;
- const flip=(x,w)=>W-(x+w),nodes=[],links=[],rings=[];
+ const flip=(x,w)=>W-(x+w),nodes=[],links=[],rings=[];const _CH=CH;
  units.forEach(u=>{
   u.mem.forEach((m,i)=>{const x=u.x+i*(CW+SPG);nodes.push({p:m,left:flip(x,CW),top:u.depth*ROWH+TOP,depth:u.depth})});
   const top=u.depth*ROWH+TOP,uc=W-(u.x+uw(u)/2);
-  if(u.mem.length===2)rings.push({x:W-(u.x+CW+SPG/2)-15,y:top+CH/2-15,a:u.mem[0]});
+  if(u.mem.length===2)rings.push({x:W-(u.x+CW+SPG/2)-17,y:top+CH/2-17,a:u.mem[0]});
   if(u.kids.length){const y1=top+CH,ym=y1+(ROWH-CH)/2,xs=u.kids.map(k=>W-(k.x+(k.anchor||0)*(CW+SPG)+CW/2));
    const xl=Math.min(uc,...xs),xr=Math.max(uc,...xs);
    links.push(`M${uc} ${y1}V${ym}`,`M${xl} ${ym}H${xr}`);
    u.kids.forEach((k,i)=>links.push(`M${xs[i]} ${ym}V${k.depth*ROWH+TOP}`))}});
- return{nodes,links,rings,W,H}}
-function renderFamily(){const el=$("tree"),wrap=$("treeWrap");$("famMgr").hidden=!IS_ADMIN;
- if(!FAM_L.length){el.style.cssText="";wrap.style.height="auto";el.innerHTML=`<div class="empty">עץ המשפחה עוד לא הוגדר${IS_ADMIN?". אפשר להוסיף בני משפחה דרך כפתור הניהול.":"."}</div>`;return}
+ return{nodes,links,rings,W:W+GUT,TW:W,H}}
+function renderFamily(){const el=$("tree"),wrap=$("treeWrap");$("famMgr").hidden=!chatTok();
+ if(!FAM_L.length){el.style.cssText="";wrap.style.height="auto";el.innerHTML=`<div class="empty">עץ המשפחה עוד לא הוגדר${chatTok()?". אפשר להוסיף בני משפחה דרך כפתור העריכה.":". אחרי כניסה לאזור האישי אפשר להוסיף בני משפחה."}</div>`;return}
  const L=famLayout(FAM_L),evs=famEvents(),bd={};evs.forEach(e=>{if(e.t==="b")bd[e.p.id]=e.o});
  const an={};evs.forEach(e=>{if(e.t==="a"){an[e.p.id]=e.o;an[e.q.id]=e.o}});
  const cards=L.nodes.map(n=>{const p=n.p,o=bd[p.id],td=o&&o.days===0,soon=o&&o.days>0&&o.days<=7;
@@ -1539,10 +1617,12 @@ function renderFamily(){const el=$("tree"),wrap=$("treeWrap");$("famMgr").hidden
  const rings=L.rings.map(r=>{const a=r.a,sp=FAM_L.find(x=>x.id===a.spouse),o=an[a.id];
   const tip=a.anniv?"נישואין: "+(a.anniv.k==="h"?gem(a.anniv.d)+" "+a.anniv.m:a.anniv.date.split("-").reverse().join(".")):"";
   return `<div class="fm-ring" style="left:${r.x}px;top:${r.y}px" title="${esc(tip)}">${o&&o.days===0?"🎉":"💍"}</div>`}).join("");
- el.innerHTML=`<svg class="fm-lines" width="${L.W}" height="${L.H}">${L.links.map(d=>`<path d="${d}"/>`).join("")}</svg>${cards}${rings}`;
- const cw=wrap.clientWidth,sc=cw?Math.max(.5,Math.min(1,(cw-6)/L.W)):1;
+ const gens=[...new Map(L.nodes.map(n=>[n.depth,n.top])).entries()].map(([dp,tp])=>`<div class="fm-gen" style="left:${L.TW+10}px;top:${tp+30}px">דור ${gem(dp+1)}</div>`).join("");
+ el.innerHTML=`<svg class="fm-lines" width="${L.W}" height="${L.H}">${L.links.map(d=>`<path d="${d}"/>`).join("")}</svg>${cards}${rings}${gens}`;
+ const cw=wrap.clientWidth,sc=(cw?Math.max(.78,Math.min(1,(cw-6)/L.W)):1)*FZ;
  el.style.width=L.W+"px";el.style.height=L.H+"px";el.style.transform=`scale(${sc})`;wrap.style.height=Math.round((L.H+12)*sc)+"px";
  if(sc<1)wrap.scrollLeft=0;else wrap.scrollLeft=wrap.scrollWidth}
+let FZ=1;function famZoom(d){FZ=Math.max(.6,Math.min(1.8,Math.round((FZ+d*.2)*10)/10));renderFamily()}
 let famRz=0;addEventListener("resize",()=>{clearTimeout(famRz);famRz=setTimeout(()=>{if(FAM_L.length)renderFamily()},250)});
 function famOpen(id){const p=FAM_L.find(x=>x.id===id);if(!p)return;
  const nm=i=>{const x=FAM_L.find(y=>y.id===i);return x?esc(x.name):""};
@@ -1550,8 +1630,8 @@ function famOpen(id){const p=FAM_L.find(x=>x.id===id);if(!p)return;
  const kids=FAM_L.filter(x=>x.father===id||x.mother===id);
  const dstr=iso=>new Date(iso+"T12:00:00Z").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});
  const when=o=>o.days===0?"היום! 🎉":o.days===1?"מחר":"בעוד "+o.days+" ימים";
- const bl=p.birth?(p.birth.k==="h"?`${gem(p.birth.d)} ${p.birth.m}${p.birth.y?" "+p.birth.y:""}`:`${p.birth.date.split("-").reverse().join(".")} (${hl(p.birth.date)})`):"";
- const al=p.anniv?(p.anniv.k==="h"?`${gem(p.anniv.d)} ${p.anniv.m}${p.anniv.y?" "+p.anniv.y:""}`:`${p.anniv.date.split("-").reverse().join(".")} (${hl(p.anniv.date)})`):"";
+ const bl=p.birth?(p.birth.k==="h"?`${gem(p.birth.d)} ${p.birth.m}${p.birth.y?" "+gemYear(p.birth.y):""}`:`${p.birth.date.split("-").reverse().join(".")} (${hl(p.birth.date)})`):"";
+ const al=p.anniv?(p.anniv.k==="h"?`${gem(p.anniv.d)} ${p.anniv.m}${p.anniv.y?" "+gemYear(p.anniv.y):""}`:`${p.anniv.date.split("-").reverse().join(".")} (${hl(p.anniv.date)})`):"";
  open(`<div class="bconf">${famAvHtml(p,96)}<h3>${famName(p)}</h3>
   ${p.birth?`<div class="sub">🎂 תאריך לידה: ${esc(bl)}</div>`:""}
   ${b?`<div class="note">יום ההולדת הבא: ${esc(dstr(b.o.date))} · ${when(b.o)}${b.o.n>0?" · יהיו "+b.o.n:""}</div>`:""}
@@ -1559,25 +1639,31 @@ function famOpen(id){const p=FAM_L.find(x=>x.id===id);if(!p)return;
   ${an?`<div class="note">יום הנישואין הבא: ${esc(dstr(an.o.date))} · ${when(an.o)}${an.o.n>0?" · "+an.o.n+" שנים":""}</div>`:""}
   ${(p.father||p.mother)?`<div class="sub">הורים: ${[nm(p.father),nm(p.mother)].filter(Boolean).join(" ו")}</div>`:""}
   ${kids.length?`<div class="sub">ילדים: ${kids.map(k=>esc(k.name)).join(", ")}</div>`:""}
-  <div class="actions" style="justify-content:center">${IS_ADMIN?`<button onclick="famForm('${esc(id)}')">✏️ עריכה</button>`:""}<button class="sec" onclick="A.close()">סגירה</button></div></div>`)}
+  <div class="actions" style="justify-content:center">${chatTok()?`<button onclick="famForm('${esc(id)}')">✏️ עריכה</button>`:""}<button class="sec" onclick="A.close()">סגירה</button></div></div>`)}
 /* ניהול (רק מנהל האתר) */
-function famAdmin(){
+function famAdmin(){if(!chatTok())return open(`<h3>עץ המשפחה</h3><p>כדי לערוך צריך להיכנס לאזור האישי.</p><div class="actions"><button onclick="A.close();$('bMe').click()">כניסה</button></div>`);
  const rows=FAM_L.map(p=>`<div class="sch-row"><div><b>${famName(p)}</b><small>${p.birth?"🎂 "+esc(famBirthTxt(p)):"ללא תאריך לידה"}${p.spouse?" · 💍 "+esc((FAM_L.find(x=>x.id===p.spouse)||{}).name||""):""}</small></div><button class="sec" onclick="famForm('${esc(p.id)}')">✏️</button><button class="sec" onclick="famDel('${esc(p.id)}')">🗑️</button></div>`).join("")||`<div class="empty">עוד לא נוספו בני משפחה</div>`;
- open(`<h3>👪 ניהול עץ המשפחה</h3><div class="note" style="margin:0 0 8px">כל אחד מקבל כרטיס בעץ. אפשר לציין הורים ובן/בת זוג כדי שהעץ יתחבר, ותאריכי לידה ונישואין (עבריים או לועזיים) כדי שהאתר יאחל מזל טוב.</div>${rows}<div class="actions"><button onclick="famForm()">➕ הוספת בן משפחה</button><button class="sec" onclick="A.close()">סגירה</button></div>`)}
+ open(`<h3>👪 ניהול עץ המשפחה</h3><div class="note" style="margin:0 0 8px">כל בני המשפחה מחוברים יכולים להוסיף ולערוך. כל אחד מקבל כרטיס בעץ. אפשר לציין הורים ובן/בת זוג כדי שהעץ יתחבר, ותאריכי לידה ונישואין (עבריים או לועזיים) כדי שהאתר יאחל מזל טוב.</div>${rows}<div class="actions"><button onclick="famForm()">➕ הוספת בן משפחה</button><button class="sec" onclick="A.close()">סגירה</button></div>`)}
+function gemYear(n){n=+n;if(!n)return"";let r=n%1000,s="";for(const[v,l]of[[400,"ת"],[300,"ש"],[200,"ר"],[100,"ק"]])while(r>=v){s+=l;r-=v}
+ const T=["","י","כ","ל","מ","נ","ס","ע","פ","צ"],O=["","א","ב","ג","ד","ה","ו","ז","ח","ט"];
+ if(r===15)s+="טו";else if(r===16)s+="טז";else s+=T[Math.floor(r/10)]+O[r%10];
+ return s.length>1?s.slice(0,-1)+"״"+s.slice(-1):s+"׳"}
+function parseHebYear(x){x=String(x||"").replace(/[\s"'״׳]/g,"");if(!x)return null;if(/^\d+$/.test(x))return+x;
+ const V={א:1,ב:2,ג:3,ד:4,ה:5,ו:6,ז:7,ח:8,ט:9,י:10,כ:20,ך:20,ל:30,מ:40,ם:40,נ:50,ן:50,ס:60,ע:70,פ:80,ף:80,צ:90,ץ:90,ק:100,ר:200,ש:300,ת:400};
+ let v=0;for(const ch of x){if(!(ch in V))return null;v+=V[ch]}return v<1000?v+5000:v}
 function dateWidget(pfx,d){const k=d?d.k:"n",days=Array.from({length:30},(_,i)=>`<option value="${i+1}" ${d&&d.k==="h"&&d.d===i+1?"selected":""}>${gem(i+1)}</option>`).join(""),ms=HEBM.map(m=>`<option ${d&&d.k==="h"&&d.m===m?"selected":""}>${m}</option>`).join("");
  return `<div class="dw" id="${pfx}"><div class="dw-k">${[["n","לא ידוע"],["h","לוח עברי"],["g","לוח לועזי"]].map(([v,l])=>`<label><input type="radio" name="${pfx}k" value="${v}" ${k===v?"checked":""} onchange="famDw('${pfx}')"> ${l}</label>`).join("")}</div>
- <div class="dw-h g3" ${k==="h"?"":"hidden"}><select id="${pfx}d">${days}</select><select id="${pfx}m">${ms}</select><input id="${pfx}y" type="number" min="3000" max="6000" placeholder="שנה (לא חובה)" value="${d&&d.k==="h"&&d.y?d.y:""}"></div>
+ <div class="dw-h g3" ${k==="h"?"":"hidden"}><select id="${pfx}d">${days}</select><select id="${pfx}m">${ms}</select><input id="${pfx}y" type="text" placeholder="שנה באותיות (תשפ״ז)" value="${d&&d.k==="h"&&d.y?gemYear(d.y):""}"></div>
  <div class="dw-g" ${k==="g"?"":"hidden"}><input id="${pfx}g" type="date" value="${d&&d.k==="g"?d.date:""}"></div></div>`}
 function famDw(pfx){const k=document.querySelector(`input[name=${pfx}k]:checked`).value;document.querySelector(`#${pfx} .dw-h`).hidden=k!=="h";document.querySelector(`#${pfx} .dw-g`).hidden=k!=="g"}
-function dwRead(pfx){const k=document.querySelector(`input[name=${pfx}k]:checked`).value;if(k==="h")return{k:"h",d:+$(pfx+"d").value,m:$(pfx+"m").value,y:$(pfx+"y").value};if(k==="g"&&$(pfx+"g").value)return{k:"g",date:$(pfx+"g").value};return null}
-function famPh(inp){const f=inp.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const s0=Math.min(im.width,im.height);c.getContext("2d").drawImage(im,(im.width-s0)/2,(im.height-s0)/2,s0,s0,0,0,96,96);famPhotoData=c.toDataURL("image/jpeg",.7);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)}
+function dwRead(pfx){const k=document.querySelector(`input[name=${pfx}k]:checked`).value;if(k==="h")return{k:"h",d:+$(pfx+"d").value,m:$(pfx+"m").value,y:parseHebYear($(pfx+"y").value)||""};if(k==="g"&&$(pfx+"g").value)return{k:"g",date:$(pfx+"g").value};return null}
 function famForm(id){const p=id?FAM_L.find(x=>x.id===id)||{}:{};famPhotoData=null;famRm=false;
  const opts=cur0=>`<option value="">—</option>`+FAM_L.filter(x=>x.id!==p.id).map(x=>`<option value="${esc(x.id)}" ${cur0===x.id?"selected":""}>${esc(x.name)}</option>`).join("");
  open(`<h3>${id?"עריכת בן משפחה":"הוספת בן משפחה"}</h3>
  <label>שם<input id="f_n" maxlength="40" value="${esc(p.name||"")}"></label>
  <div class="g2"><label>מין (לצורך ז״ל / ע״ה)<select id="f_g"><option value="">לא צוין</option><option value="m" ${p.gender==="m"?"selected":""}>זכר</option><option value="f" ${p.gender==="f"?"selected":""}>נקבה</option></select></label>
  <label style="display:flex;align-items:flex-end;gap:6px"><input type="checkbox" id="f_x" ${p.dead?"checked":""}> נפטר/ת (ז״ל / ע״ה)</label></div>
- <label>תמונה (לא חובה)<input type="file" accept="image/*" onchange="famPh(this)"></label>${p.photoId?`<label style="display:flex;gap:6px;align-items:center"><input type="checkbox" onchange="famRm=this.checked"> הסרת התמונה הקיימת</label>`:""}
+ <label>תמונה (לא חובה)<input type="file" accept="image/*" onchange="famPh(this)"></label><img id="f_prev" class="pvimg" ${p.photoId?`src="/api/file/${esc(p.photoId)}"`:"hidden"} alt="">${p.photoId?`<button class="sec" type="button" onclick="famRePh('${esc(p.id)}')">✂️ התאמת התמונה הנוכחית</button>`:""}${p.photoId?`<label style="display:flex;gap:6px;align-items:center"><input type="checkbox" onchange="famRm=this.checked"> הסרת התמונה הקיימת</label>`:""}
  <label>תאריך לידה</label>${dateWidget("fb",p.birth)}
  <div class="g2"><label>אבא<select id="f_f">${opts(p.father)}</select></label><label>אמא<select id="f_mo">${opts(p.mother)}</select></label></div>
  <label>בן/בת זוג<select id="f_s">${opts(p.spouse)}</select></label>
@@ -1591,8 +1677,67 @@ async function famSave(id){const c=chatTok();if(!c)return;const name=$("f_n").va
 async function famDel(id){const p=FAM_L.find(x=>x.id===id);if(!p||!confirm("למחוק את "+p.name+" מעץ המשפחה?"))return;const c=chatTok();if(!c)return;
  const r=await api("famdel",{token:c.t,id});if(r.err)return alert(r.err);A.sig="";await refresh();famAdmin()}
 
+
+/* ===== עורך תמונה: מיקום, גודל וחיתוך ===== */
+const CR={img:null,s:1,min:1,ox:0,oy:0,done:null,drag:null,S:240};
+function cropClamp(){const S=CR.S,w=CR.img.width*CR.s,h=CR.img.height*CR.s;CR.ox=Math.min(0,Math.max(S-w,CR.ox));CR.oy=Math.min(0,Math.max(S-h,CR.oy))}
+function cropDraw(){cropClamp();const c=$("crC").getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,CR.S,CR.S);c.drawImage(CR.img,CR.ox,CR.oy,CR.img.width*CR.s,CR.img.height*CR.s)}
+function cropZoom(z){const S=CR.S,cx=(S/2-CR.ox)/CR.s,cy=(S/2-CR.oy)/CR.s;CR.s=CR.min*z;CR.ox=S/2-cx*CR.s;CR.oy=S/2-cy*CR.s;cropDraw()}
+function cropOpen(src,done){const im=new Image();im.crossOrigin="anonymous";
+ im.onload=()=>{CR.img=im;CR.done=done;CR.min=Math.max(CR.S/im.width,CR.S/im.height);CR.s=CR.min;CR.ox=(CR.S-im.width*CR.s)/2;CR.oy=(CR.S-im.height*CR.s)/2;$("crZ").value=1;cropDraw();$("crop").showModal()};
+ im.onerror=()=>alert("לא ניתן לטעון את התמונה");im.src=src}
+function cropResult(){const o=document.createElement("canvas");o.width=o.height=192;const k=CR.S/CR.s;o.getContext("2d").drawImage(CR.img,-CR.ox/CR.s,-CR.oy/CR.s,k,k,0,0,192,192);return o.toDataURL("image/jpeg",.85)}
+{const w=$("crW");
+ w.addEventListener("pointerdown",e=>{CR.drag={x:e.clientX,y:e.clientY};try{w.setPointerCapture(e.pointerId)}catch(_){}});
+ w.addEventListener("pointermove",e=>{if(!CR.drag||!CR.img)return;CR.ox+=e.clientX-CR.drag.x;CR.oy+=e.clientY-CR.drag.y;CR.drag={x:e.clientX,y:e.clientY};cropDraw()});
+ const up=()=>{CR.drag=null};w.addEventListener("pointerup",up);w.addEventListener("pointercancel",up);
+ w.addEventListener("wheel",e=>{if(!CR.img)return;e.preventDefault();const z=Math.max(1,Math.min(4,(+$("crZ").value)*(e.deltaY<0?1.08:.93)));$("crZ").value=z;cropZoom(z)},{passive:false});
+ $("crZ").addEventListener("input",e=>cropZoom(+e.target.value));
+ $("crOk").onclick=()=>{const d=cropResult();$("crop").close();if(CR.done)CR.done(d)};
+ $("crNo").onclick=()=>$("crop").close()}
+A.photo=inp=>{const f=inp.files[0];if(!f)return;cropOpen(URL.createObjectURL(f),d=>{photo=d;const pv=$("ph_prev");if(pv){pv.src=d;pv.hidden=false}})};
+A.rePhoto=()=>{const m=memOf(cur);if(m.photo)cropOpen(m.photo,d=>{photo=d;const pv=$("ph_prev");if(pv){pv.src=d;pv.hidden=false}})};
+function famPh(inp){const f=inp.files[0];if(!f)return;cropOpen(URL.createObjectURL(f),d=>{famPhotoData=d;const pv=$("f_prev");if(pv){pv.src=d;pv.hidden=false}})}
+function famRePh(id){const p=FAM_L.find(x=>x.id===id);if(p&&p.photoId)cropOpen("/api/file/"+p.photoId,d=>{famPhotoData=d;const pv=$("f_prev");if(pv){pv.src=d;pv.hidden=false}})}
+
+
+/* ===== ייצוא לאקסל (אחוזים בלבד, בלי משקלים) ===== */
+const CRC=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc32=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+function zipStore(files){const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+ const u16=v=>[v&255,v>>8&255],u32=v=>[v&255,v>>8&255,v>>16&255,v>>>24&255];
+ files.forEach(([name,txt])=>{const nb=enc.encode(name),db=enc.encode(txt),c=crc32(db);
+  const lh=new Uint8Array([0x50,0x4b,3,4,...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0)]);
+  parts.push(lh,nb,db);
+  cd.push(new Uint8Array([0x50,0x4b,1,2,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),nb);
+  off+=lh.length+nb.length+db.length});
+ const cdl=cd.reduce((s,x)=>s+x.length,0),end=new Uint8Array([0x50,0x4b,5,6,0,0,0,0,...u16(files.length),...u16(files.length),...u32(cdl),...u32(off),0,0]);
+ const all=[...parts,...cd,end],out=new Uint8Array(all.reduce((s,x)=>s+x.length,0));let p=0;all.forEach(x=>{out.set(x,p);p+=x.length});return out}
+const xlCol=i=>{let s="";i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26)}return s};
+const xlEsc=t=>String(t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function xlSheet(rows){return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView rightToLeft="1" workbookViewId="0"/></sheetViews><cols><col min="1" max="1" width="22" customWidth="1"/><col min="2" max="30" width="14" customWidth="1"/></cols><sheetData>${rows.map((r,ri)=>`<row r="${ri+1}">${r.map((v,ci)=>v===null||v===undefined||v===""?"":(typeof v==="number"?`<c r="${xlCol(ci)}${ri+1}"><v>${v}</v></c>`:`<c r="${xlCol(ci)}${ri+1}" t="inlineStr"><is><t>${xlEsc(v)}</t></is></c>`)).join("")}</row>`).join("")}</sheetData></worksheet>`}
+function xlsxBytes(sheets){
+ const ct=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")}</Types>`;
+ const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
+ const wb=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s,i)=>`<sheet name="${xlEsc(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets></workbook>`;
+ const wr=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}</Relationships>`;
+ return zipStore([["[Content_Types].xml",ct],["_rels/.rels",rels],["xl/workbook.xml",wb],["xl/_rels/workbook.xml.rels",wr],...sheets.map((s,i)=>[`xl/worksheets/sheet${i+1}.xml`,xlSheet(s.rows)])])}
+function xlsxData(){
+ const P=D.ms,ord=famOrd(P),M=ord.map(i=>P[i]),RW=D.ws.filter(w=>!w.virtual&&w.has.some(Boolean)),r2=x=>Math.round(x*100)/100;
+ const dmy=iso=>iso.split("-").reverse().join(".");
+ const wk=[["שבוע (תאריך עברי)","תאריך",...M.map(m=>m.name+" (ירידה %)")]],cu=[["שבוע (תאריך עברי)","תאריך",...M.map(m=>m.name+" (מצטבר %)")]],run=M.map(()=>0);
+ RW.forEach(w=>{wk.push([hl(w.id),dmy(w.id),...ord.map(i=>w.v[i]===null?null:r2(w.v[i]))]);ord.forEach((i,k)=>{run[k]+=w.v[i]||0});cu.push([hl(w.id),dmy(w.id),...run.map(r2)])});
+ wk.push(["סה״כ","",...ord.map(i=>r2(P[i].tot))]);
+ const pt=points(P,D.ws),sm=[["משתתף","סה״כ ירידה %","יעד %","נותר ליעד %","התקדמות ליעד %","מספר שקילות","ממוצע שבועי %","ניצחונות שבועיים","נקודות בליגה"]];
+ ord.forEach(i=>{const m=P[i],n=RW.filter(w=>w.v[i]!==null).length,wins=RW.filter(w=>w.done&&w.win.includes(i)).length,g=m.goalPct||0;
+  sm.push([m.name,r2(m.tot),g?r2(g):null,g?r2(Math.max(0,g-m.tot)):null,g?r2(Math.max(0,m.tot/g*100)):null,n,n?r2(m.tot/n):null,wins,pt[i].pts])});
+ return[{name:"אחוזים שבועיים",rows:wk},{name:"מצטבר",rows:cu},{name:"סיכום",rows:sm}]}
+function exportXlsx(){if(!D||!D.ms.length)return toast("אין עדיין נתונים לייצוא");
+ const bytes=xlsxBytes(xlsxData()),blob=new Blob([bytes],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="תחרות-דיאטה-אחוזים-"+ilToday()+".xlsx";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast("הקובץ הורד: אחוזים בלבד, בלי משקלים")}
+
 /* ===== סרגל ניווט צדדי ===== */
-const RAIL=[["weekly","👑","מנצח השבוע"],["s-bets","🎲","הימורי השבוע"],["s-league","🏅","ליגת הנקודות"],["s-lb","🏆","טבלת המובילים"],["s-weeks","🗓️","כל השבועות"],["s-stats","🔥","סטטיסטיקות"],["s-words","💬","משפטים ובדיחות"],["s-chart","📈","המסע של כולנו"],["s-race","🏁","מרוץ השבועות"],["s-family","🎯","היעד המשפחתי"],["rulesH","📜","חוקי התחרות"],["s-tree","👪","עץ המשפחה"]];
+const RAIL=[["weekly","👑","מנצח השבוע"],["s-bets","🎲","הימורי השבוע"],["s-league","🏅","ליגת הנקודות"],["s-weeks","🗓️","כל השבועות"],["s-stats","🔥","סטטיסטיקות"],["s-words","💬","משפטים ובדיחות"],["s-chart","📈","המסע של כולנו"],["s-race","🏁","מרוץ השבועות"],["s-family","🎯","היעד המשפחתי"],["rulesH","📜","חוקי התחרות"],["s-tree","👪","עץ המשפחה"],["s-gallery","📸","גלריה משפחתית"]];
 function railJump(id){const el=document.getElementById(id);if(!el)return;const de=document.documentElement,old=de.style.scrollBehavior;de.style.scrollBehavior="auto";el.scrollIntoView({block:"start"});de.style.scrollBehavior=old}
 {const nav=$("rail");nav.innerHTML=RAIL.filter(r=>$(r[0])).map(r=>`<a href="#${r[0]}" data-t="${r[0]}" title="${r[2]}"><span class="ic">${r[1]}</span><span class="lb">${r[2]}</span></a>`).join("");
  const touch=!!(window.matchMedia&&matchMedia("(hover: none)").matches);

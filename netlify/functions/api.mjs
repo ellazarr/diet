@@ -51,7 +51,8 @@ const mig3=(pub,id,p)=>{if(p.v>=3)return false;p.v=3;
  recompute(pub,id,p);return true};
 const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Jerusalem"}).format(new Date());
 const closed=wk=>{const t=new Date(wk+"T00:00:00Z");t.setUTCDate(t.getUTCDate()+2);return today()>=t.toISOString().slice(0,10)};
-const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i].claimed),v={};
+const isPaused=m=>!!(m&&m.pause&&today()<=m.pause);
+const info=(pub,wk)=>{const cl=Object.keys(pub.members).filter(i=>pub.members[i].claimed&&!isPaused(pub.members[i])),v={};
  Object.keys(pub.entries).forEach(k=>{if(k.startsWith(wk+"__"))v[k.slice(wk.length+2)]=pub.entries[k]});
  const a=Object.entries(v).filter(e=>e[1]!==null);let win=[],low=[];
  if(a.length>=1){const mx=Math.max(...a.map(e=>e[1])),mn=Math.min(...a.map(e=>e[1]));win=a.filter(e=>e[1]===mx).map(e=>e[0]);low=a.length<2||mx===mn?[]:a.filter(e=>e[1]===mn).map(e=>e[0])}
@@ -76,7 +77,7 @@ export default async req=>{
    if(wk>=POINTS_FROM&&today()>=wk&&w.done&&w.win.length&&np>=2)Object.values({...g}).length&&Object.entries(g).forEach(([u,x])=>{if(w.win.includes(x))ok[u]=(ok[u]||0)+1})});
   return{cnt,ok}};
  if(act==="state"){if(dirty)await save();const{preds,poll,...rest}=pub,agg=betAgg(),td=today(),rev={};
-  Object.entries(preds||{}).forEach(([wk,g])=>{const w=info(pub,wk);if(closed(wk)||(td>=wk&&w.done&&w.win.length))rev[wk]=g});
+  Object.entries(preds||{}).forEach(([wk,g])=>{const w=info(pub,wk);if(td>=wk)rev[wk]=g});
   return J({...rest,betcnt:agg.cnt,betok:agg.ok,betrev:rev})}
  if(req.method!=="POST")return J({err:"bad"},405);
  const b=await req.json().catch(()=>({}));
@@ -152,6 +153,12 @@ export default async req=>{
   if(act==="pushprefs"){e.prefs=cleanPrefs(b.prefs,e.prefs);await st.setJSON("push",ps);return J({ok:1,prefs:e.prefs})}
   if(act==="pushoff"){e.subs=e.subs.filter(s=>s.sub.endpoint!==b.endpoint);if(!e.subs.length)delete ps[id];await st.setJSON("push",ps);return J({ok:1})}
   if(act==="pushtest"){const n=await pushEach(st,{kind:"test",only:[id],mk:()=>({important:true,payload:{title:"🔔 בדיקת התראות",body:"ההתראות עובדות במכשיר הזה!",tag:"test",url:"/"}})});return J({ok:1,sent:n})}}
+ if(act==="pause"){
+  const u=b.until,m=pub.members[id];
+  if(!u)delete m.pause;
+  else{if(!/^\d{4}-\d\d-\d\d$/.test(String(u))||u<today())return bad("תאריך לא תקין");m.pause=String(u);
+   Object.keys(pub.preds||{}).forEach(wk=>{if(wk>=today()){Object.keys(pub.preds[wk]).forEach(x=>{if(pub.preds[wk][x]===id)delete pub.preds[wk][x]});if(!Object.keys(pub.preds[wk]).length)delete pub.preds[wk]}})}
+  await save();return J({ok:1})}
  if(act==="schedule"||act==="schedlist"||act==="schedcancel"){
   const sch=(await st.get("chatsched",{type:"json"}))||[];
   if(act==="schedlist")return J({list:sch.filter(x=>x.by===id).sort((x,y)=>x.at-y.at).map(x=>({id:x.id,at:x.at,text:x.text}))});
@@ -163,7 +170,6 @@ export default async req=>{
   sch.push({id:rnd(),by:id,at,text:t,q:b.q?String(b.q).slice(0,40):undefined,created:Date.now()});
   await st.setJSON("chatsched",sch);return J({ok:1,at})}
  if(act==="famsave"||act==="famdel"){
-  if(!ADMINS.includes(id))return bad("רק מנהל האתר יכול לערוך את עץ המשפחה",403);
   const fam=pub.family=pub.family||[];
   if(act==="famdel"){const x=fam.find(p=>p.id===b.id);if(!x)return bad("לא נמצא",404);
    if(x.photoId){try{await st.delete("file:"+x.photoId)}catch(e){}}
@@ -198,6 +204,7 @@ export default async req=>{
  if(act==="predict"){
   const wk=String(b.wk),g=String(b.guess);
   if(!/^\d{4}-\d\d-\d\d$/.test(wk)||!pub.members[g]||!pub.members[g].claimed)return bad("נתונים לא תקינים");
+  if(isPaused(pub.members[g]))return bad("המשתתף מושהה כרגע ואי אפשר להמר עליו");
   const td=today(),addD=(d,n)=>{const t=new Date(d+"T12:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10)};
   if(new Date(wk+"T12:00:00Z").getUTCDay()!==5||!(addD(wk,-7)<=td&&td<wk))return bad("ההימורים לשבוע הזה סגורים. אפשר להמר עד יום חמישי בחצות (00:00 ליל שישי)");
   pub.preds=pub.preds||{};(pub.preds[wk]=pub.preds[wk]||{})[id]=g;
